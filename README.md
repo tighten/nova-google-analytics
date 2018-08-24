@@ -24,13 +24,26 @@ public function tools()
 {
     return [
         // ...
-        new \Tightenco\NovaGoogleAnalytics\Tool(),
+        new \Tightenco\NovaGoogleAnalytics\Tool(), // this is not right
     ];
 }
 ```
 
+For now, follow the directions on [Spatie's Laravel Google Analytics package](https://github.com/spatie/laravel-analytics) for getting your credentials, then put them here:
+
+```
+yourapp/storage/app/analytics/service-account-credentials.json
+```
+
+Also add this to the `.env` for your Nova app:
+
+```ini
+ANALYTICS_VIEW_ID=
+```
+
 ## Usage
 
+// @todo this is wrong
 Click on the "nova-google-analytics" menu item in your Nova app to see the tool provided by this package.
 
 ### Testing

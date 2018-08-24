@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
@@ -20,21 +21,30 @@ class PageViewsMetric extends Value
     public function calculate(Request $request)
     {
         return $this
-            ->result($this->pageViewsForDay(now()))
-            ->previous($this->pageViewsForDay(now()->subDay()));
+            ->result($this->pageViewsForToday())
+            ->previous($this->pageViewsForYesterday());
     }
 
-    private function pageViewsForDay(Carbon $day)
+    private function pageViewsForYesterday()
     {
-        // $analyticsData = Analytics::fetchVisitorsAndPageViews(Period::days(2));
+        $analyticsData = app(Analytics::class)
+            ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
-        // @todo: Extract last two days' page view data from ^^
+        $yesterday = $analyticsData->first();
+        $today = $analyticsData->last();
 
-        if ($day->isToday()) {
-            return 110;
-        }
+        return $yesterday['pageViews'];
+    }
 
-        return 42;
+    private function pageViewsForToday()
+    {
+        $analyticsData = app(Analytics::class)
+            ->fetchTotalVisitorsAndPageViews(Period::days(1));
+
+        $yesterday = $analyticsData->first();
+        $today = $analyticsData->last();
+
+        return $today['pageViews'];
     }
 
     /**
