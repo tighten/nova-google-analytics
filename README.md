@@ -5,6 +5,16 @@
 
 <img width="380" alt="image" src="https://user-images.githubusercontent.com/151829/44589484-ad50a580-a786-11e8-864d-2a933e02c3e2.png">
 
+JUST GETTING STARTED.
+
+Plans:
+
+- Analytics tool
+- Individual cards for each of the useful analytics data points
+- Resource tools (e.g. analytics on each page)
+- Maybe actions for events?
+- Other great stuff I hope :)
+
 ## Installation
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
