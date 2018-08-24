@@ -1,6 +1,6 @@
 <?php
 
-namespace TightenCo\NovaGoogleAnalytics;
+namespace Tightenco\NovaGoogleAnalytics;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool as BaseTool;

@@ -1,10 +1,10 @@
 <?php
 
-namespace TightenCo\NovaGoogleAnalytics\Http\Middleware;
+namespace Tightenco\NovaGoogleAnalytics\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use TightenCo\NovaGoogleAnalytics\Tool;
+use Tightenco\NovaGoogleAnalytics\Tool;
 use Symfony\Component\HttpFoundation\Response;
 
 class Authorize

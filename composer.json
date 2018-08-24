@@ -30,18 +30,18 @@
     },
     "autoload": {
         "psr-4": {
-            "TightenCo\\NovaGoogleAnalytics\\": "src/"
+            "Tightenco\\NovaGoogleAnalytics\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TightenCo\\NovaGoogleAnalytics\\Tests\\": "tests"
+            "Tightenco\\NovaGoogleAnalytics\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TightenCo\\NovaGoogleAnalytics\\ToolServiceProvider"
+                "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider"
             ]
         }
     },

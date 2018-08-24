@@ -1,10 +1,10 @@
 <?php
 
-namespace TightenCo\NovaGoogleAnalytics\Tests;
+namespace Tightenco\NovaGoogleAnalytics\Tests;
 
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
-use TightenCo\NovaGoogleAnalytics\ToolServiceProvider;
+use Tightenco\NovaGoogleAnalytics\ToolServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

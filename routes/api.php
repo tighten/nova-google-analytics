@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('endpoint', \TightenCo\NovaGoogleAnalytics\Http\Controllers\ToolController::class . '@index');
+Route::get('endpoint', \Tightenco\NovaGoogleAnalytics\Http\Controllers\ToolController::class . '@index');

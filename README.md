@@ -24,7 +24,7 @@ public function tools()
 {
     return [
         // ...
-        new \TightenCo\NovaGoogleAnalytics\Tool(),
+        new \Tightenco\NovaGoogleAnalytics\Tool(),
     ];
 }
 ```

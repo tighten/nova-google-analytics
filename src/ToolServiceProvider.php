@@ -1,12 +1,12 @@
 <?php
 
-namespace TightenCo\NovaGoogleAnalytics;
+namespace Tightenco\NovaGoogleAnalytics;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use TightenCo\NovaGoogleAnalytics\Http\Middleware\Authorize;
+use Tightenco\NovaGoogleAnalytics\Http\Middleware\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
 {

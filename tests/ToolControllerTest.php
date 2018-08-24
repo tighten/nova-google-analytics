@@ -1,9 +1,9 @@
 <?php
 
-namespace TightenCo\NovaGoogleAnalytics\Tests;
+namespace Tightenco\NovaGoogleAnalytics\Tests;
 
-use TightenCo\NovaGoogleAnalytics\Http\Controllers\ToolController;
-use TightenCo\NovaGoogleAnalytics\NovaGoogleAnalytics;
+use Tightenco\NovaGoogleAnalytics\Http\Controllers\ToolController;
+use Tightenco\NovaGoogleAnalytics\NovaGoogleAnalytics;
 use Symfony\Component\HttpFoundation\Response;
 
 class ToolControllerTest extends TestCase
