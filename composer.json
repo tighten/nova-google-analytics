@@ -1,0 +1,53 @@
+{
+    "name": "tightenco/nova-google-analytics",
+    "description": "Google Analytics integration with Nova",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../nova"
+        }
+    ],
+    "homepage": "https://github.com/tightenco/nova-google-analytics",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matt Stauffer",
+            "email": "matt@tighten.co",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "laravel/nova": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.6",
+        "phpunit/phpunit": "7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "TightenCo\\NovaGoogleAnalytics\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TightenCo\\NovaGoogleAnalytics\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TightenCo\\NovaGoogleAnalytics\\ToolServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
