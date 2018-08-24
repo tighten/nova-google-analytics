@@ -13,18 +13,18 @@ You can install the package in to a Laravel app that uses [Nova](https://nova.la
 composer require tightenco/nova-google-analytics
 ```
 
-Next up, you must register the tool with Nova. This is typically done in the `tools` method of the `NovaServiceProvider`.
+Next up, you must register the card with Nova. This is typically done in the `cards` method of the `NovaServiceProvider`.
 
 ```php
 // in app/Providers/NovaServiceProvider.php
 
 // ...
 
-public function tools()
+public function cards()
 {
     return [
         // ...
-        new \Tightenco\NovaGoogleAnalytics\Tool(), // this is not right
+        new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
     ];
 }
 ```
@@ -39,17 +39,6 @@ Also add this to the `.env` for your Nova app:
 
 ```ini
 ANALYTICS_VIEW_ID=
-```
-
-## Usage
-
-// @todo this is wrong
-Click on the "nova-google-analytics" menu item in your Nova app to see the tool provided by this package.
-
-### Testing
-
-``` bash
-composer test
 ```
 
 ### Security
