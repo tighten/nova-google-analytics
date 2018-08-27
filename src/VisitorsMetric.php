@@ -8,9 +8,9 @@ use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
-class PageViewsMetric extends Value
+class VisitorsMetric extends Value
 {
-    public $name = 'GA Page Views Today';
+    public $name = 'GA Visitors Today';
 
     /**
      * Calculate the value of the metric.
@@ -21,11 +21,11 @@ class PageViewsMetric extends Value
     public function calculate(Request $request)
     {
         return $this
-            ->result($this->pageViewsForToday())
-            ->previous($this->pageViewsForYesterday());
+            ->result($this->visitorsForToday())
+            ->previous($this->visitorsForYesterday());
     }
 
-    private function pageViewsForYesterday()
+    private function visitorsForYesterday()
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -33,10 +33,10 @@ class PageViewsMetric extends Value
         $yesterday = $analyticsData->first();
         $today = $analyticsData->last();
 
-        return $yesterday['pageViews'];
+        return $yesterday['visitors'];
     }
 
-    private function pageViewsForToday()
+    private function visitorsForToday()
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -44,7 +44,7 @@ class PageViewsMetric extends Value
         $yesterday = $analyticsData->first();
         $today = $analyticsData->last();
 
-        return $today['pageViews'];
+        return $today['visitors'];
     }
 
     /**
@@ -82,6 +82,6 @@ class PageViewsMetric extends Value
      */
     public function uriKey()
     {
-        return 'page-views';
+        return 'visitors';
     }
 }
