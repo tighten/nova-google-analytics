@@ -248,6 +248,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
@@ -265,17 +273,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "card",
-    { staticClass: "flex flex-col items-center justify-center" },
-    [
-      _c("div", { staticClass: "px-3 py-3" }, [
-        _c("h1", { staticClass: "text-center text-3xl text-80 font-light" }, [
-          _vm._v("Most Visited Card!")
-        ])
+  return _c("card", { staticClass: "px-6 py-4" }, [
+    _c("div", { staticClass: "mb-4" }, [
+      _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
+        _vm._v("GA Most-visited pages")
       ])
-    ]
-  )
+    ]),
+    _vm._v(" "),
+    _c("ul", { staticClass: "mb-4 mt-4" }, [
+      _c("li", [_vm._v("@todo")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("@todo")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("@todo")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("@todo")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("@todo")])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
