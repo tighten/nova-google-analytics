@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 
-<img width="380" alt="image" src="https://user-images.githubusercontent.com/151829/44589484-ad50a580-a786-11e8-864d-2a933e02c3e2.png">
+![image](https://user-images.githubusercontent.com/151829/44671717-4a644600-a9f4-11e8-8505-b99e9b9ed65a.png)
 
 JUST GETTING STARTED.
 
@@ -35,6 +35,7 @@ public function cards()
     return [
         // ...
         new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
+        new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
     ];
 }
 ```
