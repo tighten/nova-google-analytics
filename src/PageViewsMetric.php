@@ -20,31 +20,45 @@ class PageViewsMetric extends Value
      */
     public function calculate(Request $request)
     {
+        // $lookups = [
+        //     1 => $this->pageViewsOneDay(),
+        //     30 => $this->pageViewsOneMonth(),
+        // ];
+
+        // $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+
+        $data = $this->pageViewsOneDay();
+
         return $this
-            ->result($this->pageViewsForToday())
-            ->previous($this->pageViewsForYesterday());
+            ->result($data['result'])
+            ->previous($data['previous']);
     }
 
-    private function pageViewsForYesterday()
+    private function pageViewsOneDay()
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
-        $yesterday = $analyticsData->first();
-        $today = $analyticsData->last();
-
-        return $yesterday['pageViews'];
+        return [
+            'previous' => $analyticsData->first()['pageViews'],
+            'result' => $analyticsData->last()['pageViews'],
+        ];
     }
 
-    private function pageViewsForToday()
+    private function pageViewsOneMonth()
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::days(1));
+        // $analyticsData = app(Analytics::class)->performQuery(
+        //     Period::months(1), // @todo probably two months so we can get both but not sure
+        //     'ga:pageviews', // @todo what's the diff between this and the metrics list?
+        //     [
+        //         'metrics' => 'ga:sessions, ga:pageviews',
+        //         'dimensions' => 'ga:yearMonth' // @todo is the the right dimension?
+        //     ]
+        // );
+        // @todo figure out how to process from class Google_Service_Analytics_GaData
+        //
 
-        $yesterday = $analyticsData->first();
-        $today = $analyticsData->last();
-
-        return $today['pageViews'];
+        return ['result' => 999, 'previous' => 999];
     }
 
     /**
@@ -56,7 +70,7 @@ class PageViewsMetric extends Value
     {
         return [
             // 1 => '1 day',
-            // 30 => '30 Days',
+            // 30 => '1 month',
             // 60 => '60 Days',
             // 365 => '365 Days',
             // 'MTD' => 'Month To Date',
@@ -72,7 +86,7 @@ class PageViewsMetric extends Value
      */
     public function cacheFor()
     {
-        return now()->addMinutes(30);
+        // return now()->addMinutes(30);
     }
 
     /**
