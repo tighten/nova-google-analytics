@@ -47,6 +47,18 @@ class VisitorsMetric extends Value
         return $today['visitors'];
     }
 
+    /* @todo for older ranges:
+        $analyticsData = app(Analytics::class)->performQuery(
+            Period::months(2),
+            'ga:users',
+            [
+                // 'metrics' => 'ga:sessions, ga:pageviews',
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:yearMonth'
+            ]
+        );
+        */
+
     /**
      * Get the ranges available for the metric.
      *
