@@ -36,6 +36,7 @@ public function cards()
         // ...
         new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
         new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
+        new \Tightenco\NovaGoogleAnalytics\MostVisitedPagesCard,
     ];
 }
 ```
