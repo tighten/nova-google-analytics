@@ -5,6 +5,8 @@
 
 ![image](https://user-images.githubusercontent.com/151829/44671717-4a644600-a9f4-11e8-8505-b99e9b9ed65a.png)
 
+<img src="https://user-images.githubusercontent.com/151829/44892455-defbcc00-acb2-11e8-9236-cbc04f1a29eb.png" width="465">
+
 JUST GETTING STARTED.
 
 Plans:
