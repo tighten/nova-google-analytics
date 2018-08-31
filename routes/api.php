@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Tightenco\NovaGoogleAnalytics\Http\Controllers\MostVisitedPagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +15,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('endpoint', \Tightenco\NovaGoogleAnalytics\Http\Controllers\ToolController::class . '@index');
+Route::get('most-visited-pages', MostVisitedPagesController::class);

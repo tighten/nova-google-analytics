@@ -41,7 +41,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider"
+                "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider",
+                "Tightenco\\NovaGoogleAnalytics\\CardServiceProvider"
             ]
         }
     },
