@@ -34,7 +34,7 @@ class MostVisitedPagesController extends Controller
             function ($row) use ($headers) {
                 return array_combine($headers, $row);
             },
-            $analyticsData->rows
+            $analyticsData->rows ?? []
         );
     }
 }
