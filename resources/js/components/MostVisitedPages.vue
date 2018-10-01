@@ -7,7 +7,9 @@
             <p class="text-80 font-bold">No Data</p>
         </div>
         <ul v-else class="most-visited-pages-list mb-4 mt-2 overflow-y-scroll">
-            <li v-for="page in pages"><a :href="'http://' + page.hostname + page.path">{{ page.name }}</a>: {{ page.visits }}</li>
+            <li v-for="page in pages">
+                <a :href="'http://' + page.hostname + page.path" target="_blank">{{ page.name }}</a>: {{ page.visits }}
+            </li>
         </ul>
     </card>
 </template>
