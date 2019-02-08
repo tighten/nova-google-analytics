@@ -10,7 +10,7 @@ use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
-    public $name = 'GA Page Views Today';
+    public $name = 'Page Views';
 
     /**
      * Calculate the value of the metric.
@@ -20,14 +20,13 @@ class PageViewsMetric extends Value
      */
     public function calculate(Request $request)
     {
-        // $lookups = [
-        //     1 => $this->pageViewsOneDay(),
-        //     30 => $this->pageViewsOneMonth(),
-        // ];
+        $lookups = [
+            1 => $this->pageViewsOneDay(),
+            30 => $this->pageViewsOneMonth(),
+            365 => $this->pageViewsOneYear(),
+        ];
 
-        // $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
-
-        $data = $this->pageViewsOneDay();
+        $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
         return $this
             ->result($data['result'])
@@ -47,18 +46,40 @@ class PageViewsMetric extends Value
 
     private function pageViewsOneMonth()
     {
-        // $analyticsData = app(Analytics::class)->performQuery(
-        //     Period::months(1), // @todo probably two months so we can get both but not sure
-        //     'ga:pageviews', // @todo what's the diff between this and the metrics list?
-        //     [
-        //         'metrics' => 'ga:sessions, ga:pageviews',
-        //         'dimensions' => 'ga:yearMonth' // @todo is the the right dimension?
-        //     ]
-        // );
-        // @todo figure out how to process from class Google_Service_Analytics_GaData
-        //
+        $analyticsData = app(Analytics::class)->performQuery(
+            Period::months(1),
+            'ga:pageviews',
+            [
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:yearMonth',
+            ]
+        );
 
-        return ['result' => 999, 'previous' => 999];
+        $results = collect($analyticsData->getRows());
+
+        return [
+            'previous' => $results->first()[1],
+            'result' => $results->last()[1],
+        ];
+    }
+
+    private function pageViewsOneYear()
+    {
+        $analyticsData = app(Analytics::class)->performQuery(
+            Period::years(1),
+            'ga:pageviews',
+            [
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:year',
+            ]
+        );
+
+        $results = collect($analyticsData->getRows());
+
+        return [
+            'previous' => $results->first()[1],
+            'result' => $results->last()[1],
+        ];
     }
 
     /**
@@ -69,10 +90,10 @@ class PageViewsMetric extends Value
     public function ranges()
     {
         return [
-            // 1 => '1 day',
-            // 30 => '1 month',
+            1 => 'Today',
+            30 => 'This month (to date)',
             // 60 => '60 Days',
-            // 365 => '365 Days',
+            365 => 'This year (to date)',
             // 'MTD' => 'Month To Date',
             // 'QTD' => 'Quarter To Date',
             // 'YTD' => 'Year To Date',
