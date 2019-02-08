@@ -97,9 +97,9 @@ class VisitorsMetric extends Value
             // 30 => '30 Days',
             // 60 => '60 Days',
             // 365 => '365 Days',
-            'MTD' => 'This Month (to date)',
+            'MTD' => 'This month (to date)',
             // 'QTD' => 'Quarter To Date',
-            'YTD' => 'This Year (to date)',
+            'YTD' => 'This year (to date)',
         ];
     }
 
