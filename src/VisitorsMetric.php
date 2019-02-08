@@ -10,7 +10,7 @@ use Spatie\Analytics\Period;
 
 class VisitorsMetric extends Value
 {
-    public $name = 'GA Visitors Today';
+    public $name = 'Visitors';
 
     /**
      * Calculate the value of the metric.
@@ -20,12 +20,20 @@ class VisitorsMetric extends Value
      */
     public function calculate(Request $request)
     {
+        $lookups = [
+            1 => $this->visitorsOneDay(),
+            'MTD' => $this->visitorsOneMonth(),
+            'YTD' => $this->visitorsOneYear(),
+        ];
+
+        $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+
         return $this
-            ->result($this->visitorsForToday())
-            ->previous($this->visitorsForYesterday());
+            ->result($data['result'])
+            ->previous($data['previous']);
     }
 
-    private function visitorsForYesterday()
+    private function visitorsOneDay()
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -33,31 +41,49 @@ class VisitorsMetric extends Value
         $yesterday = $analyticsData->first();
         $today = $analyticsData->last();
 
-        return $yesterday['visitors'];
+        return [
+            'result' => $analyticsData->last()['visitors'],
+            'previous' => $analyticsData->first()['visitors'],
+        ];
     }
 
-    private function visitorsForToday()
+    private function visitorsOneMonth()
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::days(1));
-
-        $yesterday = $analyticsData->first();
-        $today = $analyticsData->last();
-
-        return $today['visitors'];
-    }
-
-    /* @todo for older ranges:
         $analyticsData = app(Analytics::class)->performQuery(
-            Period::months(2),
+            Period::months(1),
             'ga:users',
             [
-                // 'metrics' => 'ga:sessions, ga:pageviews',
                 'metrics' => 'ga:users',
-                'dimensions' => 'ga:yearMonth'
+                'dimensions' => 'ga:yearMonth',
             ]
         );
-        */
+
+        $results = collect($analyticsData->getRows());
+
+        return [
+            'previous' => $results->first()[1],
+            'result' => $results->last()[1],
+        ];
+    }
+
+    private function visitorsOneYear()
+    {
+        $analyticsData = app(Analytics::class)->performQuery(
+            Period::years(1),
+            'ga:users',
+            [
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:year',
+            ]
+        );
+
+        $results = collect($analyticsData->getRows());
+
+        return [
+            'previous' => $results->first()[1],
+            'result' => $results->last()[1],
+        ];
+    }
 
     /**
      * Get the ranges available for the metric.
@@ -67,13 +93,13 @@ class VisitorsMetric extends Value
     public function ranges()
     {
         return [
-            // 1 => '1 day',
+            1 => 'Today',
             // 30 => '30 Days',
             // 60 => '60 Days',
             // 365 => '365 Days',
-            // 'MTD' => 'Month To Date',
+            'MTD' => 'This Month (to date)',
             // 'QTD' => 'Quarter To Date',
-            // 'YTD' => 'Year To Date',
+            'YTD' => 'This Year (to date)',
         ];
     }
 
@@ -84,7 +110,7 @@ class VisitorsMetric extends Value
      */
     public function cacheFor()
     {
-        return now()->addMinutes(30);
+        // return now()->addMinutes(30);
     }
 
     /**
