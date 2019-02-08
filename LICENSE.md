@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) Tightenco bvba <info@spatie.be>
+Copyright (c) Tighten Co. <matt@tighten.co>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
