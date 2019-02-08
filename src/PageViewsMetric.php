@@ -22,8 +22,8 @@ class PageViewsMetric extends Value
     {
         $lookups = [
             1 => $this->pageViewsOneDay(),
-            30 => $this->pageViewsOneMonth(),
-            365 => $this->pageViewsOneYear(),
+            'MTD' => $this->pageViewsOneMonth(),
+            'YTD' => $this->pageViewsOneYear(),
         ];
 
         $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
@@ -91,9 +91,9 @@ class PageViewsMetric extends Value
     {
         return [
             1 => 'Today',
-            30 => 'This month (to date)',
+            'MTD' => 'This month (to date)',
             // 60 => '60 Days',
-            365 => 'This year (to date)',
+            'YTD' => 'This year (to date)',
             // 'MTD' => 'Month To Date',
             // 'QTD' => 'Quarter To Date',
             // 'YTD' => 'Year To Date',
