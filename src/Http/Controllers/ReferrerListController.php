@@ -18,7 +18,7 @@ class ReferrerListController extends Controller
     private function topReferrers()
     {
         $analyticsData = app(Analytics::class)
-            ->fetchTopReferrers(Period::days(1));
+            ->fetchTopReferrers(Period::days(7));
 
         return $analyticsData;
     }

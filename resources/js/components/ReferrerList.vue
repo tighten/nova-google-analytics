@@ -1,7 +1,7 @@
 <template>
     <card class="px-2 py-4">
         <div class="mb-4">
-            <h3 class="mx-3 text-base text-80 font-bold">Top Referrers </h3>
+            <h3 class="mx-3 text-base text-80 font-bold">Top Referrers this week</h3>
         </div>
         <div v-if="!list" class="flex items-center">
             <p class="text-80 font-bold">No Data</p>
