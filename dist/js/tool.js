@@ -17925,7 +17925,7 @@ var render = function() {
         _c(
           "heading",
           { staticClass: "text-90 font-normal text-2xl flex-no-shrink" },
-          [_vm._v("GA stats for page")]
+          [_vm._v("Google Analytics stats")]
         )
       ],
       1

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex items-center mb-3">
-            <heading class="text-90 font-normal text-2xl flex-no-shrink">GA stats for page</heading>
+            <heading class="text-90 font-normal text-2xl flex-no-shrink">Google Analytics stats</heading>
         </div>
 
         <div class="alert alert-danger mb-2" v-if="errorMessage.length > 0" v-html="errorMessage"></div>
