@@ -15,12 +15,22 @@ class StatsPerPageController extends Controller
 
     public function __invoke(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'path' => 'regex:/^\/\w.*/i'
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'path' => [
+                    'not_regex:/^(www|http).*/i',
+                    'regex:/^\/\w.*/i'
+                ]
+            ],
+            [
+                'path.not_regex' => 'Path must not contain a website domain.',
+                'path.regex' => 'Path must start with a leading slash.',
+            ]
+        );
 
         if ($validator->fails()) {
-            return response(['status' => 'error', 'message' => $validator->errors()->first('path').' <strong>Tip:</strong> Provide path in the following format: <pre>/this-is-some/path</pre>'], 500);
+            return response(['status' => 'error', 'message' => $validator->errors()->first('path')], 500);
         }
 
         $this->days = $request->input('days', 7);
