@@ -49,7 +49,7 @@ export default {
 
     computed: {
         path() {
-            return this.panel.fields[0].path
+            return this.field.path
         }
     },
 
@@ -99,7 +99,7 @@ export default {
 
 <style scoped>
     .alert {
-        background-color: #FFF;
+        background-color: #ffc9c9;
         color: #000;
         border-radius: .5rem;
         padding: 10px;

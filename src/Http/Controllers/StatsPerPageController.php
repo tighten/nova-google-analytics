@@ -20,7 +20,7 @@ class StatsPerPageController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response(['status' => 'error', 'message' => $validator->errors()->first('path').'<br/><br/><strong>Tip:</strong> Provide path in the following format: <pre>/this-is-some/path</pre>'], 500);
+            return response(['status' => 'error', 'message' => $validator->errors()->first('path').' <strong>Tip:</strong> Provide path in the following format: <pre>/this-is-some/path</pre>'], 500);
         }
 
         $this->days = $request->input('days', 7);
