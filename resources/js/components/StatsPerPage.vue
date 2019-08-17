@@ -49,7 +49,8 @@ export default {
 
     computed: {
         path() {
-            return this.field.path
+            // Workaround to satisfy multiple Nova versions
+            return typeof this.field === 'undefined' ? this.panel.fields[0].path : this.field.path
         }
     },
 
