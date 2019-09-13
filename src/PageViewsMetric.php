@@ -26,7 +26,7 @@ class PageViewsMetric extends Value
             'YTD' => $this->pageViewsOneYear(),
         ];
 
-        $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = data_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
         return $this
             ->result($data['result'])
