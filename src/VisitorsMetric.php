@@ -2,7 +2,7 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
@@ -26,7 +26,7 @@ class VisitorsMetric extends Value
             'YTD' => $this->visitorsOneYear(),
         ];
 
-        $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
         return $this
             ->result($data['result'])
