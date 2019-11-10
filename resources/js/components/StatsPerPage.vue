@@ -12,7 +12,6 @@
                 :chart-data="chartData"
                 :loading="loading"
                 :title="'Views per day'"
-                :format="null"
                 :prefix="''"
                 :suffix="''"
                 :ranges="ranges"
@@ -49,7 +48,7 @@ export default {
 
     computed: {
         path() {
-            // Workaround to satisfy multiple Nova versions
+            // Workaround to satisfy all Nova versions
             return typeof this.field === 'undefined' ? this.panel.fields[0].path : this.field.path
         }
     },
@@ -67,14 +66,16 @@ export default {
             Nova.request()
                 .post('/nova-vendor/nova-google-analytics/stats-per-page', {days: this.selectedRangeKey, path: this.path})
                 .then(response => {
+                    let labels = []
                     this.partials = _.map(response.data.partials, function(item) {
+                        labels.push(item.date.slice(6, 8) + '-' + item.date.slice(4, 6) + '-' + item.date.slice(0, 4))
                         return {meta: item.date.slice(6, 8) + '-' + item.date.slice(4, 6) + '-' + item.date.slice(0, 4), value: parseInt(item.pageviews)}
                     })
                     this.total = response.data.total.pageviews
 
                     this.chartData = {
                         series: [this.partials],
-                        labels: []
+                        labels: labels
                     };
                     this.loading = false
                 })
