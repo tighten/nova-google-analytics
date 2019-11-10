@@ -2,8 +2,8 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
@@ -26,7 +26,7 @@ class PageViewsMetric extends Value
             'YTD' => $this->pageViewsOneYear(),
         ];
 
-        $data = array_get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
         return $this
             ->result($data['result'])
