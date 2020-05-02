@@ -9,7 +9,7 @@ use Laravel\Nova\Card;
 use Spatie\Analytics\Period;
 use Laravel\Nova\Metrics\Value;
 
-class ReferrersList extends card
+class ReferrersList extends Card
 {
     /**
      * The width of the card (1/3, 1/2, or full).
