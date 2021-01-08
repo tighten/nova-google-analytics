@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
+use Carbon\Carbon;
 
 class VisitorsMetric extends Value
 {
@@ -21,16 +22,15 @@ class VisitorsMetric extends Value
     public function calculate(Request $request)
     {
         $lookups = [
-            1 => $this->visitorsOneDay(),
+            'TODAY' => $this->visitorsOneDay(),
             'MTD' => $this->visitorsOneMonth(),
             'YTD' => $this->visitorsOneYear(),
         ];
 
         $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
-        return $this
-            ->result($data['result'])
-            ->previous($data['previous']);
+        return $this->result($data['result'])
+                    ->previous($data['previous']);
     }
 
     private function visitorsOneDay()
@@ -49,39 +49,62 @@ class VisitorsMetric extends Value
 
     private function visitorsOneMonth()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::months(1),
+        // First get the results for the current month to date.
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
                 'dimensions' => 'ga:yearMonth',
             ]
         );
+        $currentResults = collect($currentAnalyticsData->getRows());
 
-        $results = collect($analyticsData->getRows());
+        // Then get the total results of last month to compare.
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->subMonths(1)->startOfMonth(), Carbon::today()->subMonths(1)->endOfMonth()),
+            'ga:users',
+            [
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:yearMonth',
+            ]
+        );
+        $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1],
+            'result' => $currentResults->last()[1],
         ];
     }
 
     private function visitorsOneYear()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::years(1),
+        // First get the results for the current year to date.
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
                 'dimensions' => 'ga:year',
             ]
         );
+        $currentResults = collect($currentAnalyticsData->getRows());
 
-        $results = collect($analyticsData->getRows());
+        // Then get the total results of last month to compare.
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->subYears(1)->startOfYear(), Carbon::today()->subYears(1)->endOfYear()),
+            'ga:users',
+            [
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:year',
+            ]
+        );
+        $previousResults = collect($previousAnalyticsData->getRows());
+
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1],
+            'result' => $currentResults->last()[1],
         ];
     }
 
@@ -93,7 +116,7 @@ class VisitorsMetric extends Value
     public function ranges()
     {
         return [
-            1 => 'Today',
+            'TODAY' => 'Today',
             // 30 => '30 Days',
             // 60 => '60 Days',
             // 365 => '365 Days',
