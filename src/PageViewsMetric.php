@@ -40,8 +40,12 @@ class PageViewsMetric extends Value
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
         return [
-            'previous' => $analyticsData->first()['pageViews'],
-            'result' => $analyticsData->last()['pageViews'],
+            'result' => ($analyticsData && $analyticsData->last())
+                            ? $analyticsData->last()['visitors']
+                            : 0,
+            'previous' => ($analyticsData && $analyticsData->first())
+                            ? $analyticsData->first()['visitors']
+                            : 0,
         ];
     }
 
@@ -70,8 +74,12 @@ class PageViewsMetric extends Value
         $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => ($previousResults && $previousResults->last())
+                            ? $previousResults->last()[1]
+                            : 0,
+            'result' => ($currentResults && $currentResults->last())
+                            ? $currentResults->last()[1]
+                            : 0,
         ];
     }
 
@@ -100,8 +108,12 @@ class PageViewsMetric extends Value
         $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => ($previousResults && $previousResults->last())
+                            ? $previousResults->last()[1]
+                            : 0,
+            'result' => ($currentResults && $currentResults->last())
+                            ? $currentResults->last()[1]
+                            : 0,
         ];
     }
 
@@ -130,7 +142,7 @@ class PageViewsMetric extends Value
      */
     public function cacheFor()
     {
-        //return now()->addMinutes(30);
+        return now()->addMinutes(30);
     }
 
     /**

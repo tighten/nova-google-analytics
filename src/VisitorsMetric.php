@@ -38,12 +38,13 @@ class VisitorsMetric extends Value
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
-        $yesterday = $analyticsData->first();
-        $today = $analyticsData->last();
-
         return [
-            'result' => $analyticsData->last()['visitors'],
-            'previous' => $analyticsData->first()['visitors'],
+            'result' => ($analyticsData && $analyticsData->last())
+                            ? $analyticsData->last()['visitors']
+                            : 0,
+            'previous' => ($analyticsData && $analyticsData->first())
+                            ? $analyticsData->first()['visitors']
+                            : 0,
         ];
     }
 
@@ -72,8 +73,12 @@ class VisitorsMetric extends Value
         $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => ($previousResults && $previousResults->last())
+                            ? $previousResults->last()[1]
+                            : 0,
+            'result' => ($currentResults && $currentResults->last())
+                            ? $currentResults->last()[1]
+                            : 0,
         ];
     }
 
@@ -103,8 +108,12 @@ class VisitorsMetric extends Value
 
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => ($previousResults && $previousResults->last())
+                ? $previousResults->last()[1]
+                : 0,
+            'result' => ($currentResults && $currentResults->last())
+                ? $currentResults->last()[1]
+                : 0,
         ];
     }
 
@@ -133,7 +142,7 @@ class VisitorsMetric extends Value
      */
     public function cacheFor()
     {
-        // return now()->addMinutes(30);
+         return now()->addMinutes(30);
     }
 
     /**
