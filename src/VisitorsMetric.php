@@ -22,7 +22,7 @@ class VisitorsMetric extends Value
     public function calculate(Request $request)
     {
         $lookups = [
-            'TODAY' => $this->visitorsOneDay(),
+            1 => $this->visitorsOneDay(),
             'MTD' => $this->visitorsOneMonth(),
             'YTD' => $this->visitorsOneYear(),
         ];
@@ -116,7 +116,7 @@ class VisitorsMetric extends Value
     public function ranges()
     {
         return [
-            'TODAY' => 'Today',
+            1 => 'Today',
             // 30 => '30 Days',
             // 60 => '60 Days',
             // 365 => '365 Days',

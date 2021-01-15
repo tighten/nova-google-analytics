@@ -2,6 +2,7 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
@@ -46,8 +47,8 @@ class PageViewsMetric extends Value
 
     private function pageViewsOneMonth()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::months(1),
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
@@ -55,18 +56,29 @@ class PageViewsMetric extends Value
             ]
         );
 
-        $results = collect($analyticsData->getRows());
+        $currentResults = collect($currentAnalyticsData->getRows());
+
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->subMonths(1)->startOfMonth(), Carbon::today()->subMonths(1)->endOfMonth()),
+            'ga:pageviews',
+            [
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:yearMonth',
+            ]
+        );
+
+        $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1],
+            'result' => $currentResults->last()[1],
         ];
     }
 
     private function pageViewsOneYear()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::years(1),
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
@@ -74,11 +86,22 @@ class PageViewsMetric extends Value
             ]
         );
 
-        $results = collect($analyticsData->getRows());
+        $currentResults = collect($currentAnalyticsData->getRows());
+
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->subYears(1)->startOfYear(), Carbon::today()->subYears(1)->endOfYear()),
+            'ga:pageviews',
+            [
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:year',
+            ]
+        );
+
+        $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1],
+            'result' => $currentResults->last()[1],
         ];
     }
 
@@ -107,7 +130,7 @@ class PageViewsMetric extends Value
      */
     public function cacheFor()
     {
-        return now()->addMinutes(30);
+        //return now()->addMinutes(30);
     }
 
     /**
