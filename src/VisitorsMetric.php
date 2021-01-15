@@ -133,7 +133,7 @@ class VisitorsMetric extends Value
      */
     public function cacheFor()
     {
-        // return now()->addMinutes(30);
+         return now()->addMinutes(30);
     }
 
     /**
