@@ -2,7 +2,6 @@
 
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Tightenco\NovaGoogleAnalytics\File;
 use Illuminate\Routing\Controller;
 use Spatie\Analytics\Analytics;
@@ -18,8 +17,21 @@ class ReferrerListController extends Controller
     private function topReferrers()
     {
         $analyticsData = app(Analytics::class)
-            ->fetchTopReferrers(Period::days(7));
+            ->performQuery(
+                Period::days(7),
+                'ga:users',
+                [
+                    'dimensions' => 'ga:fullReferrer',
+                    'sort' => '-ga:users',
+                    'max-results' => 10,
+                ]
+            );
 
-        return $analyticsData;
+        return collect($analyticsData['rows'] ?? [])->map(function (array $pageRow) {
+            return [
+                'url' => $pageRow[0],
+                'pageViews' => (int) $pageRow[1],
+            ];
+        });
     }
 }
