@@ -1,18 +1,35 @@
 <template>
     <card class="px-2 py-4">
         <div class="mb-4">
-            <h3 class="mx-3 text-base text-80 font-bold">Top Referrers this week</h3>
+            <h3 class="mx-3 text-base text-80 font-bold">
+                Top Referrers - This Week
+            </h3>
         </div>
-        <div v-if="!list" class="flex items-center">
-            <p class="text-80 font-bold">No Data</p>
+        <div v-if="!list"
+             class="flex items-center"
+        >
+            <p class="text-80 font-bold">
+                No Data
+            </p>
         </div>
-        <ul v-else class="most-visited-pages-list mb-4 mt-2 pl-1 overflow-y-scroll">
-            <li v-for="referrer in list" class="list-reset mx-3 my-1">
-                <div class="text-base">
-                    <a :href="`http://${referrer.url}`" target="_blank">{{ referrer.url}}</a> : {{ referrer.pageViews }}
-                </div>
-            </li>
-        </ul>
+        <div v-else
+             class="flex items-center"
+        >
+            <ul class="most-visited-pages-list mb-4 mt-2 pl-1 w-full">
+                <li v-for="referrer in list"
+                    class="list-reset mx-3 my-1"
+                >
+                    <div class="text-base">
+                        <a :href="`http://${referrer.url}`"
+                           target="_blank"
+                        >
+                            {{ referrer.url}}
+                        </a>
+                        {{ referrer.pageViews }}
+                    </div>
+                </li>
+            </ul>
+        </div>
     </card>
 </template>
 
