@@ -584,7 +584,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-2952f5c8] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-2952f5c8] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-2952f5c8]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-2952f5c8] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n}\n", ""]);
+exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-2952f5c8] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-2952f5c8] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-2952f5c8]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-2952f5c8] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
 
 // exports
 
@@ -849,7 +849,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.most-visited-pages-list[data-v-40521270] {\n    height: 10.4rem;\n}\n.card-panel[data-v-40521270] {\n    height: 255px;\n}\na[data-v-40521270] {\n    color: #00427A;\n    text-decoration: none;\n}\na[data-v-40521270]:hover {\n    color: #424D5C\n}\n", ""]);
+exports.push([module.i, "\n.card-panel[data-v-40521270] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-40521270] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-40521270] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-40521270]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-40521270] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
 
 // exports
 
@@ -895,16 +895,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
-
     data: function data() {
         return {
             list: []
         };
     },
-
     mounted: function mounted() {
         var _this = this;
 
@@ -922,9 +927,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("card", { staticClass: "px-2 py-4" }, [
+  return _c("card", { staticClass: "px-6 py-4" }, [
     _c("div", { staticClass: "mb-4" }, [
-      _c("h3", { staticClass: "mx-3 text-base text-80 font-bold" }, [
+      _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
         _vm._v("\n            Top Referrers - This Week\n        ")
       ])
     ]),
@@ -938,31 +943,40 @@ var render = function() {
       : _c("div", { staticClass: "flex items-center" }, [
           _c(
             "ul",
-            { staticClass: "most-visited-pages-list mb-4 mt-2 pl-1 w-full" },
+            { staticClass: "most-visited-pages-list w-full" },
             _vm._l(_vm.list, function(referrer) {
-              return _c("li", { staticClass: "list-reset mx-3 my-1" }, [
-                _c("div", { staticClass: "text-base" }, [
-                  _c(
-                    "a",
-                    {
-                      attrs: {
-                        href: "http://" + referrer.url,
-                        target: "_blank"
-                      }
-                    },
-                    [
+              return _c("li", { staticClass: "page-item align-middle" }, [
+                _c("div", { staticClass: "flex justify-between py-2" }, [
+                  _c("div", [
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "flex-1 text-base text-primary no-underline",
+                        attrs: {
+                          href: "http://" + referrer.url,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(referrer.url) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("span", { staticClass: "number-badge font-bold" }, [
                       _vm._v(
-                        "\n                        " +
-                          _vm._s(referrer.url) +
-                          "\n                    "
+                        "\n                           " +
+                          _vm._s(referrer.pageViews) +
+                          "\n                       "
                       )
-                    ]
-                  ),
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(referrer.pageViews) +
-                      "\n                "
-                  )
+                    ])
+                  ])
                 ])
               ])
             }),

@@ -80,5 +80,6 @@ export default {
     font-size: 0.8rem;
     font-weight: bold;
     padding: 2px 6px;
+    margin-left: 5px;
 }
 </style>
