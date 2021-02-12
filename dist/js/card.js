@@ -493,7 +493,6 @@ module.exports = __webpack_require__(4);
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-console.log('card.js called');
 Nova.booting(function (Vue, router) {
     Vue.component('most-visited-pages', __webpack_require__(5));
     Vue.component('referrer-list', __webpack_require__(11));
@@ -645,22 +644,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
 
     data: function data() {
         return {
-            pages: []
+            pages: [],
+            duration: 'week'
         };
     },
+    methods: {
+        updateDuration: function updateDuration(event) {
+            this.duration = event.target.value;
+            this.getPages();
+        },
+        getPages: function getPages() {
+            var _this = this;
 
+            Nova.request().get('/nova-vendor/nova-google-analytics/most-visited-pages?duration=' + this.duration).then(function (response) {
+                _this.pages = response.data;
+            });
+        }
+    },
     mounted: function mounted() {
-        var _this = this;
-
-        Nova.request().get('/nova-vendor/nova-google-analytics/most-visited-pages').then(function (response) {
-            _this.pages = response.data;
-        });
+        this.getPages();
     }
 });
 
@@ -673,10 +695,57 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("card", { staticClass: "px-4 py-4" }, [
-    _c("div", { staticClass: "mb-4" }, [
+    _c("div", { staticClass: "flex mb-4" }, [
       _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
-        _vm._v("GA Most-visited pages this week")
-      ])
+        _vm._v("Most Visited Pages")
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.duration,
+              expression: "duration"
+            }
+          ],
+          staticClass:
+            "select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline",
+          on: {
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.duration = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              _vm.updateDuration
+            ]
+          }
+        },
+        [
+          _c("option", { attrs: { value: "week" } }, [
+            _vm._v("\n                This Week\n            ")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "month" } }, [
+            _vm._v("\n                This Month\n            ")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "year" } }, [
+            _vm._v("\n                This Year\n            ")
+          ])
+        ]
+      )
     ]),
     _vm._v(" "),
     !_vm.pages
