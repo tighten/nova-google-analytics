@@ -1,7 +1,21 @@
 <template>
     <card class="px-4 py-4">
-        <div class="mb-4">
-            <h3 class="mr-3 text-base text-80 font-bold">GA Most-visited pages this week</h3>
+        <div class="flex mb-4">
+            <h3 class="mr-3 text-base text-80 font-bold">Most Visited Pages</h3>
+            <select class="select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline"
+                    v-model="duration"
+                    @change="updateDuration"
+            >
+                <option value="week">
+                    This Week
+                </option>
+                <option value="month">
+                    This Month
+                </option>
+                <option value="year">
+                    This Year
+                </option>
+            </select>
         </div>
         <div v-if="!pages" class="flex items-center">
             <p class="text-80 font-bold">No Data</p>
@@ -21,13 +35,24 @@ export default {
     data: function() {
         return {
             pages: [],
+            duration: 'week'
         }
     },
-
+    methods: {
+        updateDuration(event) {
+            this.duration = event.target.value;
+            this.getPages();
+        },
+        getPages() {
+            Nova.request()
+                .get('/nova-vendor/nova-google-analytics/most-visited-pages?duration='+this.duration)
+                .then(response => {
+                    this.pages = response.data;
+                });
+        }
+    },
     mounted() {
-        Nova.request().get('/nova-vendor/nova-google-analytics/most-visited-pages').then(response => {
-            this.pages = response.data;
-        });
+        this.getPages();
     },
 }
 </script>

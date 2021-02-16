@@ -1,7 +1,21 @@
 <template>
     <card class="px-2 py-4">
-        <div class="mb-4">
-            <h3 class="mx-3 text-base text-80 font-bold">Top Referrers this week</h3>
+        <div class="flex mb-4">
+            <h3 class="mx-3 text-base text-80 font-bold">Top Referrers</h3>
+            <select class="select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline"
+                    v-model="duration"
+                    @change="updateDuration"
+            >
+                <option value="week">
+                    This Week
+                </option>
+                <option value="month">
+                    This Month
+                </option>
+                <option value="year">
+                    This Year
+                </option>
+            </select>
         </div>
         <div v-if="!list" class="flex items-center">
             <p class="text-80 font-bold">No Data</p>
@@ -23,13 +37,24 @@
         data: function() {
             return {
                 list: [],
+                duration: 'week'
             }
         },
-
+        methods: {
+            updateDuration(event) {
+                this.duration = event.target.value;
+                this.getList();
+            },
+            getList() {
+                Nova.request()
+                    .get('/nova-vendor/nova-google-analytics/referrer-list?duration='+this.duration)
+                    .then(response => {
+                        this.list = response.data;
+                    });
+            }
+        },
         mounted() {
-            Nova.request().get('/nova-vendor/nova-google-analytics/referrer-list').then(response => {
-                this.list = response.data;
-            });
+            this.getList();
         },
     }
 </script>
