@@ -493,7 +493,6 @@ module.exports = __webpack_require__(4);
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-console.log('card.js called');
 Nova.booting(function (Vue, router) {
     Vue.component('most-visited-pages', __webpack_require__(5));
     Vue.component('referrer-list', __webpack_require__(11));

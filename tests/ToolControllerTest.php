@@ -11,8 +11,9 @@ class ToolControllerTest extends TestCase
     /** @test */
     public function it_can_can_return_a_response()
     {
-        $this
-            ->get('nova-vendor/tightenco/nova-google-analytics/endpoint')
-            ->assertSuccessful();
+        dd($this
+            ->get('nova-vendor/tightenco/nova-google-analytics/most-visited-pages')
+            ->dump());
+            //->assertSuccessful();
     }
 }

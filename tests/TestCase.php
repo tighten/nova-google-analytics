@@ -4,11 +4,12 @@ namespace Tightenco\NovaGoogleAnalytics\Tests;
 
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Tightenco\NovaGoogleAnalytics\CardServiceProvider;
 use Tightenco\NovaGoogleAnalytics\ToolServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -19,6 +20,7 @@ abstract class TestCase extends Orchestra
     {
         return [
             ToolServiceProvider::class,
+            CardServiceProvider::class,
         ];
     }
 }
