@@ -59,6 +59,13 @@ ANALYTICS_VIEW_ID=
 
 If you discover any security related issues, please email matt@tighten.co instead of using the issue tracker.
 
+## Testing
+First, copy your .env.example file to a new file called .env.testing.
+`cp .env.example .env.testing`
+You will need to define the `ANALYTICS_VIEW_ID` that you wish to use for testing.
+It can be the same as what is in your .env file, just remember not to commit any
+sensitive information.
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
