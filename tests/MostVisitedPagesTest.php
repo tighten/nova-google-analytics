@@ -2,9 +2,6 @@
 
 namespace Tightenco\NovaGoogleAnalytics\Tests;
 
-use Tightenco\NovaGoogleAnalytics\Http\Controllers\ToolController;
-use Tightenco\NovaGoogleAnalytics\NovaGoogleAnalytics;
-
 class MostVisitedPagesTest extends TestCase
 {
     /** @test */
