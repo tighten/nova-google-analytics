@@ -8,7 +8,7 @@ use Tightenco\NovaGoogleAnalytics\ToolServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
