@@ -3,14 +3,14 @@
 namespace Tightenco\NovaGoogleAnalytics\Tests;
 
 use Illuminate\Http\Request;
-use Tightenco\NovaGoogleAnalytics\PageViewsMetric;
+use Tightenco\NovaGoogleAnalytics\VisitorsMetric;
 
-class PageViewsTest extends TestCase
+class VisitorsMetricTest extends TestCase
 {
     /** @test */
     public function it_can_return_results_for_one_day()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => '1']);
         $response = $pageViews->calculate($request);
@@ -21,7 +21,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function one_day_results_contain_previous()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => '1']);
         $response = $pageViews->calculate($request);
@@ -32,7 +32,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function one_day_results_contain_value()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => '1']);
         $response = $pageViews->calculate($request);
@@ -43,7 +43,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function it_can_return_results_mtd()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'MTD']);
         $response = $pageViews->calculate($request);
@@ -54,7 +54,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function mtd_results_contain_previous()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'MTD']);
         $response = $pageViews->calculate($request);
@@ -65,7 +65,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function mtd_results_contain_value()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'MTD']);
         $response = $pageViews->calculate($request);
@@ -76,7 +76,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function it_can_return_results_ytd()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'YTD']);
         $response = $pageViews->calculate($request);
@@ -87,7 +87,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function ytd_results_contain_previous()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'YTD']);
         $response = $pageViews->calculate($request);
@@ -98,7 +98,7 @@ class PageViewsTest extends TestCase
     /** @test */
     public function ytd_results_contain_value()
     {
-        $pageViews = new PageViewsMetric;
+        $pageViews = new VisitorsMetric();
         $request = new Request();
         $request->merge(['range' => 'YTD']);
         $response = $pageViews->calculate($request);
