@@ -9,18 +9,22 @@ jobs:
   tests:
     strategy:
       matrix:
-        os: [Ubuntu, Windows, macOS]
         php: [7.2, 7.3, 7.4, 8.0]
-
         include:
-          - os: Ubuntu
-            os-version: ubuntu-latest
+          - laravel: 6.*
+            testbench: 4.*
+            phpunit: 9.*
+          - laravel: 7.*
+            testbench: 5.*
+            phpunit: 9.*
+          - laravel: 8.*
+            testbench: 6.*
+            phpunit: 9.*
+          - php: 8.0
+            laravel: 8.*
+            testbench: 6.*
+            phpunit: 9.*
 
-          - os: Windows
-            os-version: windows-latest
-
-          - os: macOS
-            os-version: macos-latest
 
     name: ${{ matrix.os }} - PHP ${{ matrix.php }}
 
@@ -38,7 +42,10 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-source --no-interaction --no-dev
+        run: |
+          composer config "http-basic.nova.laravel.com" "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_PASSWORD }}"
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer update --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
@@ -48,3 +55,5 @@ jobs:
 
       - name: Run PHP tests
         run: vendor/bin/phpunit
+        env:
+          ANALYTICS_VIEW_ID: "${{ secrets.ANALYTICS_VIEW_ID }}"
