@@ -46,9 +46,6 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress --no-suggest
 
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
-
       - name: Generate App Key
         run: php artisan key:generate
 
