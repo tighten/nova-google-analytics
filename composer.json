@@ -7,8 +7,8 @@
     ],
     "repositories": [
         {
-            "type": "path",
-            "url": "../nova"
+            "type": "composer",
+            "url": "https://nova.laravel.com"
         }
     ],
     "homepage": "https://github.com/tightenco/nova-google-analytics",
@@ -22,11 +22,12 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "laravel/nova": "*",
         "spatie/laravel-analytics": "^3.6"
     },
     "require-dev": {
-        "phpunit/phpunit": "7.1"
+        "phpunit/phpunit": "7.1",
+        "orchestra/testbench": "3.6.x-dev",
+        "laravel/nova": "*"
     },
     "autoload": {
         "psr-4": {
