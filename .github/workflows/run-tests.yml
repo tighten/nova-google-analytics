@@ -38,7 +38,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --prefer-source --no-interaction --ignore-platform-reqs
+        run: composer install --prefer-source --no-interaction
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
