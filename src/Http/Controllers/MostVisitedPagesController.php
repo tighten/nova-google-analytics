@@ -10,15 +10,34 @@ use Spatie\Analytics\Period;
 
 class MostVisitedPagesController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        return $this->mostVisitedPages();
+        return $this->mostVisitedPages($request);
     }
 
-    private function mostVisitedPages()
+    private function mostVisitedPages($request)
     {
+        $duration = $request->has('duration')
+            ? $request->input('duration')
+            : 'week';
+
+        switch($duration) {
+            case 'week':
+                $period = Period::days(7);
+                break;
+            case 'month':
+                $period = Period::months(1);
+                break;
+            case 'year':
+                $period = Period::years(1);
+                break;
+            default:
+                $period = Period::days(7);
+                break;
+        }
+
         $analyticsData = app(Analytics::class)->performQuery(
-            Period::days(7),
+            $period,
             'ga:users',
             [
                 'metrics' => 'ga:pageviews',
