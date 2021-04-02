@@ -40,8 +40,8 @@ class PageViewsMetric extends Value
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
         return [
-            'previous' => $analyticsData->first()['pageViews'],
-            'result' => $analyticsData->last()['pageViews'],
+            'result' => $analyticsData->first()['pageViews'] ?? 0,
+            'previous' => $analyticsData->last()['pageViews'] ?? 0,
         ];
     }
 
@@ -71,8 +71,8 @@ class PageViewsMetric extends Value
         $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => $previousResults->last()[1] ?? 0,
+            'result' => $currentResults->last()[1] ?? 0,
         ];
     }
 
@@ -102,8 +102,8 @@ class PageViewsMetric extends Value
         $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $previousResults->last()[1],
-            'result' => $currentResults->last()[1],
+            'previous' => $previousResults->last()[1] ?? 0,
+            'result' => $currentResults->last()[1] ?? 0,
         ];
     }
 
