@@ -58,8 +58,9 @@ class PageViewsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
+        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->subMonths(1)->startOfMonth(), Carbon::today()->subMonths(1)->endOfMonth()),
+            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
@@ -88,8 +89,9 @@ class PageViewsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
+        $lastYear = Carbon::today()->startOfYear()->subYears(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->subYears(1)->startOfYear(), Carbon::today()->subYears(1)->endOfYear()),
+            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
