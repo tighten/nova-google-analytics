@@ -27,6 +27,7 @@ abstract class TestCase extends Orchestra
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
         $app->config->set('analytics.view_id', getenv('ANALYTICS_VIEW_ID'));
         $app->config->set('analytics.service_account_credentials_json', storage_path() . '/app/analytics/service-account-credentials.json');
+
         parent::getEnvironmentSetUp($app);
     }
 
