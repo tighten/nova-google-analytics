@@ -3,6 +3,7 @@
 namespace Tightenco\NovaGoogleAnalytics\Tests;
 
 use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -18,6 +19,7 @@ abstract class TestCase extends Orchestra
         parent::setUp();
         Route::middlewareGroup('nova', []);
     }
+
     protected function getEnvironmentSetUp($app)
     {
         $app->useEnvironmentPath(__DIR__ . '/../../..');
@@ -42,5 +44,12 @@ abstract class TestCase extends Orchestra
         return [
             'Analytics' => AnalyticsFacade::class,
         ];
+    }
+
+    protected function requestWithQueryParams(array $params): Request
+    {
+        $request = new Request();
+        $request->merge($params);
+        return $request;
     }
 }
