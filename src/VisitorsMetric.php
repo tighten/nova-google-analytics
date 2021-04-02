@@ -61,8 +61,9 @@ class VisitorsMetric extends Value
         $currentResults = collect($currentAnalyticsData->getRows());
 
         // Then get the total results of last month to compare.
+        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->subMonths(1)->startOfMonth(), Carbon::today()->subMonths(1)->endOfMonth()),
+            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
@@ -91,8 +92,9 @@ class VisitorsMetric extends Value
         $currentResults = collect($currentAnalyticsData->getRows());
 
         // Then get the total results of last month to compare.
+        $lastYear = Carbon::today()->startOfYear()->subYears(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->subYears(1)->startOfYear(), Carbon::today()->subYears(1)->endOfYear()),
+            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
