@@ -60,6 +60,15 @@ ANALYTICS_VIEW_ID=
 
 If you discover any security related issues, please email matt@tighten.co instead of using the issue tracker.
 
+## Testing
+First, copy your .env.example file to a new file called .env.testing:
+```
+cp .env.example .env.testing
+```
+Make sure, in that file, to define the `ANALYTICS_VIEW_ID` that you wish to use for testing.
+
+Add the `.env.testing` file in `.gitignore` so you can safely use the same analytics view ID to run the tests that you use for the card.
+
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

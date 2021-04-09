@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Value;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
+use Carbon\Carbon;
 
 class VisitorsMetric extends Value
 {
@@ -28,9 +29,8 @@ class VisitorsMetric extends Value
 
         $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
-        return $this
-            ->result($data['result'])
-            ->previous($data['previous']);
+        return $this->result($data['result'])
+                    ->previous($data['previous']);
     }
 
     private function visitorsOneDay()
@@ -38,50 +38,72 @@ class VisitorsMetric extends Value
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
-        $yesterday = $analyticsData->first();
-        $today = $analyticsData->last();
-
         return [
-            'result' => $analyticsData->last()['visitors'],
-            'previous' => $analyticsData->first()['visitors'],
+            'result' => $analyticsData->first()['pageViews'] ?? 0,
+            'previous' => $analyticsData->last()['pageViews'] ?? 0,
         ];
     }
 
     private function visitorsOneMonth()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::months(1),
+        // First get the results for the current month to date.
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
                 'dimensions' => 'ga:yearMonth',
             ]
         );
+        $currentResults = collect($currentAnalyticsData->getRows());
 
-        $results = collect($analyticsData->getRows());
+        // Then get the total results of last month to compare.
+        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
+            'ga:users',
+            [
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:yearMonth',
+            ]
+        );
+        $previousResults = collect($previousAnalyticsData->getRows());
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1] ?? 0,
+            'result' => $currentResults->last()[1] ?? 0,
         ];
     }
 
     private function visitorsOneYear()
     {
-        $analyticsData = app(Analytics::class)->performQuery(
-            Period::years(1),
+        // First get the results for the current year to date.
+        $currentAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
             'ga:users',
             [
                 'metrics' => 'ga:users',
                 'dimensions' => 'ga:year',
             ]
         );
+        $currentResults = collect($currentAnalyticsData->getRows());
 
-        $results = collect($analyticsData->getRows());
+        // Then get the total results of last month to compare.
+        $lastYear = Carbon::today()->startOfYear()->subYears(1);
+        $previousAnalyticsData = app(Analytics::class)->performQuery(
+            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
+            'ga:users',
+            [
+                'metrics' => 'ga:users',
+                'dimensions' => 'ga:year',
+            ]
+        );
+        $previousResults = collect($previousAnalyticsData->getRows());
+
 
         return [
-            'previous' => $results->first()[1],
-            'result' => $results->last()[1],
+            'previous' => $previousResults->last()[1] ?? 0,
+            'result' => $currentResults->last()[1] ?? 0,
         ];
     }
 
@@ -110,7 +132,7 @@ class VisitorsMetric extends Value
      */
     public function cacheFor()
     {
-        // return now()->addMinutes(30);
+         return now()->addMinutes(30);
     }
 
     /**

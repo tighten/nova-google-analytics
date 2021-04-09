@@ -25,9 +25,8 @@
         "spatie/laravel-analytics": "^3.6"
     },
     "require-dev": {
-        "laravel/nova": "*",
-        "orchestra/testbench": "3.6.x-dev",
-        "phpunit/phpunit": "7.1"
+        "orchestra/testbench": "^6.13",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
@@ -49,6 +48,11 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true

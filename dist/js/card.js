@@ -584,7 +584,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.most-visited-pages-list[data-v-2952f5c8] {\n    height: 4.6rem;\n}\n", ""]);
+exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-2952f5c8] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-2952f5c8] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-2952f5c8]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-2952f5c8] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
 
 // exports
 
@@ -658,10 +658,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
-
     data: function data() {
         return {
             pages: [],
@@ -750,30 +773,53 @@ var render = function() {
     _vm._v(" "),
     !_vm.pages
       ? _c("div", { staticClass: "flex items-center" }, [
-          _c("p", { staticClass: "text-80 font-bold" }, [_vm._v("No Data")])
+          _c("p", { staticClass: "text-80 font-bold" }, [
+            _vm._v("\n            No Data\n        ")
+          ])
         ])
-      : _c(
-          "ul",
-          {
-            staticClass: "most-visited-pages-list mb-4 mt-2 overflow-y-scroll"
-          },
-          _vm._l(_vm.pages, function(page) {
-            return _c("li", [
-              _c(
-                "a",
-                {
-                  attrs: {
-                    href: "https://" + page.hostname + page.path,
-                    target: "_blank"
-                  }
-                },
-                [_vm._v(_vm._s(page.name))]
-              ),
-              _vm._v(": " + _vm._s(page.visits) + "\n        ")
-            ])
-          }),
-          0
-        )
+      : _c("div", { staticClass: "flex items-center" }, [
+          _c(
+            "ul",
+            { staticClass: "most-visited-pages-list w-full" },
+            _vm._l(_vm.pages, function(page) {
+              return _c("li", { staticClass: "page-item align-middle" }, [
+                _c("div", { staticClass: "flex justify-between py-2" }, [
+                  _c("div", [
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "flex-1 text-base text-primary no-underline",
+                        attrs: {
+                          href: "https://" + page.hostname + page.path,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                           " +
+                            _vm._s(page.name) +
+                            "\n                       "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("span", { staticClass: "number-badge font-bold" }, [
+                      _vm._v(
+                        "\n                           " +
+                          _vm._s(page.visits) +
+                          "\n                       "
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            }),
+            0
+          )
+        ])
   ])
 }
 var staticRenderFns = []
@@ -872,7 +918,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n.most-visited-pages-list[data-v-40521270] {\n    height: 10.4rem;\n}\n.card-panel[data-v-40521270] {\n    height: 255px;\n}\na[data-v-40521270] {\n    color: #00427A;\n    text-decoration: none;\n}\na[data-v-40521270]:hover {\n    color: #424D5C\n}\n", ""]);
+exports.push([module.i, "\n.card-panel[data-v-40521270] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-40521270] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-40521270] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-40521270]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-40521270] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
 
 // exports
 
@@ -915,10 +961,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
-
     data: function data() {
         return {
             list: [],
@@ -1007,30 +1074,53 @@ var render = function() {
     _vm._v(" "),
     !_vm.list
       ? _c("div", { staticClass: "flex items-center" }, [
-          _c("p", { staticClass: "text-80 font-bold" }, [_vm._v("No Data")])
+          _c("p", { staticClass: "text-80 font-bold" }, [
+            _vm._v("\n            No Data\n        ")
+          ])
         ])
-      : _c(
-          "ul",
-          {
-            staticClass:
-              "most-visited-pages-list mb-4 mt-2 pl-1 overflow-y-scroll"
-          },
-          _vm._l(_vm.list, function(referrer) {
-            return _c("li", { staticClass: "list-reset mx-3 my-1" }, [
-              _c("div", { staticClass: "text-base" }, [
-                _c(
-                  "a",
-                  {
-                    attrs: { href: "http://" + referrer.url, target: "_blank" }
-                  },
-                  [_vm._v(_vm._s(referrer.url))]
-                ),
-                _vm._v(" : " + _vm._s(referrer.pageViews) + "\n            ")
+      : _c("div", { staticClass: "flex items-center" }, [
+          _c(
+            "ul",
+            { staticClass: "most-visited-pages-list w-full" },
+            _vm._l(_vm.list, function(referrer) {
+              return _c("li", { staticClass: "page-item align-middle" }, [
+                _c("div", { staticClass: "flex justify-between py-2" }, [
+                  _c("div", [
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "flex-1 text-base text-primary no-underline",
+                        attrs: {
+                          href: "http://" + referrer.url,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(referrer.url) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("span", { staticClass: "number-badge font-bold" }, [
+                      _vm._v(
+                        "\n                           " +
+                          _vm._s(referrer.pageViews) +
+                          "\n                       "
+                      )
+                    ])
+                  ])
+                ])
               ])
-            ])
-          }),
-          0
-        )
+            }),
+            0
+          )
+        ])
   ])
 }
 var staticRenderFns = []
