@@ -25,6 +25,7 @@
         "spatie/laravel-analytics": "^3.6"
     },
     "require-dev": {
+        "laravel/nova": "*",
         "orchestra/testbench": "^6.13",
         "phpunit/phpunit": "^9.5"
     },
