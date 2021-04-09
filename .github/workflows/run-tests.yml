@@ -56,3 +56,14 @@ jobs:
           ANALYTICS_CLIENT_EMAIL_KEY: "${{ secrets.ANALYTICS_CLIENT_EMAIL_KEY }}"
           ANALYTICS_CLIENT_ID: "${{ secrets.ANALYTICS_CLIENT_ID }}"
           ANALYTICS_CLIENT_CERT_URL: "${{ secrets.ANALYTICS_CLIENT_CERT_URL }}"
+
+      - name: Send Slack notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          author_name: PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }}
+          fields: repo,message,commit,author,eventName,workflow
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}

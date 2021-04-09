@@ -1,4 +1,6 @@
-# Google Analytics integration with Nova
+![image](https://repository-images.githubusercontent.com/145988439/fe2db000-7296-11eb-85c9-0c4d22f99125)
+
+# Google Analytics Integration with Nova
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
@@ -40,6 +42,7 @@ public function cards()
         new \Tightenco\NovaGoogleAnalytics\PageViewsMetric,
         new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
         new \Tightenco\NovaGoogleAnalytics\MostVisitedPagesCard,
+        new \Tightenco\NovaGoogleAnalytics\ReferrersList,
     ];
 }
 ```
@@ -78,6 +81,10 @@ ANALYTICS_CLIENT_CERT_URL
 ```
 
 Add the `.env.testing` file in `.gitignore` so you can safely use the same analytics view ID to run the tests that you use for the card.
+
+## Contributing
+
+Please see [CONTRIBUTING](contributing.md) for details.
 
 ## License
 
