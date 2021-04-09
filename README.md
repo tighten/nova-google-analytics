@@ -2,6 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
+![Build Status](https://github.com/tighten/nova-google-analytics/actions/workflows/run-tests.yml/badge.svg)
 
 ![image](https://user-images.githubusercontent.com/151829/44671717-4a644600-a9f4-11e8-8505-b99e9b9ed65a.png)
 
@@ -64,7 +65,17 @@ First, copy your .env.example file to a new file called .env.testing:
 ```
 cp .env.example .env.testing
 ```
-Make sure, in that file, to define the `ANALYTICS_VIEW_ID` that you wish to use for testing.
+Make sure, in that file, to define the following variables to run all tests:
+
+```
+ANALYTICS_VIEW_ID
+ANALYTICS_PROJECT_ID
+ANALYTICS_PRIVATE_KEY_ID
+ANALYTICS_PRIVATE_KEY
+ANALYTICS_CLIENT_EMAIL_KEY
+ANALYTICS_CLIENT_ID
+ANALYTICS_CLIENT_CERT_URL
+```
 
 Add the `.env.testing` file in `.gitignore` so you can safely use the same analytics view ID to run the tests that you use for the card.
 
