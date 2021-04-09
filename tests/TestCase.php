@@ -25,19 +25,8 @@ abstract class TestCase extends Orchestra
         $app->useEnvironmentPath(__DIR__ . '/../../..');
         $app->useStoragePath(realpath(__DIR__ . '/../../../storage'));
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
-
-        Storage::fake('testing-storage');
-
-        Storage::disk('testing-storage')
-            ->put('test-credentials.json', json_encode($this->get_credentials()));
-
-        $credentials_json_file_path = Storage::disk('testing-storage')
-            ->getDriver()
-            ->getAdapter()
-            ->applyPathPrefix('test-credentials.json');
-
         $app->config->set('analytics.view_id', getenv('ANALYTICS_VIEW_ID'));
-        $app->config->set('analytics.service_account_credentials_json', storage_path() . '/app/analytics/service-account-credentials.json');
+        $app->config->set('analytics.service_account_credentials_json', $this->get_credentials());
 
         parent::getEnvironmentSetUp($app);
     }
