@@ -65,7 +65,17 @@ First, copy your .env.example file to a new file called .env.testing:
 ```
 cp .env.example .env.testing
 ```
-Make sure, in that file, to define the `ANALYTICS_VIEW_ID` that you wish to use for testing.
+Make sure, in that file, to define the following variables to run all tests:
+
+```
+ANALYTICS_VIEW_ID
+ANALYTICS_PROJECT_ID
+ANALYTICS_PRIVATE_KEY_ID
+ANALYTICS_PRIVATE_KEY
+ANALYTICS_CLIENT_EMAIL_KEY
+ANALYTICS_CLIENT_ID
+ANALYTICS_CLIENT_CERT_URL
+```
 
 Add the `.env.testing` file in `.gitignore` so you can safely use the same analytics view ID to run the tests that you use for the card.
 
