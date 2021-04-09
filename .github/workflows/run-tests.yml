@@ -50,3 +50,9 @@ jobs:
         run: vendor/bin/phpunit
         env:
           ANALYTICS_VIEW_ID: "${{ secrets.ANALYTICS_VIEW_ID }}"
+          ANALYTICS_PROJECT_ID: "${{ secrets.ANALYTICS_PROJECT_ID }}"
+          ANALYTICS_PRIVATE_KEY_ID: "${{ secrets.ANALYTICS_PRIVATE_KEY_ID }}"
+          ANALYTICS_PRIVATE_KEY: "${{ secrets.ANALYTICS_PRIVATE_KEY }}"
+          ANALYTICS_CLIENT_EMAIL_KEY: "${{ secrets.ANALYTICS_CLIENT_EMAIL_KEY }}"
+          ANALYTICS_CLIENT_ID: "${{ secrets.ANALYTICS_CLIENT_ID }}"
+          ANALYTICS_CLIENT_CERT_URL: "${{ secrets.ANALYTICS_CLIENT_CERT_URL }}"
