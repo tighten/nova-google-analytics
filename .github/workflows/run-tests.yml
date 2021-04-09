@@ -59,6 +59,7 @@ jobs:
 
       - name: Send Slack notification
         uses: 8398a7/action-slack@v3
+        if: failure()
         with:
           status: ${{ job.status }}
           author_name: PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }}
