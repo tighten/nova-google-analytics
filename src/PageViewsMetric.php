@@ -11,7 +11,9 @@ use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
-    public $name = 'Page Views';
+    public function name() {
+        return __('Page Views');
+    }
 
     /**
      * Calculate the value of the metric.
@@ -115,10 +117,10 @@ class PageViewsMetric extends Value
     public function ranges()
     {
         return [
-            1 => 'Today',
-            'MTD' => 'This month (to date)',
+            1 => __('Today'),
+            'MTD' => __('Month To Date'),
             // 60 => '60 Days',
-            'YTD' => 'This year (to date)',
+            'YTD' => __('Year To Date'),
             // 'MTD' => 'Month To Date',
             // 'QTD' => 'Quarter To Date',
             // 'YTD' => 'Year To Date',

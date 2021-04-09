@@ -720,7 +720,7 @@ var render = function() {
   return _c("card", { staticClass: "px-4 py-4" }, [
     _c("div", { staticClass: "flex mb-4" }, [
       _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
-        _vm._v("Most Visited Pages")
+        _vm._v(_vm._s(_vm.__("Most Visited Pages")))
       ]),
       _vm._v(" "),
       _c(
@@ -757,15 +757,27 @@ var render = function() {
         },
         [
           _c("option", { attrs: { value: "week" } }, [
-            _vm._v("\n                This Week\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Week")) +
+                "\n            "
+            )
           ]),
           _vm._v(" "),
           _c("option", { attrs: { value: "month" } }, [
-            _vm._v("\n                This Month\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Month")) +
+                "\n            "
+            )
           ]),
           _vm._v(" "),
           _c("option", { attrs: { value: "year" } }, [
-            _vm._v("\n                This Year\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Year")) +
+                "\n            "
+            )
           ])
         ]
       )
@@ -774,7 +786,7 @@ var render = function() {
     !_vm.pages
       ? _c("div", { staticClass: "flex items-center" }, [
           _c("p", { staticClass: "text-80 font-bold" }, [
-            _vm._v("\n            No Data\n        ")
+            _vm._v("\n            " + _vm._s(_vm.__("No Data")) + "\n        ")
           ])
         ])
       : _c("div", { staticClass: "flex items-center" }, [
@@ -1021,7 +1033,7 @@ var render = function() {
   return _c("card", { staticClass: "px-2 py-4" }, [
     _c("div", { staticClass: "flex mb-4" }, [
       _c("h3", { staticClass: "mx-3 text-base text-80 font-bold" }, [
-        _vm._v("Top Referrers")
+        _vm._v(_vm._s(_vm.__("Top Referrers")))
       ]),
       _vm._v(" "),
       _c(
@@ -1058,15 +1070,27 @@ var render = function() {
         },
         [
           _c("option", { attrs: { value: "week" } }, [
-            _vm._v("\n                This Week\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Week")) +
+                "\n            "
+            )
           ]),
           _vm._v(" "),
           _c("option", { attrs: { value: "month" } }, [
-            _vm._v("\n                This Month\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Month")) +
+                "\n            "
+            )
           ]),
           _vm._v(" "),
           _c("option", { attrs: { value: "year" } }, [
-            _vm._v("\n                This Year\n            ")
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Year")) +
+                "\n            "
+            )
           ])
         ]
       )
@@ -1075,7 +1099,7 @@ var render = function() {
     !_vm.list
       ? _c("div", { staticClass: "flex items-center" }, [
           _c("p", { staticClass: "text-80 font-bold" }, [
-            _vm._v("\n            No Data\n        ")
+            _vm._v("\n            " + _vm._s(_vm.__("No Data")) + "\n        ")
           ])
         ])
       : _c("div", { staticClass: "flex items-center" }, [
