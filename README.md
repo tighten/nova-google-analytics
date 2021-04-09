@@ -6,10 +6,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 ![Build Status](https://github.com/tighten/nova-google-analytics/actions/workflows/run-tests.yml/badge.svg)
 
-![image](https://user-images.githubusercontent.com/151829/44671717-4a644600-a9f4-11e8-8505-b99e9b9ed65a.png)
-
-<img src="https://user-images.githubusercontent.com/151829/44892455-defbcc00-acb2-11e8-9236-cbc04f1a29eb.png" width="465">
-
 JUST GETTING STARTED.
 
 Plans:
@@ -28,7 +24,20 @@ You can install the package in to a Laravel app that uses [Nova](https://nova.la
 composer require tightenco/nova-google-analytics
 ```
 
-Next up, you must register the card with Nova. This is typically done in the `cards` method of the `NovaServiceProvider`.
+For now, follow the directions on [Spatie's Laravel Google Analytics package](https://github.com/spatie/laravel-analytics) for getting your credentials, then put them here:
+
+```
+yourapp/storage/app/analytics/service-account-credentials.json
+```
+
+Also add this to the `.env` for your Nova app:
+
+```ini
+ANALYTICS_VIEW_ID=
+```
+
+## Usage
+You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `NovaServiceProvider`.
 
 ```php
 // in app/Providers/NovaServiceProvider.php
@@ -47,21 +56,12 @@ public function cards()
 }
 ```
 
-For now, follow the directions on [Spatie's Laravel Google Analytics package](https://github.com/spatie/laravel-analytics) for getting your credentials, then put them here:
+## Features
+#### View the Visitors and Pageview Metrics
+![image](https://user-images.githubusercontent.com/7070136/114229277-982fe180-9945-11eb-9c4c-ca9bc1554fca.png)
 
-```
-yourapp/storage/app/analytics/service-account-credentials.json
-```
-
-Also add this to the `.env` for your Nova app:
-
-```ini
-ANALYTICS_VIEW_ID=
-```
-
-### Security
-
-If you discover any security related issues, please email matt@tighten.co instead of using the issue tracker.
+#### View the lists of Most Visited Pages and Referrers
+![image](https://user-images.githubusercontent.com/7070136/114229279-982fe180-9945-11eb-9ee9-e38215ce5eae.png)
 
 ## Testing
 First, copy your .env.example file to a new file called .env.testing:
@@ -84,7 +84,21 @@ Add the `.env.testing` file in `.gitignore` so you can safely use the same analy
 
 ## Contributing
 
-Please see [CONTRIBUTING](contributing.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email matt@tighten.co instead of using the issue tracker.
+
+## Credits
+
+- [Matt Stauffer](https://github.com/mattstauffer)
+- [Kristin Collins](https://github.com/krievley)
+- [All Contributors](https://github.com/tighten/nova-google-analytics/graphs/contributors)
+
+## Support us
+
+Tighten is a web development firm that works in Laravel, Vue, and React. You can learn more about us on our [web site](https://tighten.co/)
 
 ## License
 
