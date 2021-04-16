@@ -39,8 +39,8 @@ class VisitorsMetric extends Value
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
         return [
-            'result' => $analyticsData->first()['pageViews'] ?? 0,
-            'previous' => $analyticsData->last()['pageViews'] ?? 0,
+            'result' => $analyticsData->first()['visitors'] ?? 0,
+            'previous' => $analyticsData->last()['visitors'] ?? 0,
         ];
     }
 
