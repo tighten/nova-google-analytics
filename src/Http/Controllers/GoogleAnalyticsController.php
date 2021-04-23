@@ -1,0 +1,71 @@
+<?php
+
+namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Tightenco\NovaGoogleAnalytics\File;
+use Illuminate\Routing\Controller;
+use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Period;
+
+class GoogleAnalyticsController extends Controller
+{
+    public function index(Request $request)
+    {
+        $limit = $request->has('limit')
+            ? $request->input('limit')
+            : 10;
+        $page = $request->has('page')
+            ? $request->input('page')
+            : 1;
+        $offset = ($page - 1) * $limit;
+        $duration = $request->has('duration')
+            ? $request->input('duration')
+            : 'week';
+
+        switch($duration) {
+            case 'week':
+                $period = Period::days(7);
+                break;
+            case 'month':
+                $period = Period::months(1);
+                break;
+            case 'year':
+                $period = Period::years(1);
+                break;
+            default:
+                $period = Period::days(7);
+                break;
+        }
+
+        if (Cache::has('analyticsData')) {
+            $analyticsData = Cache::get('analyticsData');
+        }
+        else {
+            $analyticsData = app(Analytics::class)->performQuery(
+                $period,
+                'ga:users',
+                [
+                    'metrics' => 'ga:pageviews',
+                    'dimensions' => 'ga:pageTitle,ga:pagePath',
+                    'sort' => '-ga:pageviews',
+                ]
+            );
+            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
+        }
+
+        $headers = ['name', 'path', 'visits'];
+
+        $pages = array_map(
+            function ($row) use ($headers) {
+                return array_combine($headers, $row);
+            },
+            array_slice($analyticsData->rows, $offset, $limit) ?? []);
+
+        return [
+            'pages' => $pages,
+            'hasMore' => ($offset+$limit) < count($analyticsData->rows)
+        ];
+    }
+}

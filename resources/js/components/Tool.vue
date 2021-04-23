@@ -1,26 +1,111 @@
 <template>
-    <div>
-        <heading class="mb-6">{{ title }}</heading>
+  <loading-view :loading="initialLoading">
+    <heading class="mb-6">{{ title }}</heading>
+    <loading-card :loading="loading" class="card relative">
+      <table v-if="pages.length > 0"
+             class="table w-full table-default"
+             cellpadding="0"
+             cellspacing="0">
+        <thead>
+          <th class="text-left">
+            <span class="inline-flex items-center">
+              {{ __('Name') }}
+            </span>
+          </th>
 
-        <card class="bg-90 flex flex-col items-center justify-center" style="min-height: 300px">
-            <svg class="spin fill-80 mb-6" width="69" height="72" viewBox="0 0 23 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.12 20.455A12.184 12.184 0 0 1 11.5 24a12.18 12.18 0 0 1-9.333-4.319c4.772 3.933 11.88 3.687 16.36-.738a7.571 7.571 0 0 0 0-10.8c-3.018-2.982-7.912-2.982-10.931 0a3.245 3.245 0 0 0 0 4.628 3.342 3.342 0 0 0 4.685 0 1.114 1.114 0 0 1 1.561 0 1.082 1.082 0 0 1 0 1.543 5.57 5.57 0 0 1-7.808 0 5.408 5.408 0 0 1 0-7.714c3.881-3.834 10.174-3.834 14.055 0a9.734 9.734 0 0 1 .03 13.855zM4.472 5.057a7.571 7.571 0 0 0 0 10.8c3.018 2.982 7.912 2.982 10.931 0a3.245 3.245 0 0 0 0-4.628 3.342 3.342 0 0 0-4.685 0 1.114 1.114 0 0 1-1.561 0 1.082 1.082 0 0 1 0-1.543 5.57 5.57 0 0 1 7.808 0 5.408 5.408 0 0 1 0 7.714c-3.881 3.834-10.174 3.834-14.055 0a9.734 9.734 0 0 1-.015-13.87C5.096 1.35 8.138 0 11.5 0c3.75 0 7.105 1.68 9.333 4.319C16.06.386 8.953.632 4.473 5.057z" fill-rule="evenodd"/></svg>
+          <th class="text-left">
+            <span class="inline-flex items-center">
+              {{ __('Path') }}
+            </span>
+          </th>
+          <th class="text-left">
+            <span class="inline-flex items-center">
+              {{ __('Visits') }}
+            </span>
+          </th>
+        </thead>
+        <tbody>
+          <tr v-for="page in pages">
+            <td>{{ page.name }}</td>
+            <td>{{ page.path }}</td>
+            <td>{{ page.visits }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-            <h1 class="text-white text-4xl text-90 font-light mb-6">
-                We're in a black hole.
-            </h1>
-
-            <p class="text-white-50% text-lg">
-                You can edit this tool's component at:
-            </p>
-        </card>
-    </div>
+      <pagination-links
+          :data="pages"
+          :hasMore="hasMore"
+          :hasPrevious="hasPrevious"
+          @previous="previousPage"
+          @next="nextPage"
+      ></pagination-links>
+    </loading-card>
+  </loading-view>
 </template>
 
 <script>
+import PaginationLinks from "./PaginationLinks.vue";
+
     export default {
-        mounted() {
-            //
+      components: {
+        'pagination-links': PaginationLinks
+      },
+      data: function () {
+        return {
+          title: 'Google Analytics',
+          pages: [],
+          duration: 'week',
+          initialLoading: true,
+          loading: true,
+          hasMore: true,
+          page: 1,
+        }
+      },
+      metaInfo() {
+        return {
+          title: this.title,
+        }
+      },
+      methods: {
+        updateDuration(event) {
+          this.duration = event.target.value;
+          this.getPages();
         },
+
+        getPages() {
+          Nova.request()
+              .get('/nova-vendor/nova-google-analytics/pages?duration='+this.duration+'&page='+this.page)
+              .then(response => {
+                this.pages = response.data.pages;
+                this.hasMore = response.data.hasMore;
+                this.loading = false;
+              });
+        },
+
+        nextPage() {
+          this.loading = true
+          this.page++
+          this.getPages()
+        },
+
+        previousPage() {
+          this.loading = true
+          if (this.hasPrevious) {
+            this.page--
+          }
+          this.getPages()
+        }
+      },
+      computed: {
+        hasPrevious() {
+          return this.page > 1
+        }
+      },
+      mounted() {
+        this.getPages();
+        this.initialLoading = false;
+      },
     }
 </script>
 
