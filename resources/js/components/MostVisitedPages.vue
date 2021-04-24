@@ -1,19 +1,19 @@
 <template>
     <card class="px-4 py-4">
         <div class="flex mb-4">
-            <h3 class="mr-3 text-base text-80 font-bold">Most Visited Pages</h3>
+            <h3 class="mr-3 text-base text-80 font-bold">{{ __('Most Visited Pages') }}</h3>
             <select class="select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline"
                     v-model="duration"
                     @change="updateDuration"
             >
                 <option value="week">
-                    This Week
+                    {{ __('This Week') }}
                 </option>
                 <option value="month">
-                    This Month
+                    {{ __('This Month') }}
                 </option>
                 <option value="year">
-                    This Year
+                    {{ __('This Year') }}
                 </option>
             </select>
         </div>
@@ -21,7 +21,7 @@
              class="flex items-center"
         >
             <p class="text-80 font-bold">
-                No Data
+                {{ __('No Data') }}
             </p>
         </div>
         <div v-else
