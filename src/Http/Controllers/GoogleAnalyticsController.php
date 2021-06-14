@@ -63,7 +63,7 @@ class GoogleAnalyticsController extends Controller
                 $period,
                 'ga:users',
                 [
-                    'metrics' => 'ga:pageviews',
+                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage',
                     'dimensions' => 'ga:pageTitle,ga:pagePath',
                     'sort' => ($sortDirection == 'desc' ? '-' : '').$sortBy,
                     'filters' => $filter,
@@ -72,7 +72,7 @@ class GoogleAnalyticsController extends Controller
 //            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
 //        }
 
-        $headers = ['name', 'path', 'visits'];
+        $headers = ['name', 'path', 'visits', 'unique_visits', 'avg_page_time'];
 
         $pages = array_map(
             function ($row) use ($headers) {

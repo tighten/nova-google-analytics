@@ -64,12 +64,40 @@
               </span>
             </sortable-icon>
           </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:uniquePageviews"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Unique Visits') }}
+              </span>
+            </sortable-icon>
+          </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:avgTimeOnPage"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Avg. Time on Page') }}
+              </span>
+            </sortable-icon>
+          </th>
         </thead>
         <tbody>
           <tr v-for="page in pages">
             <td>{{ page.name }}</td>
             <td>{{ page.path }}</td>
             <td>{{ page.visits }}</td>
+            <td>{{ page.unique_visits }}</td>
+            <td>{{ getFormattedTime(page.avg_page_time) }}</td>
           </tr>
         </tbody>
       </table>
@@ -89,10 +117,12 @@
 
 <script>
 import PaginationLinks from "./PaginationLinks.vue";
+import moment from 'moment';
 
     export default {
       components: {
-        'pagination-links': PaginationLinks
+        'pagination-links': PaginationLinks,
+        'moment': moment
       },
       data: function () {
         return {
@@ -169,6 +199,10 @@ import PaginationLinks from "./PaginationLinks.vue";
           this.sortDirection = 'desc'
           this.getPages()
         },
+
+        getFormattedTime(timeString) {
+          return moment.utc(moment.duration(timeString, 'seconds').asMilliseconds()).format('HH:mm:ss')
+        }
       },
       computed: {
         hasPrevious() {
