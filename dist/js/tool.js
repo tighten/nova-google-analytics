@@ -632,7 +632,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -645,6 +645,23 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -706,7 +723,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       initialLoading: true,
       loading: true,
       hasMore: true,
-      page: 1
+      page: 1,
+      search: ''
     };
   },
   metaInfo: function metaInfo() {
@@ -723,7 +741,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getPages: function getPages() {
       var _this = this;
 
-      Nova.request().get('/nova-vendor/nova-google-analytics/pages?duration=' + this.duration + '&page=' + this.page).then(function (response) {
+      Nova.request().get('/nova-vendor/nova-google-analytics/pages?duration=' + this.duration + '&page=' + this.page + '&s=' + this.search).then(function (response) {
         _this.pages = response.data.pages;
         _this.hasMore = response.data.hasMore;
         _this.loading = false;
@@ -740,6 +758,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.page--;
       }
       this.getPages();
+    },
+    performSearch: function performSearch(event) {
+      if (event.which != 9) {
+        this.page = 1;
+        this.getPages();
+      }
     }
   },
   computed: {
@@ -941,6 +965,54 @@ var render = function() {
     { attrs: { loading: _vm.initialLoading } },
     [
       _c("heading", { staticClass: "mb-6" }, [_vm._v(_vm._s(_vm.title))]),
+      _vm._v(" "),
+      _c("div", [
+        _c(
+          "div",
+          { staticClass: "relative h-9 flex-no-shrink mb-6" },
+          [
+            _c("icon", {
+              staticClass: "absolute search-icon-center ml-3 text-70",
+              attrs: { type: "search" }
+            }),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
+                }
+              ],
+              staticClass:
+                "appearance-none form-search w-search pl-search shadow",
+              attrs: {
+                "data-testid": "search-input",
+                dusk: "search",
+                placeholder: _vm.__("Search"),
+                type: "search",
+                spellcheck: "false"
+              },
+              domProps: { value: _vm.search },
+              on: {
+                keydown: function($event) {
+                  $event.stopPropagation()
+                  return _vm.performSearch($event)
+                },
+                search: _vm.performSearch,
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
+                }
+              }
+            })
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c(
         "loading-card",

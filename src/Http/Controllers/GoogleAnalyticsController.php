@@ -23,6 +23,16 @@ class GoogleAnalyticsController extends Controller
         $duration = $request->has('duration')
             ? $request->input('duration')
             : 'week';
+        $searchTerm = $request->has('s')
+            ? $request->input('s')
+            : null;
+
+        if($searchTerm != null) {
+            $filter = 'ga:pageTitle=@'.$searchTerm.',ga:pagePath=@'.$searchTerm;
+        }
+        else {
+            $filter = null;
+        }
 
         switch($duration) {
             case 'week':
@@ -39,10 +49,10 @@ class GoogleAnalyticsController extends Controller
                 break;
         }
 
-        if (Cache::has('analyticsData')) {
-            $analyticsData = Cache::get('analyticsData');
-        }
-        else {
+//        if (Cache::has('analyticsData')) {
+//            $analyticsData = Cache::get('analyticsData');
+//        }
+//        else {
             $analyticsData = app(Analytics::class)->performQuery(
                 $period,
                 'ga:users',
@@ -50,10 +60,11 @@ class GoogleAnalyticsController extends Controller
                     'metrics' => 'ga:pageviews',
                     'dimensions' => 'ga:pageTitle,ga:pagePath',
                     'sort' => '-ga:pageviews',
+                    'filters' => $filter,
                 ]
             );
-            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
-        }
+//            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
+//        }
 
         $headers = ['name', 'path', 'visits'];
 
