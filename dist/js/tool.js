@@ -632,7 +632,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -645,6 +645,30 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -727,7 +751,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       hasMore: true,
       page: 1,
       totalPages: 1,
-      search: ''
+      search: '',
+      sortBy: 'ga:pageviews',
+      sortDirection: 'desc'
     };
   },
   metaInfo: function metaInfo() {
@@ -744,7 +770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     getPages: function getPages() {
       var _this = this;
 
-      Nova.request().get('/nova-vendor/nova-google-analytics/pages?duration=' + this.duration + '&page=' + this.page + '&s=' + this.search).then(function (response) {
+      Nova.request().get('/nova-vendor/nova-google-analytics/pages?duration=' + this.duration + '&page=' + this.page + '&s=' + this.search + '&sortBy=' + this.sortBy + '&sortDirection=' + this.sortDirection).then(function (response) {
         _this.pages = response.data.pages;
         _this.totalPages = response.data.totalPages;
         _this.hasMore = response.data.hasMore;
@@ -768,6 +794,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.page = 1;
         this.getPages();
       }
+    },
+    sortByChange: function sortByChange(event) {
+      var direction = this.sortDirection == 'asc' ? 'desc' : 'asc';
+
+      if (this.sortBy != event.key) {
+        direction = 'asc';
+      }
+
+      this.sortBy = event.key;
+      this.sortDirection = direction;
+      this.getPages();
+    },
+    resetOrderBy: function resetOrderBy(event) {
+      this.sortBy = 'ga:pageviews';
+      this.sortDirection = 'desc';
+      this.getPages();
     }
   },
   computed: {
@@ -1054,35 +1096,110 @@ var render = function() {
                 },
                 [
                   _c("thead", [
-                    _c("th", { staticClass: "text-left" }, [
-                      _c("span", { staticClass: "inline-flex items-center" }, [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(_vm.__("Name")) +
-                            "\n          "
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:pageTitle",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Name")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
                         )
-                      ])
-                    ]),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("th", { staticClass: "text-left" }, [
-                      _c("span", { staticClass: "inline-flex items-center" }, [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(_vm.__("Path")) +
-                            "\n          "
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Paths",
+                              "uri-key": "ga:pagePath",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Path")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
                         )
-                      ])
-                    ]),
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
-                    _c("th", { staticClass: "text-left" }, [
-                      _c("span", { staticClass: "inline-flex items-center" }, [
-                        _vm._v(
-                          "\n            " +
-                            _vm._s(_vm.__("Visits")) +
-                            "\n          "
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:pageviews",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Visits")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
                         )
-                      ])
-                    ])
+                      ],
+                      1
+                    )
                   ]),
                   _vm._v(" "),
                   _c(

@@ -26,6 +26,12 @@ class GoogleAnalyticsController extends Controller
         $searchTerm = $request->has('s')
             ? $request->input('s')
             : null;
+        $sortBy = $request->has('sortBy')
+            ? $request->input('sortBy')
+            : 'ga:pageviews';
+        $sortDirection = $request->has('sortDirection')
+            ? $request->input('sortDirection')
+            : 'desc';
 
         if($searchTerm != null) {
             $filter = 'ga:pageTitle=@'.$searchTerm.',ga:pagePath=@'.$searchTerm;
@@ -59,7 +65,7 @@ class GoogleAnalyticsController extends Controller
                 [
                     'metrics' => 'ga:pageviews',
                     'dimensions' => 'ga:pageTitle,ga:pagePath',
-                    'sort' => '-ga:pageviews',
+                    'sort' => ($sortDirection == 'desc' ? '-' : '').$sortBy,
                     'filters' => $filter,
                 ]
             );

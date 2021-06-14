@@ -25,20 +25,44 @@
              cellspacing="0">
         <thead>
           <th class="text-left">
-            <span class="inline-flex items-center">
-              {{ __('Name') }}
-            </span>
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:pageTitle"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Name') }}
+              </span>
+            </sortable-icon>
           </th>
 
           <th class="text-left">
-            <span class="inline-flex items-center">
-              {{ __('Path') }}
-            </span>
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Paths"
+                uri-key="ga:pagePath"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Path') }}
+              </span>
+            </sortable-icon>
           </th>
           <th class="text-left">
-            <span class="inline-flex items-center">
-              {{ __('Visits') }}
-            </span>
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:pageviews"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Visits') }}
+              </span>
+            </sortable-icon>
           </th>
         </thead>
         <tbody>
@@ -81,6 +105,8 @@ import PaginationLinks from "./PaginationLinks.vue";
           page: 1,
           totalPages: 1,
           search: '',
+          sortBy: 'ga:pageviews',
+          sortDirection: 'desc',
         }
       },
       metaInfo() {
@@ -96,7 +122,7 @@ import PaginationLinks from "./PaginationLinks.vue";
 
         getPages() {
           Nova.request()
-              .get(`/nova-vendor/nova-google-analytics/pages?duration=${this.duration}&page=${this.page}&s=${this.search}`)
+              .get(`/nova-vendor/nova-google-analytics/pages?duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
               .then(response => {
                 this.pages = response.data.pages;
                 this.totalPages = response.data.totalPages;
@@ -124,7 +150,25 @@ import PaginationLinks from "./PaginationLinks.vue";
             this.page = 1
             this.getPages()
           }
-        }
+        },
+
+        sortByChange(event) {
+          let direction = this.sortDirection == 'asc' ? 'desc' : 'asc'
+
+          if (this.sortBy != event.key) {
+            direction = 'asc'
+          }
+
+          this.sortBy = event.key
+          this.sortDirection = direction
+          this.getPages()
+        },
+
+        resetOrderBy(event) {
+          this.sortBy = 'ga:pageviews'
+          this.sortDirection = 'desc'
+          this.getPages()
+        },
       },
       computed: {
         hasPrevious() {
