@@ -55,24 +55,24 @@ class GoogleAnalyticsController extends Controller
                 break;
         }
 
-//        if (Cache::has('analyticsData')) {
-//            $analyticsData = Cache::get('analyticsData');
-//        }
-//        else {
+        if (Cache::has('analyticsData')) {
+            $analyticsData = Cache::get('analyticsData');
+        }
+        else {
             $analyticsData = app(Analytics::class)->performQuery(
                 $period,
                 'ga:users',
                 [
-                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage',
+                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage,ga:entrances,ga:bounceRate,ga:exitRate,ga:pageValue',
                     'dimensions' => 'ga:pageTitle,ga:pagePath',
                     'sort' => ($sortDirection == 'desc' ? '-' : '').$sortBy,
                     'filters' => $filter,
                 ]
             );
-//            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
-//        }
+            Cache::put('analyticsData', $analyticsData, now()->addMinutes(30));
+        }
 
-        $headers = ['name', 'path', 'visits', 'unique_visits', 'avg_page_time'];
+        $headers = ['name', 'path', 'visits', 'unique_visits', 'avg_page_time', 'entrances', 'bounce_rate', 'exit_rate', 'page_value'];
 
         $pages = array_map(
             function ($row) use ($headers) {

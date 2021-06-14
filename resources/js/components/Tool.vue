@@ -90,6 +90,58 @@
               </span>
             </sortable-icon>
           </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:entrances"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Entrances') }}
+              </span>
+            </sortable-icon>
+          </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:bounceRate"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Bounce Rate') }}
+              </span>
+            </sortable-icon>
+          </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:exitRate"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Exit Rate') }}
+              </span>
+            </sortable-icon>
+          </th>
+          <th class="text-left">
+            <sortable-icon
+                @sort="sortByChange"
+                @reset="resetOrderBy"
+                resource-name="Pages"
+                uri-key="ga:pageValue"
+                :direction="direction"
+            >
+              <span class="inline-flex items-center">
+                {{ __('Page Value') }}
+              </span>
+            </sortable-icon>
+          </th>
         </thead>
         <tbody>
           <tr v-for="page in pages">
@@ -98,6 +150,10 @@
             <td>{{ page.visits }}</td>
             <td>{{ page.unique_visits }}</td>
             <td>{{ getFormattedTime(page.avg_page_time) }}</td>
+            <td>{{ page.entrances }}</td>
+            <td>{{ getFormattedPercent(page.bounce_rate) }}</td>
+            <td>{{ getFormattedPercent(page.exit_rate) }}</td>
+            <td>{{ getFormattedCurrency(page.page_value) }}</td>
           </tr>
         </tbody>
       </table>
@@ -202,6 +258,15 @@ import moment from 'moment';
 
         getFormattedTime(timeString) {
           return moment.utc(moment.duration(timeString, 'seconds').asMilliseconds()).format('HH:mm:ss')
+        },
+
+        getFormattedPercent(percentString) {
+          return parseFloat(percentString).toFixed(2)+'%'
+        },
+
+        getFormattedCurrency(percentString) {
+          //return '$'+parseFloat(percentString).toFixed(2)
+          return new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(percentString)
         }
       },
       computed: {

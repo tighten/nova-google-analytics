@@ -632,7 +632,7 @@ exports = module.exports = __webpack_require__(0)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -647,6 +647,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_moment__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -845,6 +901,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     getFormattedTime: function getFormattedTime(timeString) {
       return __WEBPACK_IMPORTED_MODULE_1_moment___default.a.utc(__WEBPACK_IMPORTED_MODULE_1_moment___default.a.duration(timeString, 'seconds').asMilliseconds()).format('HH:mm:ss');
+    },
+    getFormattedPercent: function getFormattedPercent(percentString) {
+      return parseFloat(percentString).toFixed(2) + '%';
+    },
+    getFormattedCurrency: function getFormattedCurrency(percentString) {
+      //return '$'+parseFloat(percentString).toFixed(2)
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(percentString);
     }
   },
   computed: {
@@ -1106,6 +1169,146 @@ var render = function() {
                         )
                       ],
                       1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:entrances",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Entrances")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:bounceRate",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Bounce Rate")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:exitRate",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Exit Rate")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "th",
+                      { staticClass: "text-left" },
+                      [
+                        _c(
+                          "sortable-icon",
+                          {
+                            attrs: {
+                              "resource-name": "Pages",
+                              "uri-key": "ga:pageValue",
+                              direction: _vm.direction
+                            },
+                            on: {
+                              sort: _vm.sortByChange,
+                              reset: _vm.resetOrderBy
+                            }
+                          },
+                          [
+                            _c(
+                              "span",
+                              { staticClass: "inline-flex items-center" },
+                              [
+                                _vm._v(
+                                  "\n              " +
+                                    _vm._s(_vm.__("Page Value")) +
+                                    "\n            "
+                                )
+                              ]
+                            )
+                          ]
+                        )
+                      ],
+                      1
                     )
                   ]),
                   _vm._v(" "),
@@ -1124,6 +1327,26 @@ var render = function() {
                         _c("td", [
                           _vm._v(
                             _vm._s(_vm.getFormattedTime(page.avg_page_time))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(page.entrances))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(_vm.getFormattedPercent(page.bounce_rate))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(_vm.getFormattedPercent(page.exit_rate))
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _vm._v(
+                            _vm._s(_vm.getFormattedCurrency(page.page_value))
                           )
                         ])
                       ])
