@@ -632,7 +632,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -645,6 +645,8 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__PaginationLinks_vue__);
+//
+//
 //
 //
 //
@@ -724,6 +726,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       loading: true,
       hasMore: true,
       page: 1,
+      totalPages: 1,
       search: ''
     };
   },
@@ -743,6 +746,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       Nova.request().get('/nova-vendor/nova-google-analytics/pages?duration=' + this.duration + '&page=' + this.page + '&s=' + this.search).then(function (response) {
         _this.pages = response.data.pages;
+        _this.totalPages = response.data.totalPages;
         _this.hasMore = response.data.hasMore;
         _this.loading = false;
       });
@@ -866,9 +870,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data', 'hasMore', 'hasPrevious'],
+  props: ['data', 'hasMore', 'hasPrevious', 'currentPage', 'totalPages'],
   methods: {
     /**
      * Select the previous page.
@@ -896,48 +907,64 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "bg-20 rounded-b" }, [
     _vm.data.length > 0
-      ? _c("nav", { staticClass: "flex" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-link py-3 px-4",
-              class: {
-                "text-primary dim": _vm.hasPrevious,
-                "text-80 opacity-50 cursor-not-allowed": !_vm.hasPrevious
-              },
-              attrs: {
-                disabled: !_vm.hasPrevious,
-                rel: "prev",
-                dusk: "previous"
-              },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.previousPage()
+      ? _c("nav", { staticClass: "flex justify-between items-center" }, [
+          _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-link py-3 px-4",
+                class: {
+                  "text-primary dim": _vm.hasPrevious,
+                  "text-80 opacity-50 cursor-not-allowed": !_vm.hasPrevious
+                },
+                attrs: {
+                  disabled: !_vm.hasPrevious,
+                  rel: "prev",
+                  dusk: "previous"
+                },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.previousPage()
+                  }
                 }
-              }
-            },
-            [_vm._v("\n      " + _vm._s(_vm.__("Previous")) + "\n    ")]
-          ),
+              },
+              [_vm._v("\n        " + _vm._s(_vm.__("Previous")) + "\n      ")]
+            )
+          ]),
           _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "ml-auto btn btn-link py-3 px-4",
-              class: {
-                "text-primary dim": _vm.hasMore,
-                "text-80 opacity-50 cursor-not-allowed": !_vm.hasMore
-              },
-              attrs: { disabled: !_vm.hasMore, rel: "next", dusk: "next" },
-              on: {
-                click: function($event) {
-                  $event.preventDefault()
-                  return _vm.nextPage()
+          _vm.currentPage && _vm.totalPages
+            ? _c("div", { staticClass: "text-sm text-80 px-4" }, [
+                _vm._v(
+                  _vm._s(_vm.currentPage) +
+                    " " +
+                    _vm._s(_vm.__("of")) +
+                    " " +
+                    _vm._s(_vm.totalPages)
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "ml-auto btn btn-link py-3 px-4",
+                class: {
+                  "text-primary dim": _vm.hasMore,
+                  "text-80 opacity-50 cursor-not-allowed": !_vm.hasMore
+                },
+                attrs: { disabled: !_vm.hasMore, rel: "next", dusk: "next" },
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.nextPage()
+                  }
                 }
-              }
-            },
-            [_vm._v("\n      " + _vm._s(_vm.__("Next")) + "\n    ")]
-          )
+              },
+              [_vm._v("\n        " + _vm._s(_vm.__("Next")) + "\n      ")]
+            )
+          ])
         ])
       : _vm._e()
   ])
@@ -1079,7 +1106,9 @@ var render = function() {
             attrs: {
               data: _vm.pages,
               hasMore: _vm.hasMore,
-              hasPrevious: _vm.hasPrevious
+              hasPrevious: _vm.hasPrevious,
+              "current-page": _vm.page,
+              "total-pages": _vm.totalPages
             },
             on: { previous: _vm.previousPage, next: _vm.nextPage }
           })

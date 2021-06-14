@@ -54,6 +54,8 @@
           :data="pages"
           :hasMore="hasMore"
           :hasPrevious="hasPrevious"
+          :current-page="page"
+          :total-pages="totalPages"
           @previous="previousPage"
           @next="nextPage"
       ></pagination-links>
@@ -77,6 +79,7 @@ import PaginationLinks from "./PaginationLinks.vue";
           loading: true,
           hasMore: true,
           page: 1,
+          totalPages: 1,
           search: '',
         }
       },
@@ -96,6 +99,7 @@ import PaginationLinks from "./PaginationLinks.vue";
               .get(`/nova-vendor/nova-google-analytics/pages?duration=${this.duration}&page=${this.page}&s=${this.search}`)
               .then(response => {
                 this.pages = response.data.pages;
+                this.totalPages = response.data.totalPages;
                 this.hasMore = response.data.hasMore;
                 this.loading = false;
               });

@@ -76,6 +76,7 @@ class GoogleAnalyticsController extends Controller
 
         return [
             'pages' => $pages,
+            'totalPages' => ceil(count($analyticsData->rows)/$limit),
             'hasMore' => ($offset+$limit) < count($analyticsData->rows)
         ];
     }
