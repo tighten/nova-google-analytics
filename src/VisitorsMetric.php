@@ -11,7 +11,9 @@ use Carbon\Carbon;
 
 class VisitorsMetric extends Value
 {
-    public $name = 'Visitors';
+    public function name() {
+        return __('Visitors');
+    }
 
     /**
      * Calculate the value of the metric.
@@ -39,8 +41,8 @@ class VisitorsMetric extends Value
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
 
         return [
-            'result' => $analyticsData->first()['visitors'] ?? 0,
-            'previous' => $analyticsData->last()['visitors'] ?? 0,
+            'result' => $analyticsData->last()['visitors'] ?? 0,
+            'previous' => $analyticsData->first()['visitors'] ?? 0,
         ];
     }
 
@@ -115,13 +117,13 @@ class VisitorsMetric extends Value
     public function ranges()
     {
         return [
-            1 => 'Today',
+            1 => __('Today'),
             // 30 => '30 Days',
             // 60 => '60 Days',
             // 365 => '365 Days',
-            'MTD' => 'This month (to date)',
+            'MTD' => __('Month To Date'),
             // 'QTD' => 'Quarter To Date',
-            'YTD' => 'This year (to date)',
+            'YTD' => __('Year To Date'),
         ];
     }
 
