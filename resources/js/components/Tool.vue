@@ -1,7 +1,7 @@
 <template>
   <loading-view :loading="initialLoading">
     <heading class="mb-6">{{ title }}</heading>
-    <div>
+    <div class="flex">
       <div class="relative h-9 flex-no-shrink mb-6">
         <icon type="search" class="absolute search-icon-center ml-3 text-70" />
 
@@ -19,11 +19,21 @@
       </div>
     </div>
     <loading-card :loading="loading" class="card relative">
-      <table v-if="pages.length > 0"
-             class="table w-full table-default"
-             cellpadding="0"
-             cellspacing="0">
-        <thead>
+      <div>
+        <div class="flex items-center py-3 border-b border-50">
+          <div class="flex items-center ml-auto px-3">
+            <filter-menu :viaResource="false"
+                         :perPage="limit"
+                         :perPageOptions="[10, 25, 50, 100]"
+                         @per-page-changed="updateLimit"
+            ></filter-menu>
+          </div>
+        </div>
+        <table v-if="pages.length > 0"
+               class="table w-full table-default"
+               cellpadding="0"
+               cellspacing="0">
+          <thead>
           <th class="text-left">
             <sortable-icon
                 @sort="sortByChange"
@@ -142,8 +152,8 @@
               </span>
             </sortable-icon>
           </th>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           <tr v-for="page in pages">
             <td>{{ page.name }}</td>
             <td>{{ page.path }}</td>
@@ -155,8 +165,9 @@
             <td>{{ getFormattedPercent(page.exit_rate) }}</td>
             <td>{{ getFormattedCurrency(page.page_value) }}</td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
 
       <pagination-links
           :data="pages"
@@ -174,11 +185,13 @@
 <script>
 import PaginationLinks from "./PaginationLinks.vue";
 import moment from 'moment';
+import FilterMenu from "./FilterMenu";
 
     export default {
       components: {
         'pagination-links': PaginationLinks,
-        'moment': moment
+        'moment': moment,
+        'filter-menu': FilterMenu
       },
       data: function () {
         return {
@@ -193,6 +206,7 @@ import moment from 'moment';
           search: '',
           sortBy: 'ga:pageviews',
           sortDirection: 'desc',
+          limit: 10,
         }
       },
       metaInfo() {
@@ -206,9 +220,15 @@ import moment from 'moment';
           this.getPages();
         },
 
+        updateLimit(value) {
+          console.log("update limit called")
+          this.limit = value;
+          this.getPages();
+        },
+
         getPages() {
           Nova.request()
-              .get(`/nova-vendor/nova-google-analytics/pages?duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
+              .get(`/nova-vendor/nova-google-analytics/pages?limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
               .then(response => {
                 this.pages = response.data.pages;
                 this.totalPages = response.data.totalPages;
