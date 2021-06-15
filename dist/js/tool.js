@@ -60,18 +60,20 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 153);
 /******/ })
 /************************************************************************/
-/******/ ([
-/* 0 */
+/******/ ({
+
+/***/ 153:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(1);
+module.exports = __webpack_require__(154);
 
 
 /***/ }),
-/* 1 */
+
+/***/ 154:
 /***/ (function(module, exports) {
 
 Nova.booting(function (Vue, router) {
@@ -85,4 +87,5 @@ Nova.booting(function (Vue, router) {
 });
 
 /***/ })
-/******/ ]);
+
+/******/ });
