@@ -486,7 +486,8 @@ module.exports = function normalizeComponent (
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(4);
+__webpack_require__(4);
+module.exports = __webpack_require__(16);
 
 
 /***/ }),
@@ -705,6 +706,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
+        console.log("most visited pages mounted");
         this.getPages();
     }
 });
@@ -1156,6 +1158,12 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-40521270", module.exports)
   }
 }
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
