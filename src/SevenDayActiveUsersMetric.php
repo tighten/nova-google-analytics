@@ -10,10 +10,10 @@ use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 use Carbon\Carbon;
 
-class OneDayActiveUsersMetric extends Trend
+class SevenDayActiveUsersMetric extends Trend
 {
     public function name() {
-        return __('1 Day Active Users');
+        return __('7 Day Active Users');
     }
 
     /**
@@ -44,7 +44,7 @@ class OneDayActiveUsersMetric extends Trend
                 Period::days(5),
                 'ga:1dayUsers',
                 [
-                    'metrics' => 'ga:1dayUsers',
+                    'metrics' => 'ga:7dayUsers',
                     'dimensions' => 'ga:date',
                 ]
             );
@@ -67,7 +67,7 @@ class OneDayActiveUsersMetric extends Trend
                 Period::days(10),
                 'ga:1dayUsers',
                 [
-                    'metrics' => 'ga:1dayUsers',
+                    'metrics' => 'ga:7dayUsers',
                     'dimensions' => 'ga:date',
                 ]
             );
@@ -90,7 +90,7 @@ class OneDayActiveUsersMetric extends Trend
                 Period::days(15),
                 'ga:1dayUsers',
                 [
-                    'metrics' => 'ga:1dayUsers',
+                    'metrics' => 'ga:7dayUsers',
                     'dimensions' => 'ga:date',
                 ]
             );
@@ -137,6 +137,6 @@ class OneDayActiveUsersMetric extends Trend
      */
     public function uriKey()
     {
-        return 'one-day-active-users';
+        return 'seven-day-active-users';
     }
 }
