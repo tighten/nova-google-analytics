@@ -12,7 +12,8 @@ use Carbon\Carbon;
 
 class FourteenDayActiveUsersMetric extends Trend
 {
-    public function name() {
+    public function name()
+    {
         return __('14 Day Active Users');
     }
 
