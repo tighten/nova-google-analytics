@@ -56,6 +56,8 @@ public function cards()
         new \Tightenco\NovaGoogleAnalytics\SevenDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\FourteenDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\TwentyEightDayActiveUsersMetric,
+        new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
+        new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
     ];
 }
 ```
@@ -67,6 +69,9 @@ public function cards()
 #### View the Active Users Metrics
 ![image](https://user-images.githubusercontent.com/7070136/122437531-cc3c0a00-cf67-11eb-883b-6fdb56122142.png)
 ![image](https://user-images.githubusercontent.com/7070136/122437540-ce05cd80-cf67-11eb-8bc9-775a13db068e.png)
+
+#### View the Devices and Country Metrics by Session
+![image](https://user-images.githubusercontent.com/7070136/122282967-08b12c80-ceba-11eb-91bd-52234236310d.png)
 
 #### View the lists of Most Visited Pages and Referrers
 ![image](https://user-images.githubusercontent.com/7070136/114229279-982fe180-9945-11eb-9ee9-e38215ce5eae.png)
