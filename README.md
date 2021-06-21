@@ -52,6 +52,8 @@ public function cards()
         new \Tightenco\NovaGoogleAnalytics\VisitorsMetric,
         new \Tightenco\NovaGoogleAnalytics\MostVisitedPagesCard,
         new \Tightenco\NovaGoogleAnalytics\ReferrersList,
+        new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
+        new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
     ];
 }
 ```
@@ -59,6 +61,9 @@ public function cards()
 ## Features
 #### View the Visitors and Pageview Metrics
 ![image](https://user-images.githubusercontent.com/7070136/114229277-982fe180-9945-11eb-9c4c-ca9bc1554fca.png)
+
+#### View the Devices and Country Metrics by Session
+![image](https://user-images.githubusercontent.com/7070136/122282967-08b12c80-ceba-11eb-91bd-52234236310d.png)
 
 #### View the lists of Most Visited Pages and Referrers
 ![image](https://user-images.githubusercontent.com/7070136/114229279-982fe180-9945-11eb-9ee9-e38215ce5eae.png)
