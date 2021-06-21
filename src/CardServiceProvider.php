@@ -2,6 +2,7 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +22,8 @@ class CardServiceProvider extends ServiceProvider
         });
 
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-google-analytics', __DIR__.'/../dist/js/card.js');
-            // Nova::style('nova-google-analytics', __DIR__.'/../dist/css/card.css');
+            Nova::script('nova-google-analytics-card', __DIR__.'/../dist/js/card.js');
+            // Nova::style('nova-google-analytics-card', __DIR__.'/../dist/css/card.css');
         });
     }
 
