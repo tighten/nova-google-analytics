@@ -12,6 +12,8 @@ use Carbon\Carbon;
 
 class SevenDayActiveUsersMetric extends Trend
 {
+    use ActiveUsersTrait;
+
     public function name()
     {
         return __('7 Day Active Users');
@@ -26,9 +28,9 @@ class SevenDayActiveUsersMetric extends Trend
     public function calculate(Request $request)
     {
         $lookups = [
-            5 => $this->activeUsersFiveDays(),
-            10 => $this->activeUsersTenDays(),
-            15 => $this->activeUsersFifteenDays(),
+            5 => $this->performQuery('ga:7dayUsers', 5),
+            10 => $this->performQuery('ga:7dayUsers', 10),
+            15 => $this->performQuery('ga:7dayUsers', 15),
         ];
 
         $data = Arr::get($lookups, $request->get('range'), ['results' => [0]]);
@@ -36,75 +38,6 @@ class SevenDayActiveUsersMetric extends Trend
         return (new TrendResult)->trend($data['results'])
             ->showLatestValue()
             ->format('0,0');
-    }
-
-    private function activeUsersFiveDays()
-    {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::days(5),
-                'ga:1dayUsers',
-                [
-                    'metrics' => 'ga:7dayUsers',
-                    'dimensions' => 'ga:date',
-                ]
-            );
-
-        $rows = collect($analyticsData->getRows());
-
-        $results = [];
-        foreach ($rows as $row) {
-            $date = new Carbon($row[0]);
-            $results[$date->format('M j')] = intval($row[1]);
-        }
-
-        return ['results' => $results];
-    }
-
-    private function activeUsersTenDays()
-    {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::days(10),
-                'ga:1dayUsers',
-                [
-                    'metrics' => 'ga:7dayUsers',
-                    'dimensions' => 'ga:date',
-                ]
-            );
-
-        $rows = collect($analyticsData->getRows());
-
-        $results = [];
-        foreach ($rows as $row) {
-            $date = new Carbon($row[0]);
-            $results[$date->format('M j')] = intval($row[1]);
-        }
-
-        return ['results' => $results];
-    }
-
-    private function activeUsersFifteenDays()
-    {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::days(15),
-                'ga:1dayUsers',
-                [
-                    'metrics' => 'ga:7dayUsers',
-                    'dimensions' => 'ga:date',
-                ]
-            );
-
-        $rows = collect($analyticsData->getRows());
-
-        $results = [];
-        foreach ($rows as $row) {
-            $date = new Carbon($row[0]);
-            $results[$date->format('M j')] = intval($row[1]);
-        }
-
-        return ['results' => $results];
     }
 
     /**
