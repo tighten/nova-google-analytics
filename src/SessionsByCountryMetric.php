@@ -9,7 +9,8 @@ use Spatie\Analytics\Period;
 
 class SessionsByCountryMetric extends Partition
 {
-    public function name() {
+    public function name()
+    {
         return __('Sessions by Country - Top 5');
     }
 

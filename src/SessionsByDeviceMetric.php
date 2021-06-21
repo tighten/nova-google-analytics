@@ -9,7 +9,8 @@ use Spatie\Analytics\Period;
 
 class SessionsByDeviceMetric extends Partition
 {
-    public function name() {
+    public function name()
+    {
         return __('Sessions by Device');
     }
 
