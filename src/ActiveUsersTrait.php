@@ -20,14 +20,12 @@ trait ActiveUsersTrait
                 ]
             );
 
-        $rows = collect($analyticsData->getRows());
+        $results = collect($analyticsData->getRows())->mapWithKeys(function ($row) {
+            return [
+                (new Carbon($row[0]))->format('M j') => intval($row[1])
+            ];
+        });
 
-        $results = [];
-        foreach ($rows as $row) {
-            $date = new Carbon($row[0]);
-            $results[$date->format('M j')] = intval($row[1]);
-        }
-
-        return ['results' => $results];
+        return ['results' => $results->toArray()];
     }
 }
