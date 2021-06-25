@@ -13,7 +13,8 @@ use Spatie\Analytics\Period;
 
 class SessionDurationMetric extends Value
 {
-    public function name() {
+    public function name()
+    {
         return __('Avg. Session Duration');
     }
 

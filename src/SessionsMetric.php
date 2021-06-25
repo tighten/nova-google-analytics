@@ -11,7 +11,8 @@ use Spatie\Analytics\Period;
 
 class SessionsMetric extends Value
 {
-    public function name() {
+    public function name()
+    {
         return __('Sessions');
     }
 
