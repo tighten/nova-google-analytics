@@ -60,12 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 141);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 1:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -174,638 +173,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-
-/***/ 141:
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(142);
-
-
-/***/ }),
-
-/***/ 142:
-/***/ (function(module, exports, __webpack_require__) {
-
-Nova.booting(function (Vue, router) {
-    Vue.component('most-visited-pages', __webpack_require__(143));
-    Vue.component('referrer-list', __webpack_require__(148));
-});
-
-/***/ }),
-
-/***/ 143:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(144)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(146)
-/* template */
-var __vue_template__ = __webpack_require__(147)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-2952f5c8"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/MostVisitedPages.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-2952f5c8", Component.options)
-  } else {
-    hotAPI.reload("data-v-2952f5c8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 144:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(145);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("6cf9be9a", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2952f5c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MostVisitedPages.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2952f5c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MostVisitedPages.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 145:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-2952f5c8] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-2952f5c8] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-2952f5c8]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-2952f5c8] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 146:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['card'],
-    data: function data() {
-        return {
-            pages: [],
-            duration: 'week'
-        };
-    },
-    methods: {
-        updateDuration: function updateDuration(event) {
-            this.duration = event.target.value;
-            this.getPages();
-        },
-        getPages: function getPages() {
-            var _this = this;
-
-            Nova.request().get('/nova-vendor/nova-google-analytics/most-visited-pages?duration=' + this.duration).then(function (response) {
-                _this.pages = response.data;
-            });
-        }
-    },
-    mounted: function mounted() {
-        this.getPages();
-    }
-});
-
-/***/ }),
-
-/***/ 147:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("card", { staticClass: "px-4 py-4" }, [
-    _c("div", { staticClass: "flex mb-4" }, [
-      _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
-        _vm._v("Most Visited Pages")
-      ]),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.duration,
-              expression: "duration"
-            }
-          ],
-          staticClass:
-            "select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline",
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.duration = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              _vm.updateDuration
-            ]
-          }
-        },
-        [
-          _c("option", { attrs: { value: "week" } }, [
-            _vm._v("\n                This Week\n            ")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "month" } }, [
-            _vm._v("\n                This Month\n            ")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "year" } }, [
-            _vm._v("\n                This Year\n            ")
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    !_vm.pages
-      ? _c("div", { staticClass: "flex items-center" }, [
-          _c("p", { staticClass: "text-80 font-bold" }, [
-            _vm._v("\n            No Data\n        ")
-          ])
-        ])
-      : _c("div", { staticClass: "flex items-center" }, [
-          _c(
-            "ul",
-            { staticClass: "most-visited-pages-list w-full" },
-            _vm._l(_vm.pages, function(page) {
-              return _c("li", { staticClass: "page-item align-middle" }, [
-                _c("div", { staticClass: "flex justify-between py-2" }, [
-                  _c("div", [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "flex-1 text-base text-primary no-underline",
-                        attrs: {
-                          href: "https://" + page.hostname + page.path,
-                          target: "_blank"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                           " +
-                            _vm._s(page.name) +
-                            "\n                       "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("span", { staticClass: "number-badge font-bold" }, [
-                      _vm._v(
-                        "\n                           " +
-                          _vm._s(page.visits) +
-                          "\n                       "
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            }),
-            0
-          )
-        ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-2952f5c8", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 148:
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(149)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(151)
-/* template */
-var __vue_template__ = __webpack_require__(152)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-40521270"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/ReferrerList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-40521270", Component.options)
-  } else {
-    hotAPI.reload("data-v-40521270", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-
-/***/ 149:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(150);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("22eabba8", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-40521270\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReferrerList.vue", function() {
-     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-40521270\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReferrerList.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-
-/***/ 150:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n.card-panel[data-v-40521270] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-40521270] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-40521270] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-40521270]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-40521270] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-
-/***/ 151:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['card'],
-    data: function data() {
-        return {
-            list: [],
-            duration: 'week'
-        };
-    },
-    methods: {
-        updateDuration: function updateDuration(event) {
-            this.duration = event.target.value;
-            this.getList();
-        },
-        getList: function getList() {
-            var _this = this;
-
-            Nova.request().get('/nova-vendor/nova-google-analytics/referrer-list?duration=' + this.duration).then(function (response) {
-                _this.list = response.data;
-            });
-        }
-    },
-    mounted: function mounted() {
-        this.getList();
-    }
-});
-
-/***/ }),
-
-/***/ 152:
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("card", { staticClass: "px-2 py-4" }, [
-    _c("div", { staticClass: "flex mb-4" }, [
-      _c("h3", { staticClass: "mx-3 text-base text-80 font-bold" }, [
-        _vm._v("Top Referrers")
-      ]),
-      _vm._v(" "),
-      _c(
-        "select",
-        {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.duration,
-              expression: "duration"
-            }
-          ],
-          staticClass:
-            "select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline",
-          on: {
-            change: [
-              function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.duration = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
-              },
-              _vm.updateDuration
-            ]
-          }
-        },
-        [
-          _c("option", { attrs: { value: "week" } }, [
-            _vm._v("\n                This Week\n            ")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "month" } }, [
-            _vm._v("\n                This Month\n            ")
-          ]),
-          _vm._v(" "),
-          _c("option", { attrs: { value: "year" } }, [
-            _vm._v("\n                This Year\n            ")
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    !_vm.list
-      ? _c("div", { staticClass: "flex items-center" }, [
-          _c("p", { staticClass: "text-80 font-bold" }, [
-            _vm._v("\n            No Data\n        ")
-          ])
-        ])
-      : _c("div", { staticClass: "flex items-center" }, [
-          _c(
-            "ul",
-            { staticClass: "most-visited-pages-list w-full" },
-            _vm._l(_vm.list, function(referrer) {
-              return _c("li", { staticClass: "page-item align-middle" }, [
-                _c("div", { staticClass: "flex justify-between py-2" }, [
-                  _c("div", [
-                    _c(
-                      "a",
-                      {
-                        staticClass:
-                          "flex-1 text-base text-primary no-underline",
-                        attrs: {
-                          href: "http://" + referrer.url,
-                          target: "_blank"
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(referrer.url) +
-                            "\n                        "
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("span", { staticClass: "number-badge font-bold" }, [
-                      _vm._v(
-                        "\n                           " +
-                          _vm._s(referrer.pageViews) +
-                          "\n                       "
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            }),
-            0
-          )
-        ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-40521270", module.exports)
-  }
-}
-
-/***/ }),
-
-/***/ 2:
+/* 1 */
 /***/ (function(module, exports) {
 
 /*
@@ -887,8 +255,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-
-/***/ 3:
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -907,7 +274,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(4)
+var listToStyles = __webpack_require__(3)
 
 /*
 type StyleObject = {
@@ -1116,8 +483,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-
-/***/ 4:
+/* 3 */
 /***/ (function(module, exports) {
 
 /**
@@ -1149,6 +515,647 @@ module.exports = function listToStyles (parentId, list) {
 }
 
 
-/***/ })
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
 
-/******/ });
+module.exports = __webpack_require__(5);
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+Nova.booting(function (Vue, router) {
+    Vue.component('most-visited-pages', __webpack_require__(6));
+    Vue.component('referrer-list', __webpack_require__(11));
+});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(7)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(9)
+/* template */
+var __vue_template__ = __webpack_require__(10)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-2952f5c8"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/MostVisitedPages.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2952f5c8", Component.options)
+  } else {
+    hotAPI.reload("data-v-2952f5c8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(8);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("6cf9be9a", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2952f5c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MostVisitedPages.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-2952f5c8\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./MostVisitedPages.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-2952f5c8] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-2952f5c8] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-2952f5c8]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-2952f5c8] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['card'],
+    data: function data() {
+        return {
+            pages: [],
+            duration: 'week'
+        };
+    },
+    methods: {
+        updateDuration: function updateDuration(event) {
+            this.duration = event.target.value;
+            this.getPages();
+        },
+        getPages: function getPages() {
+            var _this = this;
+
+            Nova.request().get('/nova-vendor/nova-google-analytics/most-visited-pages?duration=' + this.duration).then(function (response) {
+                _this.pages = response.data;
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.getPages();
+    }
+});
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("card", { staticClass: "px-4 py-4" }, [
+    _c("div", { staticClass: "flex mb-4" }, [
+      _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
+        _vm._v(_vm._s(_vm.__("Most Visited Pages")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.duration,
+              expression: "duration"
+            }
+          ],
+          staticClass:
+            "select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline",
+          on: {
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.duration = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              _vm.updateDuration
+            ]
+          }
+        },
+        [
+          _c("option", { attrs: { value: "week" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Week")) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "month" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Month")) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "year" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Year")) +
+                "\n            "
+            )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    !_vm.pages
+      ? _c("div", { staticClass: "flex items-center" }, [
+          _c("p", { staticClass: "text-80 font-bold" }, [
+            _vm._v("\n            " + _vm._s(_vm.__("No Data")) + "\n        ")
+          ])
+        ])
+      : _c("div", { staticClass: "flex items-center" }, [
+          _c(
+            "ul",
+            { staticClass: "most-visited-pages-list w-full" },
+            _vm._l(_vm.pages, function(page) {
+              return _c("li", { staticClass: "page-item align-middle" }, [
+                _c("div", { staticClass: "flex justify-between py-2" }, [
+                  _c("div", [
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "flex-1 text-base text-primary no-underline",
+                        attrs: {
+                          href: "https://" + page.hostname + page.path,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                           " +
+                            _vm._s(page.name) +
+                            "\n                       "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("span", { staticClass: "number-badge font-bold" }, [
+                      _vm._v(
+                        "\n                           " +
+                          _vm._s(page.visits) +
+                          "\n                       "
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2952f5c8", module.exports)
+  }
+}
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(12)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(14)
+/* template */
+var __vue_template__ = __webpack_require__(15)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-40521270"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/ReferrerList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-40521270", Component.options)
+  } else {
+    hotAPI.reload("data-v-40521270", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(13);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("22eabba8", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-40521270\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReferrerList.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-40521270\",\"scoped\":true,\"hasInlineConfig\":true}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ReferrerList.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.card-panel[data-v-40521270] {\n    height: auto !important;\n}\n.most-visited-pages-list[data-v-40521270] {\n    list-style: none;\n    padding: 0;\n    margin: 0;\n}\n.page-item[data-v-40521270] {\n    border-bottom: 1px solid #bacad6;\n}\n.page-item[data-v-40521270]:last-of-type {\n    border-bottom: none;\n}\n.number-badge[data-v-40521270] {\n    background-color: #3c4b5f;\n    border-radius: 15px;\n    color: white;\n    font-size: 0.8rem;\n    font-weight: bold;\n    padding: 2px 6px;\n    margin-left: 5px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['card'],
+    data: function data() {
+        return {
+            list: [],
+            duration: 'week'
+        };
+    },
+    methods: {
+        updateDuration: function updateDuration(event) {
+            this.duration = event.target.value;
+            this.getList();
+        },
+        getList: function getList() {
+            var _this = this;
+
+            Nova.request().get('/nova-vendor/nova-google-analytics/referrer-list?duration=' + this.duration).then(function (response) {
+                _this.list = response.data;
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.getList();
+    }
+});
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("card", { staticClass: "px-2 py-4" }, [
+    _c("div", { staticClass: "flex mb-4" }, [
+      _c("h3", { staticClass: "mx-3 text-base text-80 font-bold" }, [
+        _vm._v(_vm._s(_vm.__("Top Referrers")))
+      ]),
+      _vm._v(" "),
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.duration,
+              expression: "duration"
+            }
+          ],
+          staticClass:
+            "select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline",
+          on: {
+            change: [
+              function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.duration = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              },
+              _vm.updateDuration
+            ]
+          }
+        },
+        [
+          _c("option", { attrs: { value: "week" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Week")) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "month" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Month")) +
+                "\n            "
+            )
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "year" } }, [
+            _vm._v(
+              "\n                " +
+                _vm._s(_vm.__("This Year")) +
+                "\n            "
+            )
+          ])
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    !_vm.list
+      ? _c("div", { staticClass: "flex items-center" }, [
+          _c("p", { staticClass: "text-80 font-bold" }, [
+            _vm._v("\n            " + _vm._s(_vm.__("No Data")) + "\n        ")
+          ])
+        ])
+      : _c("div", { staticClass: "flex items-center" }, [
+          _c(
+            "ul",
+            { staticClass: "most-visited-pages-list w-full" },
+            _vm._l(_vm.list, function(referrer) {
+              return _c("li", { staticClass: "page-item align-middle" }, [
+                _c("div", { staticClass: "flex justify-between py-2" }, [
+                  _c("div", [
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "flex-1 text-base text-primary no-underline",
+                        attrs: {
+                          href: "http://" + referrer.url,
+                          target: "_blank"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(referrer.url) +
+                            "\n                        "
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("span", { staticClass: "number-badge font-bold" }, [
+                      _vm._v(
+                        "\n                           " +
+                          _vm._s(referrer.pageViews) +
+                          "\n                       "
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            }),
+            0
+          )
+        ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-40521270", module.exports)
+  }
+}
+
+/***/ })
+/******/ ]);

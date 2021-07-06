@@ -184,13 +184,18 @@
 
 <script>
 import PaginationLinks from "./PaginationLinks.vue";
-import moment from 'moment';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import utc from 'dayjs/plugin/utc';
 import FilterMenu from "./FilterMenu";
+
+dayjs.extend(duration);
+dayjs.extend(utc);
 
     export default {
       components: {
         'pagination-links': PaginationLinks,
-        'moment': moment,
+        'dayjs': dayjs,
         'filter-menu': FilterMenu
       },
       data: function () {
@@ -277,7 +282,7 @@ import FilterMenu from "./FilterMenu";
         },
 
         getFormattedTime(timeString) {
-          return moment.utc(moment.duration(timeString, 'seconds').asMilliseconds()).format('HH:mm:ss')
+          return dayjs.utc(dayjs.duration({seconds: timeString}).asMilliseconds()).format('HH:mm:ss')
         },
 
         getFormattedPercent(percentString) {
