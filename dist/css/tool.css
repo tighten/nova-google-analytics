@@ -1,1 +1,4 @@
-// Nova Tool CSS
+.table td {
+  overflow-wrap: anywhere;
+}
+

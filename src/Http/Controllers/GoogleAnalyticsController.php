@@ -3,7 +3,7 @@
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Arr;
 use Tightenco\NovaGoogleAnalytics\File;
 use Illuminate\Routing\Controller;
 use Spatie\Analytics\Analytics;
@@ -13,47 +13,15 @@ class GoogleAnalyticsController extends Controller
 {
     public function index(Request $request)
     {
-        $limit = $request->has('limit')
-            ? $request->input('limit')
-            : 10;
-        $page = $request->has('page')
-            ? $request->input('page')
-            : 1;
+        $limit = $request->input('limit', 10);
+        $page = $request->input('page', 1);
         $offset = ($page - 1) * $limit;
-        $duration = $request->has('duration')
-            ? $request->input('duration')
-            : 'week';
-        $searchTerm = $request->has('s')
-            ? $request->input('s')
-            : null;
-        $sortBy = $request->has('sortBy')
-            ? $request->input('sortBy')
-            : 'ga:pageviews';
-        $sortDirection = $request->has('sortDirection')
-            ? $request->input('sortDirection')
-            : 'desc';
-
-        if($searchTerm != null) {
-            $filter = 'ga:pageTitle=@'.$searchTerm.',ga:pagePath=@'.$searchTerm;
-        }
-        else {
-            $filter = null;
-        }
-
-        switch($duration) {
-            case 'week':
-                $period = Period::days(7);
-                break;
-            case 'month':
-                $period = Period::months(1);
-                break;
-            case 'year':
-                $period = Period::years(1);
-                break;
-            default:
-                $period = Period::days(7);
-                break;
-        }
+        $duration = $request->input('duration', 'week');
+        $searchTerm = $request->input('s', null);
+        $sortBy = $request->input('sortBy', 'ga:pageviews');
+        $sortDirection = $request->input('sortDirection', 'desc');
+        $filter = is_null($searchTerm) ? null : 'ga:pageTitle=@' . $searchTerm . ',ga:pagePath=@' . $searchTerm;
+        $period = $this->periodForDuration($duration);
 
         $analyticsData = app(Analytics::class)->performQuery(
             $period,
@@ -68,11 +36,7 @@ class GoogleAnalyticsController extends Controller
 
         $headers = ['name', 'path', 'visits', 'unique_visits', 'avg_page_time', 'entrances', 'bounce_rate', 'exit_rate', 'page_value'];
 
-        $pages = array_map(
-            function ($row) use ($headers) {
-                return array_combine($headers, $row);
-            },
-            array_slice($analyticsData->rows, $offset, $limit) ?? []);
+        $pages = $this->getPages($headers, $analyticsData->rows, $offset, $limit);
 
         return [
             'pages' => $pages,
@@ -80,4 +44,24 @@ class GoogleAnalyticsController extends Controller
             'hasMore' => ($offset+$limit) < count($analyticsData->rows)
         ];
     }
+
+    private function getPages($headers, $rows, $offset, $limit): array
+    {
+        return array_map(
+                function ($row) use ($headers) {
+                    return array_combine($headers, $row);
+                },
+                array_slice($rows, $offset, $limit) ?? []);
+    }
+
+    private function periodForDuration(string $duration): Period
+    {
+        $map = [
+            'week' => Period::days(7),
+            'month' => Period::months(1),
+            'year' => Period::years(1),
+        ];
+        return Arr::get($map, $duration, Period::days(7));
+    }
+
 }
