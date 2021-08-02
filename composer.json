@@ -21,8 +21,8 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
-        "spatie/laravel-analytics": "^3.6"
+        "php": "^8.0",
+        "spatie/laravel-analytics": "^4.0"
     },
     "require-dev": {
         "laravel/nova": "*",
