@@ -38,7 +38,7 @@ class GoogleAnalyticsController extends Controller
                 'totalPages' => ceil(count($analyticsData->rows)/$limit),
                 'hasMore' => ($offset+$limit) < count($analyticsData->rows)
             ];
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             return [
                 'pages' => [],
                 'totalPages' => 0,
