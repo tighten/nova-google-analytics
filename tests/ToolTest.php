@@ -2,6 +2,9 @@
 
 namespace Tightenco\NovaGoogleAnalytics\Tests;
 
+use Tightenco\NovaGoogleAnalytics\Http\Controllers\GoogleAnalyticsController;
+use Spatie\Analytics\Period;
+
 class ToolTest extends TestCase
 {
     /** @test */
@@ -26,12 +29,26 @@ class ToolTest extends TestCase
     }
 
     /** @test */
+    public function it_will_not_accept_non_numeric_limit()
+    {
+        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=a')
+            ->assertStatus(500);
+    }
+
+    /** @test */
     public function it_will_accept_page_param()
     {
         $page1 = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=1');
         $page2 = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=2');
 
         $this->assertNotEquals($page1, $page2);
+    }
+
+    /** @test */
+    public function it_will_not_accept_non_numeric_page()
+    {
+        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=a')
+            ->assertStatus(500);
     }
 
     /** @test */
@@ -42,9 +59,27 @@ class ToolTest extends TestCase
     }
 
     /** @test */
+    public function invalid_duration_will_default_to_week()
+    {
+        $controller = new GoogleAnalyticsController();
+        $reflection = new \ReflectionClass($controller);
+        $method = $reflection->getMethod('periodForDuration');
+        $method->setAccessible(true);
+        $duration = $method->invokeArgs($controller, ['asdf']);
+        $this->assertEquals(Period::days(7), $duration);
+    }
+
+    /** @test */
     public function it_will_accept_search_param()
     {
         $this->get('nova-vendor/tightenco/nova-google-analytics/pages?s=blog')
+            ->assertSuccessful();
+    }
+
+    /** @test */
+    public function it_will_accept_invalid_search_param()
+    {
+        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?s=123')
             ->assertSuccessful();
     }
 
@@ -56,9 +91,23 @@ class ToolTest extends TestCase
     }
 
     /** @test */
+    public function it_will_not_accept_invalid_sort_param()
+    {
+        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:123')
+            ->assertStatus(500);
+    }
+
+    /** @test */
     public function it_will_accept_sort_direction_param()
     {
         $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortDirection=asc')
+            ->assertSuccessful();
+    }
+
+    /** @test */
+    public function it_will_accept_invalid_sort_direction_param()
+    {
+        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortDirection=123')
             ->assertSuccessful();
     }
 }

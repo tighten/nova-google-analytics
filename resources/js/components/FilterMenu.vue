@@ -1,3 +1,4 @@
+<!-- From vendor/laravel/nova/resources/js/components/FilterMenu.vue -->
 <template>
   <div v-on:click.prevent="toggleDropDown">
     <div class="filter-menu-dropdown">

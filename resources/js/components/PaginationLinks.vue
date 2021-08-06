@@ -1,3 +1,4 @@
+<!-- From vendor/laravel/nova/resources/js/components/Pagination/PaginationLinks.vue -->
 <template>
   <div class="bg-20 rounded-b">
     <nav v-if="data.length > 0" class="flex justify-between items-center">
