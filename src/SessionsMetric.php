@@ -11,6 +11,8 @@ use Spatie\Analytics\Period;
 
 class SessionsMetric extends Value
 {
+    use MetricDiffTrait;
+
     public function name()
     {
         return __('Sessions');
@@ -70,9 +72,9 @@ class SessionsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
+            Period::create($start, $end),
             'ga:sessions',
             [
                 'metrics' => 'ga:sessions',
@@ -101,9 +103,9 @@ class SessionsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        $lastYear = Carbon::today()->startOfYear()->subYears(1);
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
+            Period::create($start, $end),
             'ga:sessions',
             [
                 'metrics' => 'ga:sessions',
