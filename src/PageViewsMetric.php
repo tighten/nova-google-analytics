@@ -11,6 +11,8 @@ use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
+    use MetricDiffTrait;
+
     public function name() {
         return __('Page Views');
     }
@@ -60,9 +62,9 @@ class PageViewsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
+            Period::create($start, $end),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
@@ -91,9 +93,9 @@ class PageViewsMetric extends Value
 
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        $lastYear = Carbon::today()->startOfYear()->subYears(1);
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
         $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
+            Period::create($start, $end),
             'ga:pageviews',
             [
                 'metrics' => 'ga:pageviews',
