@@ -2,13 +2,10 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
-use Spatie\Analytics\Analytics;
-use Spatie\Analytics\Period;
-use Carbon\Carbon;
 
 class FourteenDayActiveUsersMetric extends Trend
 {
