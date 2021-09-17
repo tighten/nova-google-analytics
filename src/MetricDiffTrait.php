@@ -3,6 +3,8 @@
 namespace Tightenco\NovaGoogleAnalytics;
 
 use Carbon\Carbon;
+use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Period;
 
 trait MetricDiffTrait
 {
@@ -12,5 +14,22 @@ trait MetricDiffTrait
         $start = Carbon::yesterday()->subDays($currentPeriodDiff)->subDays($currentPeriodDiff);
 
         return [$start, $end];
+    }
+
+    private function performQuery(string $metric, string $dimensions, Period $period): int
+    {
+        $analyticsData = app(Analytics::class)
+            ->performQuery(
+                $period,
+                $metric,
+                [
+                    'metrics' => $metric,
+                    'dimensions' => $dimensions,
+                ]
+            );
+
+        $results = collect($analyticsData->getRows());
+
+        return $results->last()[1] ?? 0;
     }
 }
