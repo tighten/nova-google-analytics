@@ -11,7 +11,10 @@ use Spatie\Analytics\Period;
 
 class VisitorsMetric extends Value
 {
-    public function name() {
+    use MetricDiffTrait;
+
+    public function name()
+    {
         return __('Visitors');
     }
 
@@ -48,64 +51,31 @@ class VisitorsMetric extends Value
 
     private function visitorsOneMonth()
     {
-        // First get the results for the current month to date.
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-        $currentResults = collect($currentAnalyticsData->getRows());
+        $currentPeriod = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
+        $currentResults = $this->performQuery('ga:users', 'ga:yearMonth', $currentPeriod);
 
-        // Then get the total results of last month to compare.
-        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-        $previousResults = collect($previousAnalyticsData->getRows());
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
+        $previousPeriod = Period::create($start, $end);
+        $previousResults = $this->performQuery('ga:users', 'ga:yearMonth', $previousPeriod);
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'previous' => $previousResults,
+            'result' => $currentResults,
         ];
     }
 
     private function visitorsOneYear()
     {
-        // First get the results for the current year to date.
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:year',
-            ]
-        );
-        $currentResults = collect($currentAnalyticsData->getRows());
+        $currentPeriod = Period::create(Carbon::today()->startOfYear(), Carbon::today());
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $currentPeriod);
 
-        // Then get the total results of last month to compare.
-        $lastYear = Carbon::today()->startOfYear()->subYears(1);
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:year',
-            ]
-        );
-        $previousResults = collect($previousAnalyticsData->getRows());
-
+        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
+        $previousPeriod = Period::create($start, $end);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $previousPeriod);
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'previous' => $previousResults,
+            'result' => $currentResults,
         ];
     }
 
@@ -118,11 +88,7 @@ class VisitorsMetric extends Value
     {
         return [
             1 => __('Today'),
-            // 30 => '30 Days',
-            // 60 => '60 Days',
-            // 365 => '365 Days',
             'MTD' => __('Month To Date'),
-            // 'QTD' => 'Quarter To Date',
             'YTD' => __('Year To Date'),
         ];
     }
