@@ -45,6 +45,9 @@
                 "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider",
                 "Tightenco\\NovaGoogleAnalytics\\CardServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-main": "dev-master"
         }
     },
     "config": {
