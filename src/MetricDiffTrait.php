@@ -25,6 +25,7 @@ trait MetricDiffTrait
                 [
                     'metrics' => $metric,
                     'dimensions' => $dimensions,
+                    'samplingLevel' => 'HIGHER_PRECISION',
                 ]
             );
 

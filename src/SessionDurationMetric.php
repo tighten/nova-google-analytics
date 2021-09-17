@@ -61,63 +61,31 @@ class SessionDurationMetric extends Value
 
     private function sessionDurationOneMonth()
     {
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
-            'ga:avgSessionDuration',
-            [
-                'metrics' => 'ga:avgSessionDuration',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-
-        $currentResults = collect($currentAnalyticsData->getRows());
+        $currentPeriod = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
+        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:yearMonth', $currentPeriod);
 
         [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($start, $end),
-            'ga:avgSessionDuration',
-            [
-                'metrics' => 'ga:avgSessionDuration',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-
-        $previousResults = collect($previousAnalyticsData->getRows());
+        $previousPeriod = Period::create($start, $end);
+        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:yearMonth', $previousPeriod);
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'previous' => $previousResults,
+            'result' => $currentResults,
         ];
     }
 
     private function sessionDurationOneYear()
     {
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
-            'ga:avgSessionDuration',
-            [
-                'metrics' => 'ga:avgSessionDuration',
-                'dimensions' => 'ga:year',
-            ]
-        );
-
-        $currentResults = collect($currentAnalyticsData->getRows());
+        $currentPeriod = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
+        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $currentPeriod);
 
         [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($start, $end),
-            'ga:avgSessionDuration',
-            [
-                'metrics' => 'ga:avgSessionDuration',
-                'dimensions' => 'ga:year',
-            ]
-        );
-
-        $previousResults = collect($previousAnalyticsData->getRows());
+        $previousPeriod = Period::create($start, $end);
+        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $previousPeriod);
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'previous' => $previousResults,
+            'result' => $currentResults,
         ];
     }
 
@@ -131,11 +99,7 @@ class SessionDurationMetric extends Value
         return [
             1 => __('Today'),
             'MTD' => __('Month To Date'),
-            // 60 => '60 Days',
             'YTD' => __('Year To Date'),
-            // 'MTD' => 'Month To Date',
-            // 'QTD' => 'Quarter To Date',
-            // 'YTD' => 'Year To Date',
         ];
     }
 
@@ -146,7 +110,7 @@ class SessionDurationMetric extends Value
      */
     public function cacheFor()
     {
-        return now()->addMinutes(30);
+         return now()->addMinutes(30);
     }
 
     /**
