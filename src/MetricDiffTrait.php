@@ -8,7 +8,8 @@ use Spatie\Analytics\Period;
 
 trait MetricDiffTrait
 {
-    private function getPeriodDiff($startDate) {
+    private function getPeriodDiff($startDate)
+    {
         $currentPeriodDiff = $startDate->diffInDays(Carbon::today());
         $end = Carbon::yesterday()->subDays($currentPeriodDiff);
         $start = Carbon::yesterday()->subDays($currentPeriodDiff)->subDays($currentPeriodDiff);
