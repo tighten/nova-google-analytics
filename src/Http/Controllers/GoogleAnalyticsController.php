@@ -3,14 +3,13 @@
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
-use Tightenco\NovaGoogleAnalytics\File;
 use Illuminate\Routing\Controller;
 use Throwable;
+use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 
 class GoogleAnalyticsController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): array
     {
         try {
             $analyticsQuery = new AnalyticsQuery(
@@ -26,13 +25,13 @@ class GoogleAnalyticsController extends Controller
             return [
                 'pages' => $analyticsQuery->getPages(),
                 'totalPages' => $analyticsQuery->totalPages(),
-                'hasMore' => $analyticsQuery->hasMore()
+                'hasMore' => $analyticsQuery->hasMore(),
             ];
         } catch (Throwable $exception) {
             return [
                 'pages' => [],
                 'totalPages' => 0,
-                'hasMore' => false
+                'hasMore' => false,
             ];
         }
     }

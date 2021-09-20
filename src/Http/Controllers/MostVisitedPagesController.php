@@ -3,19 +3,18 @@
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Tightenco\NovaGoogleAnalytics\File;
 use Illuminate\Routing\Controller;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
 class MostVisitedPagesController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): array
     {
         return $this->mostVisitedPages($request);
     }
 
-    private function mostVisitedPages($request)
+    private function mostVisitedPages($request): array
     {
         $duration = $request->has('duration')
             ? $request->input('duration')

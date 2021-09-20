@@ -2,26 +2,22 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Illuminate\Support\Arr;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
-use Carbon\Carbon;
 
 class VisitorsMetric extends Value
 {
-    public function name() {
+    public function name()
+    {
         return __('Visitors');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): ValueResult
     {
         $lookups = [
             1 => $this->visitorsOneDay(),
@@ -35,7 +31,26 @@ class VisitorsMetric extends Value
                     ->previous($data['previous']);
     }
 
-    private function visitorsOneDay()
+    public function ranges(): array
+    {
+        return [
+            1 => __('Today'),
+            'MTD' => __('Month To Date'),
+            'YTD' => __('Year To Date'),
+        ];
+    }
+
+    public function cacheFor()
+    {
+        return now()->addMinutes(30);
+    }
+
+    public function uriKey(): string
+    {
+        return 'visitors';
+    }
+
+    private function visitorsOneDay(): array
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -46,9 +61,8 @@ class VisitorsMetric extends Value
         ];
     }
 
-    private function visitorsOneMonth()
+    private function visitorsOneMonth(): array
     {
-        // First get the results for the current month to date.
         $currentAnalyticsData = app(Analytics::class)->performQuery(
             Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
             'ga:users',
@@ -59,7 +73,6 @@ class VisitorsMetric extends Value
         );
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        // Then get the total results of last month to compare.
         $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
             Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
@@ -77,9 +90,8 @@ class VisitorsMetric extends Value
         ];
     }
 
-    private function visitorsOneYear()
+    private function visitorsOneYear(): array
     {
-        // First get the results for the current year to date.
         $currentAnalyticsData = app(Analytics::class)->performQuery(
             Period::create(Carbon::today()->startOfYear(), Carbon::today()),
             'ga:users',
@@ -90,7 +102,6 @@ class VisitorsMetric extends Value
         );
         $currentResults = collect($currentAnalyticsData->getRows());
 
-        // Then get the total results of last month to compare.
         $lastYear = Carbon::today()->startOfYear()->subYears(1);
         $previousAnalyticsData = app(Analytics::class)->performQuery(
             Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
@@ -102,48 +113,9 @@ class VisitorsMetric extends Value
         );
         $previousResults = collect($previousAnalyticsData->getRows());
 
-
         return [
             'previous' => $previousResults->last()[1] ?? 0,
             'result' => $currentResults->last()[1] ?? 0,
         ];
-    }
-
-    /**
-     * Get the ranges available for the metric.
-     *
-     * @return array
-     */
-    public function ranges()
-    {
-        return [
-            1 => __('Today'),
-            // 30 => '30 Days',
-            // 60 => '60 Days',
-            // 365 => '365 Days',
-            'MTD' => __('Month To Date'),
-            // 'QTD' => 'Quarter To Date',
-            'YTD' => __('Year To Date'),
-        ];
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-         return now()->addMinutes(30);
-    }
-
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
-    {
-        return 'visitors';
     }
 }

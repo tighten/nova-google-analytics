@@ -4,6 +4,7 @@ namespace Tightenco\NovaGoogleAnalytics;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\PartitionResult;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
@@ -14,13 +15,7 @@ class SessionsByCountryMetric extends Partition
         return __('Sessions by Country - Top 5');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): PartitionResult
     {
         $analyticsData = app(Analytics::class)
             ->performQuery(
@@ -30,7 +25,7 @@ class SessionsByCountryMetric extends Partition
                     'metrics' => 'ga:sessions',
                     'dimensions' => 'ga:country',
                     'sort' => '-ga:sessions',
-                    'max-results' => 5
+                    'max-results' => 5,
                 ]
             );
 
@@ -44,22 +39,12 @@ class SessionsByCountryMetric extends Partition
         return $this->result($results);
     }
 
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
     public function cacheFor()
     {
         return now()->addMinutes(30);
     }
 
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'sessions-by-country';
     }

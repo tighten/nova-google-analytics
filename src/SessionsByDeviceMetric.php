@@ -4,6 +4,7 @@ namespace Tightenco\NovaGoogleAnalytics;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
+use Laravel\Nova\Metrics\PartitionResult;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
@@ -14,13 +15,7 @@ class SessionsByDeviceMetric extends Partition
         return __('Sessions by Device');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): PartitionResult
     {
         $analyticsData = app(Analytics::class)
             ->performQuery(
@@ -50,22 +45,12 @@ class SessionsByDeviceMetric extends Partition
                     });
     }
 
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
     public function cacheFor()
     {
         return now()->addMinutes(30);
     }
 
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'sessions-by-device';
     }

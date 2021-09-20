@@ -3,19 +3,19 @@
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Tightenco\NovaGoogleAnalytics\File;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
 class ReferrerListController extends Controller
 {
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Collection
     {
         return $this->topReferrers($request);
     }
 
-    private function topReferrers($request)
+    private function topReferrers($request): Collection
     {
         $duration = $request->has('duration')
             ? $request->input('duration')

@@ -6,22 +6,18 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
-    public function name() {
+    public function name()
+    {
         return __('Page Views');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): ValueResult
     {
         $lookups = [
             1 => $this->pageViewsOneDay(),
@@ -36,7 +32,26 @@ class PageViewsMetric extends Value
             ->previous($data['previous']);
     }
 
-    private function pageViewsOneDay()
+    public function ranges(): array
+    {
+        return [
+            1 => __('Today'),
+            'MTD' => __('Month To Date'),
+            'YTD' => __('Year To Date'),
+        ];
+    }
+
+    public function cacheFor()
+    {
+        return now()->addMinutes(30);
+    }
+
+    public function uriKey(): string
+    {
+        return 'page-views';
+    }
+
+    private function pageViewsOneDay(): array
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -47,7 +62,7 @@ class PageViewsMetric extends Value
         ];
     }
 
-    private function pageViewsOneMonth()
+    private function pageViewsOneMonth(): array
     {
         $currentAnalyticsData = app(Analytics::class)->performQuery(
             Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
@@ -78,7 +93,7 @@ class PageViewsMetric extends Value
         ];
     }
 
-    private function pageViewsOneYear()
+    private function pageViewsOneYear(): array
     {
         $currentAnalyticsData = app(Analytics::class)->performQuery(
             Period::create(Carbon::today()->startOfYear(), Carbon::today()),
@@ -107,43 +122,5 @@ class PageViewsMetric extends Value
             'previous' => $previousResults->last()[1] ?? 0,
             'result' => $currentResults->last()[1] ?? 0,
         ];
-    }
-
-    /**
-     * Get the ranges available for the metric.
-     *
-     * @return array
-     */
-    public function ranges()
-    {
-        return [
-            1 => __('Today'),
-            'MTD' => __('Month To Date'),
-            // 60 => '60 Days',
-            'YTD' => __('Year To Date'),
-            // 'MTD' => 'Month To Date',
-            // 'QTD' => 'Quarter To Date',
-            // 'YTD' => 'Year To Date',
-        ];
-    }
-
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
-    {
-        return now()->addMinutes(30);
-    }
-
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
-    {
-        return 'page-views';
     }
 }
