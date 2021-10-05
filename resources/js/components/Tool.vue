@@ -34,124 +34,126 @@
                cellpadding="0"
                cellspacing="0">
           <thead>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:pageTitle"
-                :direction="direction"
-            >
+          <tr>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:pageTitle"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Name') }}
               </span>
-            </sortable-icon>
-          </th>
+              </sortable-icon>
+            </th>
 
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Paths"
-                uri-key="ga:pagePath"
-                :direction="direction"
-            >
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Paths"
+                  uri-key="ga:pagePath"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Path') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:pageviews"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:pageviews"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Visits') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:uniquePageviews"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:uniquePageviews"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Unique Visits') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:avgTimeOnPage"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:avgTimeOnPage"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Avg. Time on Page') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:entrances"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:entrances"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Entrances') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:bounceRate"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:bounceRate"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Bounce Rate') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:exitRate"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:exitRate"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Exit Rate') }}
               </span>
-            </sortable-icon>
-          </th>
-          <th class="text-left">
-            <sortable-icon
-                @sort="sortByChange"
-                @reset="resetOrderBy"
-                resource-name="Pages"
-                uri-key="ga:pageValue"
-                :direction="direction"
-            >
+              </sortable-icon>
+            </th>
+            <th class="text-left">
+              <sortable-icon
+                  @sort="sortByChange"
+                  @reset="resetOrderBy"
+                  resource-name="Pages"
+                  uri-key="ga:pageValue"
+                  :direction="direction"
+              >
               <span class="inline-flex items-center">
                 {{ __('Page Value') }}
               </span>
-            </sortable-icon>
-          </th>
+              </sortable-icon>
+            </th>
+          </tr>
           </thead>
           <tbody>
           <tr v-for="page in pages">
@@ -164,6 +166,15 @@
             <td>{{ getFormattedPercent(page.bounce_rate) }}</td>
             <td>{{ getFormattedPercent(page.exit_rate) }}</td>
             <td>{{ getFormattedCurrency(page.page_value) }}</td>
+            <td class="td-fit text-right pr-6 align-middle">
+              <div class="inline-flex items-center">
+                <span class="inline-flex">
+                  <a :href="'/nova/nova-google-analytics/page?url='+encodeURI(page.path)" class="cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center has-tooltip" data-testid="users-items-0-view-button" dusk="1-view-button" data-original-title="null">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="18" viewBox="0 0 22 16" aria-labelledby="view" role="presentation" class="fill-current"><path d="M16.56 13.66a8 8 0 0 1-11.32 0L.3 8.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95-.01.01zm-9.9-1.42a6 6 0 0 0 8.48 0L19.38 8l-4.24-4.24a6 6 0 0 0-8.48 0L2.4 8l4.25 4.24h.01zM10.9 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path></svg>
+                  </a>
+                </span>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -226,7 +237,6 @@ dayjs.extend(utc);
         },
 
         updateLimit(value) {
-          console.log("update limit called")
           this.limit = value;
           this.getPages();
         },
@@ -257,16 +267,16 @@ dayjs.extend(utc);
         },
 
         performSearch(event) {
-          if (event.which != 9) {
+          if (event.which !== 9) {
             this.page = 1
             this.getPages()
           }
         },
 
         sortByChange(event) {
-          let direction = this.sortDirection == 'asc' ? 'desc' : 'asc'
+          let direction = this.sortDirection === 'asc' ? 'desc' : 'asc'
 
-          if (this.sortBy != event.key) {
+          if (this.sortBy !== event.key) {
             direction = 'asc'
           }
 

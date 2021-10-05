@@ -544,6 +544,13 @@ Nova.booting(function (Vue, router) {
         name: 'nova-google-analytics',
         path: '/nova-google-analytics',
         component: __webpack_require__(19)
+    }, {
+        name: 'nova-google-analytics-page',
+        path: '/nova-google-analytics/page',
+        component: __webpack_require__(36),
+        props: function props(route) {
+            return { url: route.query.url };
+        }
     }]);
 });
 
@@ -633,7 +640,7 @@ exports = module.exports = __webpack_require__(1)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* Scoped Styles */\n", ""]);
 
 // exports
 
@@ -654,6 +661,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_dayjs_plugin_utc___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_dayjs_plugin_utc__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FilterMenu__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__FilterMenu___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__FilterMenu__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -882,7 +900,6 @@ __WEBPACK_IMPORTED_MODULE_1_dayjs___default.a.extend(__WEBPACK_IMPORTED_MODULE_3
       this.getPages();
     },
     updateLimit: function updateLimit(value) {
-      console.log("update limit called");
       this.limit = value;
       this.getPages();
     },
@@ -909,15 +926,15 @@ __WEBPACK_IMPORTED_MODULE_1_dayjs___default.a.extend(__WEBPACK_IMPORTED_MODULE_3
       this.getPages();
     },
     performSearch: function performSearch(event) {
-      if (event.which != 9) {
+      if (event.which !== 9) {
         this.page = 1;
         this.getPages();
       }
     },
     sortByChange: function sortByChange(event) {
-      var direction = this.sortDirection == 'asc' ? 'desc' : 'asc';
+      var direction = this.sortDirection === 'asc' ? 'desc' : 'asc';
 
-      if (this.sortBy != event.key) {
+      if (this.sortBy !== event.key) {
         direction = 'asc';
       }
 
@@ -1724,320 +1741,322 @@ var render = function() {
                   },
                   [
                     _c("thead", [
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:pageTitle",
-                                direction: _vm.direction
+                      _c("tr", [
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:pageTitle",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Name")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Paths",
-                                "uri-key": "ga:pagePath",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Name")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Paths",
+                                  "uri-key": "ga:pagePath",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Path")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:pageviews",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Path")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:pageviews",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Visits")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:uniquePageviews",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Visits")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:uniquePageviews",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Unique Visits")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:avgTimeOnPage",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Unique Visits")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:avgTimeOnPage",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Avg. Time on Page")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:entrances",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Avg. Time on Page")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:entrances",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Entrances")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:bounceRate",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Entrances")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:bounceRate",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Bounce Rate")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:exitRate",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Bounce Rate")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:exitRate",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Exit Rate")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-left" },
-                        [
-                          _c(
-                            "sortable-icon",
-                            {
-                              attrs: {
-                                "resource-name": "Pages",
-                                "uri-key": "ga:pageValue",
-                                direction: _vm.direction
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Exit Rate")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "th",
+                          { staticClass: "text-left" },
+                          [
+                            _c(
+                              "sortable-icon",
+                              {
+                                attrs: {
+                                  "resource-name": "Pages",
+                                  "uri-key": "ga:pageValue",
+                                  direction: _vm.direction
+                                },
+                                on: {
+                                  sort: _vm.sortByChange,
+                                  reset: _vm.resetOrderBy
+                                }
                               },
-                              on: {
-                                sort: _vm.sortByChange,
-                                reset: _vm.resetOrderBy
-                              }
-                            },
-                            [
-                              _c(
-                                "span",
-                                { staticClass: "inline-flex items-center" },
-                                [
-                                  _vm._v(
-                                    "\n              " +
-                                      _vm._s(_vm.__("Page Value")) +
-                                      "\n            "
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      )
+                              [
+                                _c(
+                                  "span",
+                                  { staticClass: "inline-flex items-center" },
+                                  [
+                                    _vm._v(
+                                      "\n              " +
+                                        _vm._s(_vm.__("Page Value")) +
+                                        "\n            "
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ],
+                          1
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(
@@ -2076,7 +2095,65 @@ var render = function() {
                             _vm._v(
                               _vm._s(_vm.getFormattedCurrency(page.page_value))
                             )
-                          ])
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "td-fit text-right pr-6 align-middle"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "inline-flex items-center" },
+                                [
+                                  _c("span", { staticClass: "inline-flex" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass:
+                                          "cursor-pointer text-70 hover:text-primary mr-3 inline-flex items-center has-tooltip",
+                                        attrs: {
+                                          href:
+                                            "/nova/nova-google-analytics/page?url=" +
+                                            encodeURI(page.path),
+                                          "data-testid":
+                                            "users-items-0-view-button",
+                                          dusk: "1-view-button",
+                                          "data-original-title": "null"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "svg",
+                                          {
+                                            staticClass: "fill-current",
+                                            attrs: {
+                                              xmlns:
+                                                "http://www.w3.org/2000/svg",
+                                              width: "22",
+                                              height: "18",
+                                              viewBox: "0 0 22 16",
+                                              "aria-labelledby": "view",
+                                              role: "presentation"
+                                            }
+                                          },
+                                          [
+                                            _c("path", {
+                                              attrs: {
+                                                d:
+                                                  "M16.56 13.66a8 8 0 0 1-11.32 0L.3 8.7a1 1 0 0 1 0-1.42l4.95-4.95a8 8 0 0 1 11.32 0l4.95 4.95a1 1 0 0 1 0 1.42l-4.95 4.95-.01.01zm-9.9-1.42a6 6 0 0 0 8.48 0L19.38 8l-4.24-4.24a6 6 0 0 0-8.48 0L2.4 8l4.25 4.24h.01zM10.9 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                              }
+                                            })
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ]
+                              )
+                            ]
+                          )
                         ])
                       }),
                       0
@@ -2110,6 +2187,121 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-68ff5483", module.exports)
+  }
+}
+
+/***/ }),
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(37)
+/* template */
+var __vue_template__ = __webpack_require__(38)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Page.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-524c0c0c", Component.options)
+  } else {
+    hotAPI.reload("data-v-524c0c0c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['url'],
+  data: function data() {
+    return {
+      title: 'Page Data',
+      initialLoading: true,
+      loading: true
+    };
+  },
+  methods: {
+    getPages: function getPages() {
+      Nova.request().get('/nova-vendor/nova-google-analytics/pages/page?url=' + encodeURI(this.url)).then(function (response) {
+        console.log(response);
+        // this.pages = response.data.pages;
+        // this.totalPages = response.data.totalPages;
+        // this.hasMore = response.data.hasMore;
+        // this.loading = false;
+      });
+    }
+  },
+  computed: {},
+  mounted: function mounted() {
+    this.getPages();
+    this.initialLoading = false;
+  }
+});
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "loading-view",
+    { attrs: { loading: _vm.initialLoading } },
+    [_c("heading", { staticClass: "mb-6" }, [_vm._v(_vm._s(_vm.title))])],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-524c0c0c", module.exports)
   }
 }
 

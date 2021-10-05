@@ -20,3 +20,4 @@ use Tightenco\NovaGoogleAnalytics\Http\Controllers\ReferrerListController;
 Route::get('most-visited-pages', MostVisitedPagesController::class);
 Route::get('referrer-list', ReferrerListController::class);
 Route::get('pages', [GoogleAnalyticsController::class, 'index']);
+Route::get('pages/page', [GoogleAnalyticsController::class, 'show']);

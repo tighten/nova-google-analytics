@@ -2,8 +2,11 @@
 
 namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Period;
 use Throwable;
 use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 
@@ -34,5 +37,28 @@ class GoogleAnalyticsController extends Controller
                 'hasMore' => false,
             ];
         }
+    }
+
+    public function show(Request $request)
+    {
+        $request->validate([
+            'url' => 'required|string',
+        ]);
+
+        $period = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
+
+        $analyticsData = app(Analytics::class)->performQuery(
+            $period,
+            'ga:users',
+            [
+                'metrics' => 'ga:pageviews',
+                'dimensions' => 'ga:pageTitle',
+                'filters' => sprintf('ga:pagePath=@%s', strval($request->url)),
+                'max-results' => 1,
+            ]
+        );
+
+        $data = array_combine(['title', 'pageviews'], $analyticsData->rows[0]);
+        dd($data);
     }
 }
