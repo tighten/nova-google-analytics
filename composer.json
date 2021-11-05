@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1.0",
+        "php": "^7.3|^8.0",
         "spatie/laravel-analytics": "^3.6"
     },
     "require-dev": {
@@ -45,9 +45,6 @@
                 "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider",
                 "Tightenco\\NovaGoogleAnalytics\\CardServiceProvider"
             ]
-        },
-        "branch-alias": {
-            "dev-main": "dev-master"
         }
     },
     "config": {
