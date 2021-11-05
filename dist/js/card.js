@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -274,7 +274,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(3)
+var listToStyles = __webpack_require__(8)
 
 /*
 type StyleObject = {
@@ -484,62 +484,29 @@ function applyToTag (styleElement, obj) {
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-module.exports = function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
+__webpack_require__(4);
+module.exports = __webpack_require__(16);
 
 
 /***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(5);
-module.exports = __webpack_require__(16);
-
+Nova.booting(function (Vue, router) {
+    Vue.component('most-visited-pages', __webpack_require__(5));
+    Vue.component('referrer-list', __webpack_require__(11));
+});
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-Nova.booting(function (Vue, router) {
-    Vue.component('most-visited-pages', __webpack_require__(6));
-    Vue.component('referrer-list', __webpack_require__(11));
-});
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(7)
+  __webpack_require__(6)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
@@ -584,13 +551,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(8);
+var content = __webpack_require__(7);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -610,7 +577,7 @@ if(false) {
 }
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(1)(false);
@@ -624,11 +591,51 @@ exports.push([module.i, "\n.card-panel[data-v-2952f5c8] {\n    height: auto !imp
 
 
 /***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
 /* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -721,7 +728,9 @@ var render = function() {
   return _c("card", { staticClass: "px-4 py-4" }, [
     _c("div", { staticClass: "flex mb-4" }, [
       _c("h3", { staticClass: "mr-3 text-base text-80 font-bold" }, [
-        _vm._v(_vm._s(_vm.__("Most Visited Pages")))
+        _vm._v(
+          "\n            " + _vm._s(_vm.__("Most Visited Pages")) + "\n        "
+        )
       ]),
       _vm._v(" "),
       _c(
@@ -810,9 +819,9 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                           " +
+                          "\n                            " +
                             _vm._s(page.name) +
-                            "\n                       "
+                            "\n                        "
                         )
                       ]
                     )
@@ -996,6 +1005,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['card'],
@@ -1034,7 +1052,9 @@ var render = function() {
   return _c("card", { staticClass: "px-2 py-4" }, [
     _c("div", { staticClass: "flex mb-4" }, [
       _c("h3", { staticClass: "mx-3 text-base text-80 font-bold" }, [
-        _vm._v(_vm._s(_vm.__("Top Referrers")))
+        _vm._v(
+          "\n            " + _vm._s(_vm.__("Top Referrers")) + "\n        "
+        )
       ]),
       _vm._v(" "),
       _c(

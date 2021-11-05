@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <table
-                    v-if='pages.length > 0'
+                    v-if='data.length > 0'
                     cellpadding='0'
                     cellspacing='0'
                     class='table w-full table-default'
@@ -167,16 +167,16 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for='page in pages'>
-                            <td>{{ page.name }}</td>
-                            <td>{{ page.path }}</td>
-                            <td>{{ page.visits }}</td>
-                            <td>{{ page.unique_visits }}</td>
-                            <td>{{ getFormattedTime(page.avg_page_time) }}</td>
-                            <td>{{ page.entrances }}</td>
-                            <td>{{ getFormattedPercent(page.bounce_rate) }}</td>
-                            <td>{{ getFormattedPercent(page.exit_rate) }}</td>
-                            <td>{{ getFormattedCurrency(page.page_value) }}</td>
+                        <tr v-for='row in data'>
+                            <td>{{ row.name }}</td>
+                            <td>{{ row.path }}</td>
+                            <td>{{ row.visits }}</td>
+                            <td>{{ row.unique_visits }}</td>
+                            <td>{{ getFormattedTime(row.avg_page_time) }}</td>
+                            <td>{{ row.entrances }}</td>
+                            <td>{{ getFormattedPercent(row.bounce_rate) }}</td>
+                            <td>{{ getFormattedPercent(row.exit_rate) }}</td>
+                            <td>{{ getFormattedCurrency(row.page_value) }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -184,7 +184,7 @@
 
             <pagination-links
                 :current-page='page'
-                :data='pages'
+                :data='data'
                 :hasMore='hasMore'
                 :hasPrevious='hasPrevious'
                 :total-pages='totalPages'
@@ -214,7 +214,7 @@ export default {
     data: function() {
         return {
             title: 'Google Analytics',
-            pages: [],
+            data: [],
             duration: 'week',
             initialLoading: true,
             loading: true,
@@ -235,20 +235,19 @@ export default {
     methods: {
         updateDuration(event) {
             this.duration = event.target.value;
-            this.getPages();
+            this.getData();
         },
 
         updateLimit(value) {
-            console.log('update limit called');
             this.limit = value;
-            this.getPages();
+            this.getData();
         },
 
-        getPages() {
+        getData() {
             Nova.request()
                 .get(`/nova-vendor/nova-google-analytics/pages?limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
                 .then(response => {
-                    this.pages = response.data.pages;
+                    this.data = response.data.pageData;
                     this.totalPages = response.data.totalPages;
                     this.hasMore = response.data.hasMore;
                     this.loading = false;
@@ -258,7 +257,7 @@ export default {
         nextPage() {
             this.loading = true;
             this.page++;
-            this.getPages();
+            this.getData();
         },
 
         previousPage() {
@@ -266,13 +265,13 @@ export default {
             if (this.hasPrevious) {
                 this.page--;
             }
-            this.getPages();
+            this.getData();
         },
 
         performSearch(event) {
             if (event.which != 9) {
                 this.page = 1;
-                this.getPages();
+                this.getData();
             }
         },
 
@@ -285,13 +284,13 @@ export default {
 
             this.sortBy = event.key;
             this.sortDirection = direction;
-            this.getPages();
+            this.getData();
         },
 
         resetOrderBy(event) {
             this.sortBy = 'ga:pageviews';
             this.sortDirection = 'desc';
-            this.getPages();
+            this.getData();
         },
 
         getFormattedTime(timeString) {
@@ -303,7 +302,6 @@ export default {
         },
 
         getFormattedCurrency(percentString) {
-            //return '$'+parseFloat(percentString).toFixed(2)
             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(percentString);
         },
     },
@@ -313,7 +311,7 @@ export default {
         },
     },
     mounted() {
-        this.getPages();
+        this.getData();
         this.initialLoading = false;
     },
 };

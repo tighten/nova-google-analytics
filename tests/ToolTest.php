@@ -8,7 +8,7 @@ use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 class ToolTest extends TestCase
 {
     protected $failedJsonResponse = [
-        'pages' => [],
+        'pageData' => [],
         'totalPages' => 0,
         'hasMore' => false,
     ];
@@ -21,7 +21,7 @@ class ToolTest extends TestCase
             ->assertSuccessful()
             ->assertJsonStructure([
                 'hasMore',
-                'pages',
+                'pageData',
                 'totalPages',
             ]);
     }
@@ -31,7 +31,7 @@ class ToolTest extends TestCase
     {
         $this
             ->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=5')
-            ->assertJsonCount(5, 'pages');
+            ->assertJsonCount(5, 'pageData');
     }
 
     /** @test */

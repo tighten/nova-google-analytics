@@ -24,7 +24,7 @@ class GoogleAnalyticsController extends Controller
             );
 
             return [
-                'pages' => $analyticsQuery->getPageData(),
+                'pageData' => $analyticsQuery->getPageData(),
                 'totalPages' => $analyticsQuery->totalPages(),
                 'hasMore' => $analyticsQuery->hasMore(),
             ];
@@ -32,7 +32,7 @@ class GoogleAnalyticsController extends Controller
             Log::error($exception->getMessage());
 
             return [
-                'pages' => [],
+                'pageData' => [],
                 'totalPages' => 0,
                 'hasMore' => false,
             ];
