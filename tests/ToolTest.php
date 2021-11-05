@@ -7,6 +7,12 @@ use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 
 class ToolTest extends TestCase
 {
+    protected $failedJsonResponse = [
+        'pages' => [],
+        'totalPages' => 0,
+        'hasMore' => false,
+    ];
+
     /** @test */
     public function it_can_return_a_response()
     {
@@ -33,11 +39,7 @@ class ToolTest extends TestCase
     {
         $this
             ->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=a')
-            ->assertJson([
-                'pages' => [],
-                'totalPages' => 0,
-                'hasMore' => false,
-            ]);
+            ->assertJson($this->failedJsonResponse);
     }
 
     /** @test */
@@ -54,11 +56,7 @@ class ToolTest extends TestCase
     {
         $this
             ->get('nova-vendor/tightenco/nova-google-analytics/pages?page=a')
-            ->assertJson([
-                'pages' => [],
-                'totalPages' => 0,
-                'hasMore' => false,
-            ]);
+            ->assertJson($this->failedJsonResponse);
     }
 
     /** @test */
@@ -106,11 +104,7 @@ class ToolTest extends TestCase
     {
         $this
             ->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:123')
-            ->assertJson([
-                'pages' => [],
-                'totalPages' => 0,
-                'hasMore' => false,
-            ]);
+            ->assertJson($this->failedJsonResponse);
     }
 
     /** @test */
