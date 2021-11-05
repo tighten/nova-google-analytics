@@ -2,9 +2,8 @@
 
 namespace Tightenco\NovaGoogleAnalytics\Tests;
 
-use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
-use Tightenco\NovaGoogleAnalytics\Http\Controllers\GoogleAnalyticsController;
 use Spatie\Analytics\Period;
+use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 
 class ToolTest extends TestCase
 {
@@ -17,7 +16,7 @@ class ToolTest extends TestCase
             ->assertJsonStructure([
                 'hasMore',
                 'pages',
-                'totalPages'
+                'totalPages',
             ]);
     }
 
@@ -32,11 +31,12 @@ class ToolTest extends TestCase
     /** @test */
     public function it_will_not_accept_non_numeric_limit()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=a')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=a')
             ->assertJson([
                 'pages' => [],
                 'totalPages' => 0,
-                'hasMore' => false
+                'hasMore' => false,
             ]);
     }
 
@@ -52,57 +52,72 @@ class ToolTest extends TestCase
     /** @test */
     public function it_will_not_accept_non_numeric_page()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=a')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?page=a')
             ->assertJson([
                 'pages' => [],
                 'totalPages' => 0,
-                'hasMore' => false
+                'hasMore' => false,
             ]);
     }
 
     /** @test */
     public function it_will_accept_duration_param()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?duration=month')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?duration=month')
             ->assertSuccessful();
     }
 
     /** @test */
     public function invalid_duration_will_default_to_week()
     {
-        $analyticsQuery = new AnalyticsQuery([], 1, 0, '', '-', 'ga:pageviews', 'asdf');
+        $analyticsQuery = new AnalyticsQuery(
+            [],
+            1,
+            0,
+            '',
+            '-',
+            'ga:pageviews',
+            'asdf'
+        );
+
         $this->assertEquals(Period::days(7), $analyticsQuery->getDuration());
     }
 
     /** @test */
     public function it_will_accept_search_param()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?s=blog')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?s=blog')
             ->assertSuccessful();
     }
 
     /** @test */
     public function it_will_accept_sort_param()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:pageValue')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:pageValue')
             ->assertSuccessful();
     }
 
     /** @test */
     public function it_will_not_accept_invalid_sort_param()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:123')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?sortBy=ga:123')
             ->assertJson([
                 'pages' => [],
                 'totalPages' => 0,
-                'hasMore' => false
+                'hasMore' => false,
             ]);
     }
 
     /** @test */
     public function it_will_accept_sort_direction_param()
     {
-        $this->get('nova-vendor/tightenco/nova-google-analytics/pages?sortDirection=asc')
+        $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?sortDirection=asc')
             ->assertSuccessful();
     }
 }

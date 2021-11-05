@@ -2,6 +2,7 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -10,7 +11,7 @@ use Spatie\Analytics\Period;
 
 class SessionsByCountryMetric extends Partition
 {
-    public function name()
+    public function name(): string
     {
         return __('Sessions by Country - Top 5');
     }
@@ -39,7 +40,7 @@ class SessionsByCountryMetric extends Partition
         return $this->result($results);
     }
 
-    public function cacheFor()
+    public function cacheFor(): Carbon
     {
         return now()->addMinutes(30);
     }

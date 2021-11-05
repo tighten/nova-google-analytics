@@ -52,6 +52,7 @@ class AnalyticsQuery
     public function getPages(): array
     {
         $data = $this->getQueryResults();
+
         return array_map(
             function ($row) {
                 return array_combine($this->headers, $row);
@@ -62,12 +63,14 @@ class AnalyticsQuery
     public function totalPages()
     {
         $data = $this->getQueryResults();
+
         return ceil(count($data->rows)/$this->limit);
     }
 
     public function hasMore(): bool
     {
         $data = $this->getQueryResults();
+
         return ($this->offset+$this->limit) < count($data->rows);
     }
 
@@ -92,6 +95,7 @@ class AnalyticsQuery
             'month' => Period::months(1),
             'year' => Period::years(1),
         ];
+
         return Arr::get($map, $duration, Period::days(7));
     }
 }

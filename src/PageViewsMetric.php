@@ -12,7 +12,7 @@ use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
 {
-    public function name()
+    public function name(): string
     {
         return __('Page Views');
     }
@@ -25,7 +25,14 @@ class PageViewsMetric extends Value
             'YTD' => $this->pageViewsOneYear(),
         ];
 
-        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get(
+            $lookups,
+            $request->get('range'),
+            [
+                'result' => 0,
+                'previous' => 0,
+            ],
+        );
 
         return $this
             ->result($data['result'])
@@ -41,7 +48,7 @@ class PageViewsMetric extends Value
         ];
     }
 
-    public function cacheFor()
+    public function cacheFor(): Carbon
     {
         return now()->addMinutes(30);
     }

@@ -12,7 +12,7 @@ use Spatie\Analytics\Period;
 
 class VisitorsMetric extends Value
 {
-    public function name()
+    public function name(): string
     {
         return __('Visitors');
     }
@@ -25,10 +25,18 @@ class VisitorsMetric extends Value
             'YTD' => $this->visitorsOneYear(),
         ];
 
-        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get(
+            $lookups,
+            $request->get('range'),
+            [
+                'result' => 0,
+                'previous' => 0,
+            ]
+        );
 
-        return $this->result($data['result'])
-                    ->previous($data['previous']);
+        return $this
+            ->result($data['result'])
+            ->previous($data['previous']);
     }
 
     public function ranges(): array
@@ -40,7 +48,7 @@ class VisitorsMetric extends Value
         ];
     }
 
-    public function cacheFor()
+    public function cacheFor(): Carbon
     {
         return now()->addMinutes(30);
     }

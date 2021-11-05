@@ -15,7 +15,7 @@ class ReferrerListController extends Controller
         return $this->topReferrers($request);
     }
 
-    private function topReferrers($request): Collection
+    private function topReferrers(Request $request): Collection
     {
         $duration = $request->has('duration')
             ? $request->input('duration')
