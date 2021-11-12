@@ -27,9 +27,12 @@ class VisitorsMetric extends Value
     public function calculate(Request $request)
     {
         $lookups = [
-            1 => $this->visitorsOneDay(),
-            'MTD' => $this->visitorsOneMonth(),
-            'YTD' => $this->visitorsOneYear(),
+            1 => $this->visitorsToday(),
+            'Y' => $this->visitorsYesterday(),
+            'LW' =>$this->visitorsLastWeek(),
+            'LM' => $this->visitorsLastMonth(),
+            7 => $this->visitorsLastSevenDays(),
+            30 => $this->visitorsLastThirtyDays(),
         ];
 
         $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
@@ -38,7 +41,7 @@ class VisitorsMetric extends Value
                     ->previous($data['previous']);
     }
 
-    private function visitorsOneDay()
+    private function visitorsToday(): array
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -49,33 +52,58 @@ class VisitorsMetric extends Value
         ];
     }
 
-    private function visitorsOneMonth()
+    private function visitorsYesterday(): array
     {
-        $currentPeriod = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
-        $currentResults = $this->performQuery('ga:users', 'ga:yearMonth', $currentPeriod);
-
-        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
-        $previousPeriod = Period::create($start, $end);
-        $previousResults = $this->performQuery('ga:users', 'ga:yearMonth', $previousPeriod);
+        $analyticsData = app(Analytics::class)
+            ->fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
-            'previous' => $previousResults,
-            'result' => $currentResults,
+            'result' => $analyticsData->last()['visitors'] ?? 0,
+            'previous' => $analyticsData->first()['visitors'] ?? 0,
         ];
     }
 
-    private function visitorsOneYear()
+    private function visitorsLastWeek(): array
     {
-        $currentPeriod = Period::create(Carbon::today()->startOfYear(), Carbon::today());
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $currentPeriod);
-
-        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
-        $previousPeriod = Period::create($start, $end);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $previousPeriod);
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $this->getLastWeek()['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastWeek()['previous']);
 
         return [
-            'previous' => $previousResults,
-            'result' => $currentResults,
+            'previous' => $previousResults->pluck('value')->sum(),
+            'result' => $currentResults->pluck('value')->sum(),
+        ];
+    }
+
+    private function visitorsLastMonth(): array
+    {
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $this->getLastMonth()['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastMonth()['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum(),
+            'result' => $currentResults->pluck('value')->sum(),
+        ];
+    }
+
+    private function visitorsLastSevenDays(): array
+    {
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $this->getLastSevenDays()['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastSevenDays()['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum(),
+            'result' => $currentResults->pluck('value')->sum(),
+        ];
+    }
+
+    private function visitorsLastThirtyDays(): array
+    {
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $this->getLastThirtyDays()['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastThirtyDays()['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum(),
+            'result' => $currentResults->pluck('value')->sum(),
         ];
     }
 
@@ -88,8 +116,11 @@ class VisitorsMetric extends Value
     {
         return [
             1 => __('Today'),
-            'MTD' => __('Month To Date'),
-            'YTD' => __('Year To Date'),
+            'Y' => __('Yesterday'),
+            'LW' => __('Last Week'),
+            'LM' => __('Last Month'),
+            7 => __('Last 7 Days'),
+            30 => __('Last 30 Days'),
         ];
     }
 
