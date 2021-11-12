@@ -27,19 +27,23 @@ class PageViewsMetric extends Value
     public function calculate(Request $request)
     {
         $lookups = [
-            1 => $this->pageViewsOneDay(),
-            'MTD' => $this->pageViewsOneMonth(),
-            'YTD' => $this->pageViewsOneYear(),
+            1 => $this->pageViewsToday(),
+            'Y' => $this->pageViewsYesterday(),
+            'LW' =>$this->pageViewsLastWeek(),
+            'LM' => $this->pageViewsLastMonth(),
+            7 => $this->pageViewsLastSevenDays(),
+            30 => $this->pageViewsLastThirtyDays(),
         ];
 
         $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
 
         return $this
             ->result($data['result'])
-            ->previous($data['previous']);
+            ->previous($data['previous'])
+            ->format('0,0');
     }
 
-    private function pageViewsOneDay()
+    private function pageViewsToday(): array
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -50,33 +54,134 @@ class PageViewsMetric extends Value
         ];
     }
 
-    private function pageViewsOneMonth()
+    private function pageViewsYesterday(): array
     {
-        $currentPeriod = Period::create(Carbon::today()->startOfMonth(), Carbon::today());
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:yearMonth', $currentPeriod);
-
-        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfMonth());
-        $previousPeriod = Period::create($start, $end);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:yearMonth', $previousPeriod);
+        $analyticsData = app(Analytics::class)
+            ->fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
-            'previous' => $previousResults,
-            'result' => $currentResults,
+            'result' => $analyticsData->last()['pageViews'] ?? 0,
+            'previous' => $analyticsData->first()['pageViews'] ?? 0,
         ];
     }
 
-    private function pageViewsOneYear()
+    private function pageViewsLastWeek(): array
     {
-        $currentPeriod = Period::create(Carbon::today()->startOfYear(), Carbon::today());
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $currentPeriod);
+        $currentPeriod = Period::create(
+            Carbon::today()
+                ->clone()
+                ->startOfWeek(Carbon::SUNDAY)
+                ->subWeek(),
+            Carbon::today()
+                ->clone()
+                ->subWeek()
+                ->endOfWeek(Carbon::SATURDAY)
+        );
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $currentPeriod);
 
-        [$start, $end] = $this->getPeriodDiff(Carbon::today()->startOfYear());
-        $previousPeriod = Period::create($start, $end);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $previousPeriod);
+        $previousPeriod = Period::create(
+            Carbon::today()
+                ->clone()
+                ->startOfWeek(Carbon::SUNDAY)
+                ->subWeeks(2),
+            Carbon::today()
+                ->clone()
+                ->subWeeks(2)
+                ->endOfWeek(Carbon::SATURDAY)
+        );
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $previousPeriod);
 
         return [
-            'previous' => $previousResults,
-            'result' => $currentResults,
+            'previous' => $previousResults->pluck('pageViews')->sum(),
+            'result' => $currentResults->pluck('pageViews')->sum(),
+        ];
+    }
+
+    private function pageViewsLastMonth(): array
+    {
+        $currentPeriod = Period::create(
+            Carbon::today()
+                ->clone()
+                ->startOfMonth()
+                ->subMonth(),
+            Carbon::today()
+                ->clone()
+                ->startOfMonth()
+                ->subMonth()
+                ->endOfMonth()
+        );
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $currentPeriod);
+
+        $previousPeriod = Period::create(
+            Carbon::today()
+                ->clone()
+                ->startOfMonth()
+                ->subMonths(2),
+            Carbon::today()
+                ->clone()
+                ->startOfMonth()
+                ->subMonths(2)
+                ->endOfMonth()
+        );
+
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $previousPeriod);
+
+        return [
+            'previous' => $previousResults->pluck('pageViews')->sum(),
+            'result' => $currentResults->pluck('pageViews')->sum(),
+        ];
+    }
+
+    private function pageViewsLastSevenDays(): array
+    {
+        $currentPeriod = Period::create(
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(6),
+            Carbon::yesterday()
+        );
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $currentPeriod);
+
+        $previousPeriod = Period::create(
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(13),
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(7)
+        );
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $previousPeriod);
+
+        return [
+            'previous' => $previousResults->pluck('pageViews')->sum(),
+            'result' => $currentResults->pluck('pageViews')->sum(),
+        ];
+    }
+
+    private function pageViewsLastThirtyDays(): array
+    {
+        $currentPeriod = Period::create(
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(29),
+            Carbon::yesterday()
+        );
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $currentPeriod);
+
+        $previousPeriod = Period::create(
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(59),
+            Carbon::yesterday()
+                ->clone()
+                ->subDays(30)
+        );
+
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $previousPeriod);
+
+        return [
+            'previous' => $previousResults->pluck('pageViews')->sum(),
+            'result' => $currentResults->pluck('pageViews')->sum(),
         ];
     }
 
@@ -89,8 +194,11 @@ class PageViewsMetric extends Value
     {
         return [
             1 => __('Today'),
-            'MTD' => __('Month To Date'),
-            'YTD' => __('Year To Date'),
+            'Y' => __('Yesterday'),
+            'LW' => __('Last Week'),
+            'LM' => __('Last Month'),
+            7 => __('Last 7 Days'),
+            30 => __('Last 30 Days'),
         ];
     }
 
@@ -101,7 +209,7 @@ class PageViewsMetric extends Value
      */
     public function cacheFor()
     {
-        return now()->addMinutes(30);
+        //return now()->addMinutes(30);
     }
 
     /**

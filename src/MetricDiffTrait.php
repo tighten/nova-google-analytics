@@ -3,6 +3,7 @@
 namespace Tightenco\NovaGoogleAnalytics;
 
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
@@ -17,7 +18,7 @@ trait MetricDiffTrait
         return [$start, $end];
     }
 
-    private function performQuery(string $metric, string $dimensions, Period $period): int
+    private function performQuery(string $metric, string $dimensions, Period $period): Collection
     {
         $analyticsData = app(Analytics::class)
             ->performQuery(
@@ -32,6 +33,11 @@ trait MetricDiffTrait
 
         $results = collect($analyticsData->getRows());
 
-        return $results->last()[1] ?? 0;
+        return collect($results ?? [])->map(function (array $dateRow) {
+            return [
+                'date' => Carbon::createFromFormat('Ymd', $dateRow[0]),
+                'pageViews' => $dateRow[1],
+            ];
+        });
     }
 }
