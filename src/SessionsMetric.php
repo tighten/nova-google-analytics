@@ -106,12 +106,7 @@ class SessionsMetric extends Value
         ];
     }
 
-    /**
-     * Get the ranges available for the metric.
-     *
-     * @return array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             1 => __('Today'),
@@ -123,22 +118,12 @@ class SessionsMetric extends Value
         ];
     }
 
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
+    public function cacheFor(): \DateTime
     {
         return now()->addMinutes(30);
     }
 
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'sessions';
     }

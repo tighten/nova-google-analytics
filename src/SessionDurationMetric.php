@@ -8,25 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
-use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 
 class SessionDurationMetric extends Value
 {
     use MetricDiffTrait;
 
-    public function name()
+    public function name(): string
     {
         return __('Avg. Session Duration');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): ValueResult
     {
         $lookups = [
             1 => $this->sessionDurationToday(),
@@ -106,12 +99,7 @@ class SessionDurationMetric extends Value
         ];
     }
 
-    /**
-     * Get the ranges available for the metric.
-     *
-     * @return array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             1 => __('Today'),
@@ -123,22 +111,12 @@ class SessionDurationMetric extends Value
         ];
     }
 
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
+    public function cacheFor(): \DateTime
     {
          return now()->addMinutes(30);
     }
 
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'session-duration';
     }
