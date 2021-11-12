@@ -35,7 +35,7 @@ trait MetricDiffTrait
 
         return collect($results ?? [])->map(function (array $dateRow) {
             return [
-                'date' => Carbon::createFromFormat('Ymd', $dateRow[0]),
+                'date' => $dateRow[0],
                 'value' => $dateRow[1],
             ];
         });

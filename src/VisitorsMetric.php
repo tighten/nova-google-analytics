@@ -69,8 +69,8 @@ class VisitorsMetric extends Value
         $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastWeek()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -80,8 +80,8 @@ class VisitorsMetric extends Value
         $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastMonth()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -91,8 +91,8 @@ class VisitorsMetric extends Value
         $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastSevenDays()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -102,8 +102,8 @@ class VisitorsMetric extends Value
         $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastThirtyDays()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 

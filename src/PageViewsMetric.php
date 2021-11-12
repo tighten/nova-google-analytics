@@ -67,33 +67,12 @@ class PageViewsMetric extends Value
 
     private function pageViewsLastWeek(): array
     {
-        $currentPeriod = Period::create(
-            Carbon::today()
-                ->clone()
-                ->startOfWeek(Carbon::SUNDAY)
-                ->subWeek(),
-            Carbon::today()
-                ->clone()
-                ->subWeek()
-                ->endOfWeek(Carbon::SATURDAY)
-        );
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $currentPeriod);
-
-        $previousPeriod = Period::create(
-            Carbon::today()
-                ->clone()
-                ->startOfWeek(Carbon::SUNDAY)
-                ->subWeeks(2),
-            Carbon::today()
-                ->clone()
-                ->subWeeks(2)
-                ->endOfWeek(Carbon::SATURDAY)
-        );
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $previousPeriod);
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastWeek()['current']);
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastWeek()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -103,8 +82,8 @@ class PageViewsMetric extends Value
         $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastMonth()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -114,8 +93,8 @@ class PageViewsMetric extends Value
         $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastSevenDays()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
@@ -125,8 +104,8 @@ class PageViewsMetric extends Value
         $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastThirtyDays()['previous']);
 
         return [
-            'previous' => $previousResults->pluck('value')->sum(),
-            'result' => $currentResults->pluck('value')->sum(),
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
     }
 
