@@ -30,10 +30,18 @@ class VisitorsMetric extends Value
             30 => $this->visitorsLastThirtyDays(),
         ];
 
-        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get(
+            $lookups,
+            $request->get('range'),
+            [
+                'result' => 0,
+                'previous' => 0,
+            ]
+        );
 
-        return $this->result($data['result'])
-                    ->previous($data['previous']);
+        return $this
+            ->result($data['result'])
+            ->previous($data['previous']);
     }
 
     private function visitorsToday(): array

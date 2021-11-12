@@ -2,7 +2,7 @@ name: Run Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
 
 jobs:
@@ -25,7 +25,6 @@ jobs:
             laravel: 8.*
             testbench: 6.*
             phpunit: 9.*
-
 
     name: ${{ matrix.os }} - PHP ${{ matrix.php }}
 

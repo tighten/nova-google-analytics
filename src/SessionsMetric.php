@@ -6,25 +6,19 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
-use Spatie\Analytics\Analytics;
+use Laravel\Nova\Metrics\ValueResult;
 use Spatie\Analytics\Period;
 
 class SessionsMetric extends Value
 {
     use MetricDiffTrait;
 
-    public function name()
+    public function name(): string
     {
         return __('Sessions');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): ValueResult
     {
         $lookups = [
             1 => $this->sessionsToday(),

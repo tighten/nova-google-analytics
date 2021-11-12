@@ -34,15 +34,16 @@ class SessionsByDeviceMetric extends Partition
             $results[$row[0]] = $row[1];
         }
 
-        return $this->result($results)
-                    ->label(function ($value) {
-                        switch ($value) {
-                            case null:
-                                return 'None';
-                            default:
-                                return ucfirst($value);
-                        }
-                    });
+        return $this
+            ->result($results)
+            ->label(function ($value) {
+                switch ($value) {
+                    case null:
+                        return 'None';
+                    default:
+                        return ucfirst($value);
+                }
+            });
     }
 
     public function cacheFor(): \DateTime

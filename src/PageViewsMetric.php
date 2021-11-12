@@ -30,7 +30,14 @@ class PageViewsMetric extends Value
             30 => $this->pageViewsLastThirtyDays(),
         ];
 
-        $data = Arr::get($lookups, $request->get('range'), ['result' => 0, 'previous' => 0]);
+        $data = Arr::get(
+            $lookups,
+            $request->get('range'),
+            [
+                'result' => 0,
+                'previous' => 0,
+            ],
+        );
 
         return $this
             ->result($data['result'])
