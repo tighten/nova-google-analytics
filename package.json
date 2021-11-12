@@ -17,6 +17,13 @@
     },
     "dependencies": {
         "animated-scroll-to": "^1.2.2",
+        "dayjs": "^1.10.6",
         "vue": "^2.5.0"
+    },
+    "prettier": {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "tabWidth": 4,
+        "printWidth": 80
     }
 }

@@ -26,7 +26,6 @@ jobs:
             testbench: 6.*
             phpunit: 9.*
 
-
     name: ${{ matrix.os }} - PHP ${{ matrix.php }}
 
     steps:
