@@ -67,8 +67,8 @@ class PageViewsMetric extends Value
 
     private function pageViewsLastWeek(): array
     {
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastWeek()['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastWeek()['previous']);
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastWeek()['current']);
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastWeek()['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -78,8 +78,8 @@ class PageViewsMetric extends Value
 
     private function pageViewsLastMonth(): array
     {
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastMonth()['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastMonth()['previous']);
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastMonth()['current']);
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastMonth()['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -89,8 +89,8 @@ class PageViewsMetric extends Value
 
     private function pageViewsLastSevenDays(): array
     {
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastSevenDays()['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastSevenDays()['previous']);
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastSevenDays()['current']);
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastSevenDays()['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -100,8 +100,8 @@ class PageViewsMetric extends Value
 
     private function pageViewsLastThirtyDays(): array
     {
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastThirtyDays()['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:date', $this->getLastThirtyDays()['previous']);
+        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastThirtyDays()['current']);
+        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $this->getLastThirtyDays()['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
