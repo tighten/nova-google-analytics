@@ -68,8 +68,9 @@ class VisitorsMetric extends Value
 
     private function visitorsLastWeek(): array
     {
-        $currentResults = $this->performQuery('ga:users', 'ga:date', $this->getLastWeek()['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:date', $this->getLastWeek()['previous']);
+        $lastWeek = $this->getLastWeek();
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -79,8 +80,9 @@ class VisitorsMetric extends Value
 
     private function visitorsLastMonth(): array
     {
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $this->getLastMonth()['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $this->getLastMonth()['previous']);
+        $lastMonth = $this->getLastMonth();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -90,8 +92,9 @@ class VisitorsMetric extends Value
 
     private function visitorsLastSevenDays(): array
     {
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $this->getLastSevenDays()['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $this->getLastSevenDays()['previous']);
+        $lastSevenDays = $this->getLastSevenDays();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -101,8 +104,9 @@ class VisitorsMetric extends Value
 
     private function visitorsLastThirtyDays(): array
     {
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $this->getLastThirtyDays()['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $this->getLastThirtyDays()['previous']);
+        $lastThirtyDays = $this->getLastThirtyDays();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,

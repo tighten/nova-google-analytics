@@ -58,8 +58,9 @@ class SessionsMetric extends Value
 
     private function sessionsLastWeek(): array
     {
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastWeek()['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastWeek()['previous']);
+        $lastWeek = $this->getLastWeek();
+        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastWeek['current']);
+        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -69,8 +70,9 @@ class SessionsMetric extends Value
 
     private function sessionsLastMonth(): array
     {
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastMonth()['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastMonth()['previous']);
+        $lastMonth = $this->getLastMonth();
+        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastMonth['current']);
+        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -80,8 +82,9 @@ class SessionsMetric extends Value
 
     private function sessionsLastSevenDays(): array
     {
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastSevenDays()['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastSevenDays()['previous']);
+        $lastSevenDays = $this->getLastSevenDays();
+        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -91,8 +94,9 @@ class SessionsMetric extends Value
 
     private function sessionsLastThirtyDays(): array
     {
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastThirtyDays()['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $this->getLastThirtyDays()['previous']);
+        $lastThirtyDays = $this->getLastThirtyDays();
+        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
