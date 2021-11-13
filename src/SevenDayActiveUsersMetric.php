@@ -2,30 +2,21 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Trend;
 use Laravel\Nova\Metrics\TrendResult;
-use Spatie\Analytics\Analytics;
-use Spatie\Analytics\Period;
-use Carbon\Carbon;
 
 class SevenDayActiveUsersMetric extends Trend
 {
     use ActiveUsersTrait;
 
-    public function name()
+    public function name(): string
     {
         return __('7 Day Active Users');
     }
 
-    /**
-     * Calculate the value of the metric.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return mixed
-     */
-    public function calculate(Request $request)
+    public function calculate(Request $request): TrendResult
     {
         $lookups = [
             5 => $this->performQuery('ga:7dayUsers', 5),
@@ -40,12 +31,7 @@ class SevenDayActiveUsersMetric extends Trend
             ->format('0,0');
     }
 
-    /**
-     * Get the ranges available for the metric.
-     *
-     * @return array
-     */
-    public function ranges()
+    public function ranges(): array
     {
         return [
             5 => '5 Days',
@@ -54,22 +40,12 @@ class SevenDayActiveUsersMetric extends Trend
         ];
     }
 
-    /**
-     * Determine for how many minutes the metric should be cached.
-     *
-     * @return  \DateTimeInterface|\DateInterval|float|int
-     */
-    public function cacheFor()
+    public function cacheFor(): \DateTime
     {
         return now()->addMinutes(30);
     }
 
-    /**
-     * Get the URI key for the metric.
-     *
-     * @return string
-     */
-    public function uriKey()
+    public function uriKey(): string
     {
         return 'seven-day-active-users';
     }

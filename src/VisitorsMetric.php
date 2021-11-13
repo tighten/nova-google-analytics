@@ -12,6 +12,8 @@ use Spatie\Analytics\Period;
 
 class VisitorsMetric extends Value
 {
+    use MetricDiffTrait;
+
     public function name(): string
     {
         return __('Visitors');
@@ -20,9 +22,12 @@ class VisitorsMetric extends Value
     public function calculate(Request $request): ValueResult
     {
         $lookups = [
-            1 => $this->visitorsOneDay(),
-            'MTD' => $this->visitorsOneMonth(),
-            'YTD' => $this->visitorsOneYear(),
+            1 => $this->visitorsToday(),
+            'Y' => $this->visitorsYesterday(),
+            'LW' =>$this->visitorsLastWeek(),
+            'LM' => $this->visitorsLastMonth(),
+            7 => $this->visitorsLastSevenDays(),
+            30 => $this->visitorsLastThirtyDays(),
         ];
 
         $data = Arr::get(
@@ -39,26 +44,7 @@ class VisitorsMetric extends Value
             ->previous($data['previous']);
     }
 
-    public function ranges(): array
-    {
-        return [
-            1 => __('Today'),
-            'MTD' => __('Month To Date'),
-            'YTD' => __('Year To Date'),
-        ];
-    }
-
-    public function cacheFor(): Carbon
-    {
-        return now()->addMinutes(30);
-    }
-
-    public function uriKey(): string
-    {
-        return 'visitors';
-    }
-
-    private function visitorsOneDay(): array
+    private function visitorsToday(): array
     {
         $analyticsData = app(Analytics::class)
             ->fetchTotalVisitorsAndPageViews(Period::days(1));
@@ -69,61 +55,84 @@ class VisitorsMetric extends Value
         ];
     }
 
-    private function visitorsOneMonth(): array
+    private function visitorsYesterday(): array
     {
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfMonth(), Carbon::today()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-        $currentResults = collect($currentAnalyticsData->getRows());
-
-        $lastMonth = Carbon::today()->startOfMonth()->subMonths(1);
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastMonth->startOfMonth(), $lastMonth->endOfMonth()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:yearMonth',
-            ]
-        );
-        $previousResults = collect($previousAnalyticsData->getRows());
+        $analyticsData = app(Analytics::class)
+            ->fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'result' => $analyticsData->last()['visitors'] ?? 0,
+            'previous' => $analyticsData->first()['visitors'] ?? 0,
         ];
     }
 
-    private function visitorsOneYear(): array
+    private function visitorsLastWeek(): array
     {
-        $currentAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create(Carbon::today()->startOfYear(), Carbon::today()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:year',
-            ]
-        );
-        $currentResults = collect($currentAnalyticsData->getRows());
-
-        $lastYear = Carbon::today()->startOfYear()->subYears(1);
-        $previousAnalyticsData = app(Analytics::class)->performQuery(
-            Period::create($lastYear->startOfYear(), $lastYear->endOfYear()),
-            'ga:users',
-            [
-                'metrics' => 'ga:users',
-                'dimensions' => 'ga:year',
-            ]
-        );
-        $previousResults = collect($previousAnalyticsData->getRows());
+        $lastWeek = $this->getLastWeek();
+        $currentResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['previous']);
 
         return [
-            'previous' => $previousResults->last()[1] ?? 0,
-            'result' => $currentResults->last()[1] ?? 0,
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
         ];
+    }
+
+    private function visitorsLastMonth(): array
+    {
+        $lastMonth = $this->getLastMonth();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
+        ];
+    }
+
+    private function visitorsLastSevenDays(): array
+    {
+        $lastSevenDays = $this->getLastSevenDays();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
+        ];
+    }
+
+    private function visitorsLastThirtyDays(): array
+    {
+        $lastThirtyDays = $this->getLastThirtyDays();
+        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['previous']);
+
+        return [
+            'previous' => $previousResults->pluck('value')->sum() ?? 0,
+            'result' => $currentResults->pluck('value')->sum() ?? 0,
+        ];
+    }
+
+    public function ranges(): array
+    {
+        return [
+            1 => __('Today'),
+            'Y' => __('Yesterday'),
+            'LW' => __('Last Week'),
+            'LM' => __('Last Month'),
+            7 => __('Last 7 Days'),
+            30 => __('Last 30 Days'),
+        ];
+    }
+
+    public function cacheFor(): \DateTime
+    {
+         return now()->addMinutes(30);
+    }
+
+    public function uriKey(): string
+    {
+        return 'visitors';
     }
 }

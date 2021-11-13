@@ -2,7 +2,6 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -47,7 +46,7 @@ class SessionsByDeviceMetric extends Partition
             });
     }
 
-    public function cacheFor(): Carbon
+    public function cacheFor(): \DateTime
     {
         return now()->addMinutes(30);
     }
