@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Tightenco\NovaGoogleAnalytics;
 
 use Carbon\Carbon;

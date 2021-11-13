@@ -9,15 +9,6 @@ use Spatie\Analytics\Period;
 
 trait MetricDiffTrait
 {
-    private function getPeriodDiff($startDate): array
-    {
-        $currentPeriodDiff = $startDate->diffInDays(Carbon::today());
-        $end = Carbon::yesterday()->subDays($currentPeriodDiff);
-        $start = Carbon::yesterday()->subDays($currentPeriodDiff)->subDays($currentPeriodDiff);
-
-        return [$start, $end];
-    }
-
     private function performQuery(string $metric, string $dimensions, Period $period): Collection
     {
         $analyticsData = app(Analytics::class)
