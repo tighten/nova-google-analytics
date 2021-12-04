@@ -28,44 +28,107 @@ class SessionsMetricTest extends TestCase
     }
 
     /** @test */
-    public function it_can_return_results_mtd()
+    public function it_can_return_results_for_yesterday()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'MTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'Y']));
         $this->assertFalse(empty($response));
     }
 
     /** @test */
-    public function mtd_results_contain_previous()
+    public function yesterday_results_contain_previous()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'MTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'Y']));
         $this->assertObjectHasAttribute('previous', $response);
     }
 
     /** @test */
-    public function mtd_results_contain_value()
+    public function yesterday_results_contain_value()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'MTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'Y']));
         $this->assertObjectHasAttribute('value', $response);
     }
 
     /** @test */
-    public function it_can_return_results_ytd()
+    public function it_can_return_results_last_week()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'YTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LW']));
         $this->assertFalse(empty($response));
     }
 
     /** @test */
-    public function ytd_results_contain_previous()
+    public function last_week_results_contain_previous()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'YTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LW']));
         $this->assertObjectHasAttribute('previous', $response);
     }
 
     /** @test */
-    public function ytd_results_contain_value()
+    public function last_week_results_contain_value()
     {
-        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'YTD']));
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LW']));
+        $this->assertObjectHasAttribute('value', $response);
+    }
+
+    /** @test */
+    public function it_can_return_results_last_month()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LM']));
+        $this->assertFalse(empty($response));
+    }
+
+    /** @test */
+    public function last_month_results_contain_previous()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LM']));
+        $this->assertObjectHasAttribute('previous', $response);
+    }
+
+    /** @test */
+    public function last_month_results_contain_value()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => 'LM']));
+        $this->assertObjectHasAttribute('value', $response);
+    }
+
+    /** @test */
+    public function it_can_return_results_last_seven_days()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '7']));
+        $this->assertFalse(empty($response));
+    }
+
+    /** @test */
+    public function last_seven_days_results_contain_previous()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '7']));
+        $this->assertObjectHasAttribute('previous', $response);
+    }
+
+    /** @test */
+    public function last_seven_days_results_contain_value()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '7']));
+        $this->assertObjectHasAttribute('value', $response);
+    }
+
+    /** @test */
+    public function it_can_return_results_last_thirty_days()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '30']));
+        $this->assertFalse(empty($response));
+    }
+
+    /** @test */
+    public function last_thirty_days_results_contain_previous()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '30']));
+        $this->assertObjectHasAttribute('previous', $response);
+    }
+
+    /** @test */
+    public function last_thirty_days_results_contain_value()
+    {
+        $response = (new SessionsMetric)->calculate($this->requestWithQueryParams(['range' => '30']));
         $this->assertObjectHasAttribute('value', $response);
     }
 }
