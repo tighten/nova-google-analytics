@@ -5,6 +5,7 @@ namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Spatie\Analytics\Analytics;
 use Spatie\Analytics\Period;
 use Throwable;
@@ -26,13 +27,15 @@ class GoogleAnalyticsController extends Controller
             );
 
             return [
-                'pages' => $analyticsQuery->getPages(),
+                'pageData' => $analyticsQuery->getPageData(),
                 'totalPages' => $analyticsQuery->totalPages(),
                 'hasMore' => $analyticsQuery->hasMore(),
             ];
         } catch (Throwable $exception) {
+            Log::error($exception->getMessage());
+
             return [
-                'pages' => [],
+                'pageData' => [],
                 'totalPages' => 0,
                 'hasMore' => false,
             ];

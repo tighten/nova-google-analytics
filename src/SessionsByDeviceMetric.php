@@ -10,7 +10,7 @@ use Spatie\Analytics\Period;
 
 class SessionsByDeviceMetric extends Partition
 {
-    public function name()
+    public function name(): string
     {
         return __('Sessions by Device');
     }
@@ -34,18 +34,19 @@ class SessionsByDeviceMetric extends Partition
             $results[$row[0]] = $row[1];
         }
 
-        return $this->result($results)
-                    ->label(function ($value) {
-                        switch ($value) {
-                            case null:
-                                return 'None';
-                            default:
-                                return ucfirst($value);
-                        }
-                    });
+        return $this
+            ->result($results)
+            ->label(function ($value) {
+                switch ($value) {
+                    case null:
+                        return 'None';
+                    default:
+                        return ucfirst($value);
+                }
+            });
     }
 
-    public function cacheFor()
+    public function cacheFor(): \DateTime
     {
         return now()->addMinutes(30);
     }

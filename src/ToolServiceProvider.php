@@ -10,8 +10,7 @@ use Tightenco\NovaGoogleAnalytics\Http\Middleware\Authorize;
 
 class ToolServiceProvider extends ServiceProvider
 {
-
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-google-analytics');
 
@@ -29,7 +28,7 @@ class ToolServiceProvider extends ServiceProvider
         //
     }
 
-    protected function routes()
+    protected function routes(): void
     {
         if ($this->app->routesAreCached()) {
             return;

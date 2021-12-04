@@ -14,7 +14,7 @@ class MostVisitedPagesController extends Controller
         return $this->mostVisitedPages($request);
     }
 
-    private function mostVisitedPages($request): array
+    private function mostVisitedPages(Request $request): array
     {
         $duration = $request->has('duration')
             ? $request->input('duration')
@@ -46,7 +46,12 @@ class MostVisitedPagesController extends Controller
             ]
         );
 
-        $headers = ['name', 'hostname', 'path', 'visits'];
+        $headers = [
+            'name',
+            'hostname',
+            'path',
+            'visits',
+        ];
 
         return array_map(
             function ($row) use ($headers) {

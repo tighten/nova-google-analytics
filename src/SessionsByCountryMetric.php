@@ -10,7 +10,7 @@ use Spatie\Analytics\Period;
 
 class SessionsByCountryMetric extends Partition
 {
-    public function name()
+    public function name(): string
     {
         return __('Sessions by Country - Top 5');
     }
@@ -26,7 +26,7 @@ class SessionsByCountryMetric extends Partition
                     'dimensions' => 'ga:country',
                     'sort' => '-ga:sessions',
                     'max-results' => 5,
-                ]
+                ],
             );
 
         $rows = collect($analyticsData->getRows());
@@ -39,7 +39,7 @@ class SessionsByCountryMetric extends Partition
         return $this->result($results);
     }
 
-    public function cacheFor()
+    public function cacheFor(): \DateTime
     {
         return now()->addMinutes(30);
     }
