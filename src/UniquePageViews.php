@@ -131,6 +131,6 @@ class UniquePageViews extends Value
 
     public function uriKey(): string
     {
-        return 'page-views';
+        return 'unique-page-views';
     }
 }
