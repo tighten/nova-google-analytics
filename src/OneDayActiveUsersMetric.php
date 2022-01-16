@@ -34,9 +34,9 @@ class OneDayActiveUsersMetric extends Trend
     public function ranges(): array
     {
         return [
-            5 => '5 Days',
-            10 => '10 Days',
-            15 => '15 Days',
+            5 => __('5 Days'),
+            10 => __('10 Days'),
+            15 => __('15 Days'),
         ];
     }
 
