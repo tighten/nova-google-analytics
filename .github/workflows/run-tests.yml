@@ -12,7 +12,12 @@ jobs:
       matrix:
         php: [8.0, 8.1]
         include:
-          - laravel: 8.*
+          - php: 8.0
+            laravel: 8.*
+            testbench: 7.*
+            phpunit: 9.*
+          - php: 8.1
+            laravel: 8.*
             testbench: 7.*
             phpunit: 9.*
           - php: 8.0
