@@ -6,16 +6,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 ![Build Status](https://github.com/tighten/nova-google-analytics/actions/workflows/run-tests.yml/badge.svg)
 
-JUST GETTING STARTED.
-
-Plans:
-
-- Analytics tool
-- Individual cards for each of the useful analytics data points
-- Resource tools (e.g. analytics on each page)
-- Maybe actions for events?
-- Other great stuff I hope :)
-
 ## Installation
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
