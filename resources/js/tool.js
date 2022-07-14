@@ -1,9 +1,3 @@
-Nova.booting((Vue, router) => {
-    router.addRoutes([
-        {
-            name: 'nova-google-analytics',
-            path: '/nova-google-analytics',
-            component: require('./components/Tool'),
-        },
-    ])
-})
+Nova.booting((Vue) => {
+    Nova.inertia('Tool', require('./pages/Tool').default);
+});

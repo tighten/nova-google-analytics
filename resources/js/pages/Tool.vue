@@ -1,15 +1,21 @@
 <template>
-    <loading-view :loading='initialLoading'>
-        <heading class='mb-6'>
+    <Head :title='title' />
+    <LoadingView :loading='initialLoading'>
+        <Heading class='mb-6'>
             {{ title }}
-        </heading>
+        </Heading>
         <div class='flex'>
             <div class='relative h-9 flex-no-shrink mb-6'>
-                <icon class='absolute search-icon-center ml-3 text-70' type='search' />
-                <input
+                <Icon
+                    :style="{ top: '4px' }"
+                    class='absolute ml-2 text-gray-400'
+                    type='search'
+                    width='20'
+                />
+                <RoundInput
                     v-model='search'
                     :placeholder="__('Search')"
-                    class='appearance-none form-search w-search pl-search shadow'
+                    class='appearance-none bg-white dark:bg-gray-800 shadow rounded-full h-8 w-full dark:focus:bg-gray-800'
                     data-testid='search-input'
                     dusk='search'
                     spellcheck='false'
@@ -19,7 +25,7 @@
                 />
             </div>
         </div>
-        <loading-card :loading='loading' class='card relative'>
+        <LoadingCard :loading='loading' class='card relative'>
             <div>
                 <div class='flex items-center py-3 border-b border-50'>
                     <div class='flex items-center ml-auto px-3'>
@@ -40,7 +46,7 @@
                     <thead>
                         <tr>
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:pageTitle'
@@ -50,11 +56,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Name') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Paths'
                                     uri-key='ga:pagePath'
@@ -64,11 +70,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Path') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:pageviews'
@@ -78,11 +84,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Visits') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:uniquePageviews'
@@ -92,11 +98,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Unique Visits') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:avgTimeOnPage'
@@ -106,11 +112,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Avg. Time on Page') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:entrances'
@@ -120,11 +126,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Entrances') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:bounceRate'
@@ -134,11 +140,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Bounce Rate') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:exitRate'
@@ -148,11 +154,11 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Exit Rate') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
 
                             <th class='text-left'>
-                                <sortable-icon
+                                <SortableIcon
                                     :direction='direction'
                                     resource-name='Pages'
                                     uri-key='ga:pageValue'
@@ -162,7 +168,7 @@
                                     <span class='inline-flex items-center'>
                                         {{ __('Page Value') }}
                                     </span>
-                                </sortable-icon>
+                                </SortableIcon>
                             </th>
                         </tr>
                     </thead>
@@ -191,16 +197,16 @@
                 @next='nextPage'
                 @previous='previousPage'
             ></pagination-links>
-        </loading-card>
-    </loading-view>
+        </LoadingCard>
+    </LoadingView>
 </template>
 
 <script>
-import PaginationLinks from './PaginationLinks.vue';
+import PaginationLinks from '../components/PaginationLinks.vue';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import utc from 'dayjs/plugin/utc';
-import FilterMenu from './FilterMenu';
+import FilterMenu from '../components/FilterMenu';
 
 dayjs.extend(duration);
 dayjs.extend(utc);
