@@ -31,7 +31,12 @@
                     <div class='flex items-center ml-auto px-3'>
                         <filter-menu
                             :perPage='limit'
-                            :perPageOptions='[10, 25, 50, 100]'
+                            :perPageOptions='[
+                                {label: 10, value: 10},
+                                {label: 25, value: 25},
+                                {label: 50, value: 50},
+                                {label: 100, value: 100}
+                            ]'
                             :viaResource='false'
                             @per-page-changed='updateLimit'
                         ></filter-menu>
