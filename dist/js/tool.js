@@ -136,6 +136,7 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
     getData: function getData() {
       var _this = this;
 
+      this.loading = false;
       Nova.request().get("/nova-vendor/nova-google-analytics/pages?limit=".concat(this.limit, "&duration=").concat(this.duration, "&page=").concat(this.page, "&s=").concat(this.search, "&sortBy=").concat(this.sortBy, "&sortDirection=").concat(this.sortDirection)).then(function (response) {
         _this.data = response.data.pageData;
         _this.totalPages = response.data.totalPages;
@@ -347,7 +348,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 var _hoisted_1 = {
-  "class": "bg-20 rounded-b"
+  "class": "bg-20 rounded-b-lg border-t border-gray-200 dark:border-gray-700"
 };
 var _hoisted_2 = {
   key: 0,
@@ -356,20 +357,19 @@ var _hoisted_2 = {
 var _hoisted_3 = ["disabled"];
 var _hoisted_4 = {
   key: 0,
-  "class": "text-sm text-80 px-4"
+  "class": "text-xs px-4"
 };
 var _hoisted_5 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [$props.data.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("nav", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Previous Link "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([{
-      'text-primary dim': $props.hasPrevious,
-      'text-80 opacity-50 cursor-not-allowed': !$props.hasPrevious
-    }, "btn btn-link py-3 px-4"]),
+      'text-primary-500 hover:text-primary-400 active:text-primary-600': $props.hasPrevious,
+      'text-gray-300 dark:text-gray-600': !$props.hasPrevious
+    }, "text-xs font-bold py-3 px-4 focus:outline-none rounded-bl-lg focus:ring focus:ring-inset"]),
     disabled: !$props.hasPrevious,
-    dusk: "previous",
     rel: "prev",
-    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.previousPage();
+    onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.previousPage && $options.previousPage.apply($options, arguments);
     }, ["prevent"]))
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Previous')), 11
   /* TEXT, CLASS, PROPS */
@@ -377,14 +377,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Link "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([{
-      'text-primary dim': $props.hasMore,
-      'text-80 opacity-50 cursor-not-allowed': !$props.hasMore
-    }, "ml-auto btn btn-link py-3 px-4"]),
+      'text-primary-500 hover:text-primary-400 active:text-primary-600': $props.hasMore,
+      'text-gray-300 dark:text-gray-600': !$props.hasMore
+    }, "text-xs font-bold py-3 px-4 focus:outline-none rounded-br-lg focus:ring focus:ring-inset"]),
     disabled: !$props.hasMore,
-    dusk: "next",
     rel: "next",
-    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $options.nextPage();
+    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+      return $options.nextPage && $options.nextPage.apply($options, arguments);
     }, ["prevent"]))
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Next')), 11
   /* TEXT, CLASS, PROPS */

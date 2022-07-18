@@ -256,6 +256,7 @@ export default {
         },
 
         getData() {
+            this.loading = false;
             Nova.request()
                 .get(`/nova-vendor/nova-google-analytics/pages?limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
                 .then(response => {
