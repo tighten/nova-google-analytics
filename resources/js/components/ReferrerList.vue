@@ -1,31 +1,34 @@
 <template>
-    <card class='px-2 py-4'>
-        <div class='flex mb-4'>
-            <h3 class='mx-3 text-base text-80 font-bold'>
+    <card class='px-6 py-4'>
+        <div class='h-6 flex items-center mb-4'>
+            <h3 class='mr-3 leading-tight text-sm font-bold'>
                 {{ __('Top Referrers') }}
             </h3>
-            <select
-                v-model='duration'
-                class='select-box-sm ml-auto min-w-24 h-6 text-xs appearance-none bg-40 pl-2 pr-6 active:outline-none active:shadow-outline focus:outline-none focus:shadow-outline'
-                @change='updateDuration'
-            >
-                <option value='week'>
-                    {{ __('This Week') }}
-                </option>
-                <option value='month'>
-                    {{ __('This Month') }}
-                </option>
-                <option value='year'>
-                    {{ __('This Year') }}
-                </option>
-            </select>
+            <div class='flex relative ml-auto flex-shrink-0'>
+                <select
+                    v-model='duration'
+                    class='w-full block form-control form-select form-control-xxs form-select-bordered'
+                    @change='updateDuration'
+                >
+                    <option value='week'>
+                        {{ __('This Week') }}
+                    </option>
+                    <option value='month'>
+                        {{ __('This Month') }}
+                    </option>
+                    <option value='year'>
+                        {{ __('This Year') }}
+                    </option>
+                </select>
+                <IconArrow class='pointer-events-none form-select-arrow' />
+            </div>
         </div>
 
         <div
             v-if='!list'
-            class='flex items-center'
+            class='flex items-center font-bold text-sm'
         >
-            <p class='text-80 font-bold'>
+            <p class='text-gray-400 font-semibold'>
                 {{ __('No Data') }}
             </p>
         </div>
@@ -42,17 +45,17 @@
                     <div class='flex justify-between py-2'>
                         <div>
                             <a
+                                class='flex-1 text-90 leading-normal'
                                 :href='`http://${referrer.url}`'
-                                class='flex-1 text-base text-primary no-underline'
                                 target='_blank'
                             >
                                 {{ referrer.url }}
                             </a>
                         </div>
                         <div>
-                           <span class='number-badge font-bold'>
-                               {{ referrer.pageViews }}
-                           </span>
+                            <CircleBadge>
+                                {{ referrer.pageViews }}
+                            </CircleBadge>
                         </div>
                     </div>
                 </li>

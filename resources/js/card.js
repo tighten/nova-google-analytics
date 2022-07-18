@@ -1,4 +1,10 @@
-Nova.booting((Vue, router) => {
-    Vue.component('most-visited-pages', require('./components/MostVisitedPages'));
-    Vue.component('referrer-list', require('./components/ReferrerList'));
-})
+Nova.booting((app, store) => {
+    app.component(
+        'most-visited-pages',
+        require('./components/MostVisitedPages').default
+    );
+    app.component(
+        'referrer-list',
+        require('./components/ReferrerList').default
+    );
+});
