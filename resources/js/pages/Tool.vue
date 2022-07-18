@@ -43,152 +43,135 @@
                     </div>
                 </div>
                 <table
+                    aria-describedby='Page Table'
                     v-if='data.length > 0'
                     cellpadding='0'
                     cellspacing='0'
                     class='table w-full table-default'
                 >
-                    <thead>
-                        <tr>
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:pageTitle'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Name') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                    <thead class='bg-gray-50 dark:bg-gray-800'>
+                    <tr>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:pageTitle'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Name') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Paths'
-                                    uri-key='ga:pagePath'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Path') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Paths'
+                                uri-key='ga:pagePath'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Path') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:pageviews'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Visits') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:pageviews'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Visits') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:uniquePageviews'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Unique Visits') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:uniquePageviews'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Unique Visits') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:avgTimeOnPage'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Avg. Time on Page') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:avgTimeOnPage'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Avg. Time on Page') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:entrances'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Entrances') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:entrances'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Entrances') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:bounceRate'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Bounce Rate') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:bounceRate'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Bounce Rate') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:exitRate'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Exit Rate') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:exitRate'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Exit Rate') }}
+                            </SortableIcon>
+                        </th>
 
-                            <th class='text-left'>
-                                <SortableIcon
-                                    :direction='direction'
-                                    resource-name='Pages'
-                                    uri-key='ga:pageValue'
-                                    @reset='resetOrderBy'
-                                    @sort='sortByChange'
-                                >
-                                    <span class='inline-flex items-center'>
-                                        {{ __('Page Value') }}
-                                    </span>
-                                </SortableIcon>
-                            </th>
-                        </tr>
+                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='ga:pageValue'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Page Value') }}
+                            </SortableIcon>
+                        </th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr v-for='row in data'>
-                            <td>{{ row.name }}</td>
-                            <td>{{ row.path }}</td>
-                            <td>{{ row.visits }}</td>
-                            <td>{{ row.unique_visits }}</td>
-                            <td>{{ getFormattedTime(row.avg_page_time) }}</td>
-                            <td>{{ row.entrances }}</td>
-                            <td>{{ getFormattedPercent(row.bounce_rate) }}</td>
-                            <td>{{ getFormattedPercent(row.exit_rate) }}</td>
-                            <td>{{ getFormattedCurrency(row.page_value) }}</td>
-                        </tr>
+                    <tr v-for='row in data'>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.path }}</td>
+                        <td>{{ row.visits }}</td>
+                        <td>{{ row.unique_visits }}</td>
+                        <td>{{ getFormattedTime(row.avg_page_time) }}</td>
+                        <td>{{ row.entrances }}</td>
+                        <td>{{ getFormattedPercent(row.bounce_rate) }}</td>
+                        <td>{{ getFormattedPercent(row.exit_rate) }}</td>
+                        <td>{{ getFormattedCurrency(row.page_value) }}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

@@ -421,63 +421,40 @@ var _hoisted_4 = {
 };
 var _hoisted_5 = {
   key: 0,
+  "aria-describedby": "Page Table",
   cellpadding: "0",
   cellspacing: "0",
   "class": "table w-full table-default"
 };
 var _hoisted_6 = {
-  "class": "text-left"
+  "class": "bg-gray-50 dark:bg-gray-800"
 };
 var _hoisted_7 = {
-  "class": "inline-flex items-center"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_8 = {
-  "class": "text-left"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_9 = {
-  "class": "inline-flex items-center"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_10 = {
-  "class": "text-left"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_11 = {
-  "class": "inline-flex items-center"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_12 = {
-  "class": "text-left"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_13 = {
-  "class": "inline-flex items-center"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_14 = {
-  "class": "text-left"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 var _hoisted_15 = {
-  "class": "inline-flex items-center"
-};
-var _hoisted_16 = {
-  "class": "text-left"
-};
-var _hoisted_17 = {
-  "class": "inline-flex items-center"
-};
-var _hoisted_18 = {
-  "class": "text-left"
-};
-var _hoisted_19 = {
-  "class": "inline-flex items-center"
-};
-var _hoisted_20 = {
-  "class": "text-left"
-};
-var _hoisted_21 = {
-  "class": "inline-flex items-center"
-};
-var _hoisted_22 = {
-  "class": "text-left"
-};
-var _hoisted_23 = {
-  "class": "inline-flex items-center"
+  "class": "text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
@@ -563,7 +540,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onPerPageChanged: $options.updateLimit
           }, null, 8
           /* PROPS */
-          , ["perPage", "onPerPageChanged"])])]), _ctx.data.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("table", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
+          , ["perPage", "onPerPageChanged"])])]), _ctx.data.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("table", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
             direction: _ctx.direction,
             "resource-name": "Pages",
             "uri-key": "ga:pageTitle",
@@ -571,7 +548,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Name')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Name')), 1
               /* TEXT */
               )];
             }),
@@ -588,7 +565,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Path')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Path')), 1
+              /* TEXT */
+              )];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
+            direction: _ctx.direction,
+            "resource-name": "Pages",
+            "uri-key": "ga:pageviews",
+            onReset: $options.resetOrderBy,
+            onSort: $options.sortByChange
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Visits')), 1
               /* TEXT */
               )];
             }),
@@ -600,12 +594,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
             direction: _ctx.direction,
             "resource-name": "Pages",
-            "uri-key": "ga:pageviews",
+            "uri-key": "ga:uniquePageviews",
             onReset: $options.resetOrderBy,
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Visits')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Unique Visits')), 1
+              /* TEXT */
+              )];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
+            direction: _ctx.direction,
+            "resource-name": "Pages",
+            "uri-key": "ga:avgTimeOnPage",
+            onReset: $options.resetOrderBy,
+            onSort: $options.sortByChange
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Avg. Time on Page')), 1
               /* TEXT */
               )];
             }),
@@ -617,12 +628,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
             direction: _ctx.direction,
             "resource-name": "Pages",
-            "uri-key": "ga:uniquePageviews",
+            "uri-key": "ga:entrances",
             onReset: $options.resetOrderBy,
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Unique Visits')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Entrances')), 1
+              /* TEXT */
+              )];
+            }),
+            _: 1
+            /* STABLE */
+
+          }, 8
+          /* PROPS */
+          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
+            direction: _ctx.direction,
+            "resource-name": "Pages",
+            "uri-key": "ga:bounceRate",
+            onReset: $options.resetOrderBy,
+            onSort: $options.sortByChange
+          }, {
+            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Bounce Rate')), 1
               /* TEXT */
               )];
             }),
@@ -634,63 +662,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
             direction: _ctx.direction,
             "resource-name": "Pages",
-            "uri-key": "ga:avgTimeOnPage",
-            onReset: $options.resetOrderBy,
-            onSort: $options.sortByChange
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Avg. Time on Page')), 1
-              /* TEXT */
-              )];
-            }),
-            _: 1
-            /* STABLE */
-
-          }, 8
-          /* PROPS */
-          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
-            direction: _ctx.direction,
-            "resource-name": "Pages",
-            "uri-key": "ga:entrances",
-            onReset: $options.resetOrderBy,
-            onSort: $options.sortByChange
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Entrances')), 1
-              /* TEXT */
-              )];
-            }),
-            _: 1
-            /* STABLE */
-
-          }, 8
-          /* PROPS */
-          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
-            direction: _ctx.direction,
-            "resource-name": "Pages",
-            "uri-key": "ga:bounceRate",
-            onReset: $options.resetOrderBy,
-            onSort: $options.sortByChange
-          }, {
-            "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Bounce Rate')), 1
-              /* TEXT */
-              )];
-            }),
-            _: 1
-            /* STABLE */
-
-          }, 8
-          /* PROPS */
-          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
-            direction: _ctx.direction,
-            "resource-name": "Pages",
             "uri-key": "ga:exitRate",
             onReset: $options.resetOrderBy,
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Exit Rate')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Exit Rate')), 1
               /* TEXT */
               )];
             }),
@@ -699,7 +676,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
           }, 8
           /* PROPS */
-          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
+          , ["direction", "onReset", "onSort"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_SortableIcon, {
             direction: _ctx.direction,
             "resource-name": "Pages",
             "uri-key": "ga:pageValue",
@@ -707,7 +684,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             onSort: $options.sortByChange
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Page Value')), 1
+              return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.__('Page Value')), 1
               /* TEXT */
               )];
             }),
