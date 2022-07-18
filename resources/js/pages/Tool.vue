@@ -75,7 +75,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -87,7 +87,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -99,7 +99,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -111,7 +111,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -123,7 +123,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -135,7 +135,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -147,7 +147,7 @@
                             </SortableIcon>
                         </th>
 
-                        <th class='text-left uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
@@ -162,15 +162,33 @@
                     </thead>
                     <tbody>
                     <tr v-for='row in data'>
-                        <td>{{ row.name }}</td>
-                        <td>{{ row.path }}</td>
-                        <td>{{ row.visits }}</td>
-                        <td>{{ row.unique_visits }}</td>
-                        <td>{{ getFormattedTime(row.avg_page_time) }}</td>
-                        <td>{{ row.entrances }}</td>
-                        <td>{{ getFormattedPercent(row.bounce_rate) }}</td>
-                        <td>{{ getFormattedPercent(row.exit_rate) }}</td>
-                        <td>{{ getFormattedCurrency(row.page_value) }}</td>
+                        <td class='px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ row.name }}
+                        </td>
+                        <td class='px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ row.path }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ row.visits }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ row.unique_visits }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ getFormattedTime(row.avg_page_time) }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ row.entrances }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ getFormattedPercent(row.bounce_rate) }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ getFormattedPercent(row.exit_rate) }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ getFormattedCurrency(row.page_value) }}
+                        </td>
                     </tr>
                     </tbody>
                 </table>
