@@ -27,10 +27,11 @@ ANALYTICS_VIEW_ID=
 ```
 
 ## Usage
-You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `NovaServiceProvider`.
+You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `Main`
+dashboard.
 
 ```php
-// in app/Providers/NovaServiceProvider.php
+// in app/Nova/Dashboards/Main.php
 
 // ...
 
@@ -55,27 +56,35 @@ public function cards()
 ```
 
 ## Features
+
 #### View the Visitors and Pageview Metrics
-![image](https://user-images.githubusercontent.com/7070136/114229277-982fe180-9945-11eb-9c4c-ca9bc1554fca.png)
+
+![image](https://user-images.githubusercontent.com/7070136/179579307-e61c4fe4-0e70-482d-8939-3a47bc90b604.png)
 
 #### View the Active Users Metrics
-![image](https://user-images.githubusercontent.com/7070136/122437531-cc3c0a00-cf67-11eb-883b-6fdb56122142.png)
-![image](https://user-images.githubusercontent.com/7070136/122437540-ce05cd80-cf67-11eb-8bc9-775a13db068e.png)
+
+![image](https://user-images.githubusercontent.com/7070136/179579376-06054344-ae64-4452-913b-2196f744f41c.png)
 
 #### View the Sessions and Avg. Session Duration Metrics
-![image](https://user-images.githubusercontent.com/7070136/122135144-f083d380-ce0d-11eb-9a30-bfa674e510e7.png)
+
+![image](https://user-images.githubusercontent.com/7070136/179579480-e2e9cbc6-beea-47d8-9268-a68eac90a436.png)
 
 #### View the Devices and Country Metrics by Session
-![image](https://user-images.githubusercontent.com/7070136/122282967-08b12c80-ceba-11eb-91bd-52234236310d.png)
+
+![image](https://user-images.githubusercontent.com/7070136/179579608-61cde3e7-4159-4025-a925-3a2940e94ed6.png)
 
 #### View the lists of Most Visited Pages and Referrers
-![image](https://user-images.githubusercontent.com/7070136/114229279-982fe180-9945-11eb-9ee9-e38215ce5eae.png)
+
+![image](https://user-images.githubusercontent.com/7070136/179579542-9e60e6a4-53d6-4d40-a9f9-d9aeb3cec791.png)
 
 ## Testing
+
 First, copy your .env.example file to a new file called .env.testing:
+
 ```
 cp .env.example .env.testing
 ```
+
 Make sure, in that file, to define the following variables to run all tests:
 
 ```
