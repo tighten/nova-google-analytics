@@ -9,14 +9,14 @@ use Spatie\Analytics\Period;
 
 class AnalyticsQuery
 {
-    private $headers;
-    private $limit;
-    private $offset;
-    private $searchTerm;
-    private $sortDirection;
-    private $sortBy;
-    private $duration;
-    private $queryResults;
+    private mixed $headers;
+    private int $limit;
+    private int $offset;
+    private mixed $searchTerm;
+    private string $sortDirection;
+    private string $sortBy;
+    private string $duration;
+    private mixed $queryResults;
 
     public function __construct($headers, $limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration)
     {

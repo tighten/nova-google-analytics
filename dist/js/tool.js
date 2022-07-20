@@ -136,7 +136,6 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
     getData: function getData() {
       var _this = this;
 
-      this.loading = false;
       Nova.request().get("/nova-vendor/nova-google-analytics/pages?limit=".concat(this.limit, "&duration=").concat(this.duration, "&page=").concat(this.page, "&s=").concat(this.search, "&sortBy=").concat(this.sortBy, "&sortDirection=").concat(this.sortDirection)).then(function (response) {
         _this.data = response.data.pageData;
         _this.totalPages = response.data.totalPages;
@@ -159,12 +158,15 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
       this.getData();
     },
     performSearch: function performSearch(event) {
-      if (event.which != 9) {
-        this.page = 1;
-        this.getData();
-      }
+      var _event$target;
+
+      this.loading = true;
+      this.page = 1;
+      this.search = (event === null || event === void 0 ? void 0 : (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value) || '';
+      this.getData();
     },
     sortByChange: function sortByChange(event) {
+      this.loading = true;
       var direction = this.sortDirection == 'asc' ? 'desc' : 'asc';
 
       if (this.sortBy != event.key) {
@@ -175,7 +177,7 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
       this.sortDirection = direction;
       this.getData();
     },
-    resetOrderBy: function resetOrderBy(event) {
+    resetOrderBy: function resetOrderBy() {
       this.sortBy = 'ga:pageviews';
       this.sortDirection = 'desc';
       this.getData();
@@ -410,7 +412,7 @@ var _hoisted_1 = {
   "class": "flex"
 };
 var _hoisted_2 = {
-  "class": "relative h-9 flex-no-shrink mb-6"
+  "class": "relative h-9 w-full md:w-1/3 md:flex-shrink-0 mb-6"
 };
 var _hoisted_3 = {
   "class": "flex items-center py-3 border-b border-50"
@@ -528,23 +530,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "search",
         width: "20"
       }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_RoundInput, {
-        modelValue: _ctx.search,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
-          return _ctx.search = $event;
-        }),
-        placeholder: _ctx.__('Search'),
+        value: _ctx.search,
         "class": "appearance-none bg-white dark:bg-gray-800 shadow rounded-full h-8 w-full dark:focus:bg-gray-800",
-        "data-testid": "search-input",
-        dusk: "search",
+        placeholder: _ctx.__('Search'),
         spellcheck: "false",
         type: "search",
-        onSearch: $options.performSearch,
-        onKeydown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($options.performSearch, ["stop"])
+        onInput: $options.performSearch
       }, null, 8
       /* PROPS */
-      , ["modelValue", "placeholder", "onSearch", "onKeydown"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LoadingCard, {
-        loading: _ctx.loading,
-        "class": "card relative"
+      , ["value", "placeholder", "onInput"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_LoadingCard, {
+        loading: _ctx.loading
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
           return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_filter_menu, {

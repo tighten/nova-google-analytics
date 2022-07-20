@@ -5,7 +5,7 @@
             {{ title }}
         </Heading>
         <div class='flex'>
-            <div class='relative h-9 flex-no-shrink mb-6'>
+            <div class='relative h-9 w-full md:w-1/3 md:flex-shrink-0 mb-6'>
                 <Icon
                     :style="{ top: '4px' }"
                     class='absolute ml-2 text-gray-400'
@@ -13,19 +13,16 @@
                     width='20'
                 />
                 <RoundInput
-                    v-model='search'
-                    :placeholder="__('Search')"
+                    :value='search'
                     class='appearance-none bg-white dark:bg-gray-800 shadow rounded-full h-8 w-full dark:focus:bg-gray-800'
-                    data-testid='search-input'
-                    dusk='search'
+                    :placeholder="__('Search')"
                     spellcheck='false'
                     type='search'
-                    @search='performSearch'
-                    @keydown.stop='performSearch'
+                    @input='performSearch'
                 />
             </div>
         </div>
-        <LoadingCard :loading='loading' class='card relative'>
+        <LoadingCard :loading='loading'>
             <div>
                 <div class='flex items-center py-3 border-b border-50'>
                     <div class='flex items-center ml-auto px-3'>
@@ -256,7 +253,6 @@ export default {
         },
 
         getData() {
-            this.loading = false;
             Nova.request()
                 .get(`/nova-vendor/nova-google-analytics/pages?limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
                 .then(response => {
@@ -275,22 +271,25 @@ export default {
 
         previousPage() {
             this.loading = true;
+
             if (this.hasPrevious) {
                 this.page--;
             }
+
             this.getData();
         },
 
         performSearch(event) {
-            if (event.which != 9) {
-                this.page = 1;
-                this.getData();
-            }
+            this.loading = true;
+            this.page = 1;
+            this.search = event?.target?.value || '';
+            this.getData();
         },
 
         sortByChange(event) {
-            let direction = this.sortDirection == 'asc' ? 'desc' : 'asc';
+            this.loading = true;
 
+            let direction = this.sortDirection == 'asc' ? 'desc' : 'asc';
             if (this.sortBy != event.key) {
                 direction = 'asc';
             }
@@ -300,7 +299,7 @@ export default {
             this.getData();
         },
 
-        resetOrderBy(event) {
+        resetOrderBy() {
             this.sortBy = 'ga:pageviews';
             this.sortDirection = 'desc';
             this.getData();
