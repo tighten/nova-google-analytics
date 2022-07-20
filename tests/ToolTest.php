@@ -29,7 +29,9 @@ class ToolTest extends TestCase
     /** @test */
     public function it_will_accept_limit_param()
     {
-        $results = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=5')->getData();
+        $results = $this
+            ->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=5')
+            ->getData();
 
         $this->assertLessThanOrEqual(5, count($results->pageData));
     }
