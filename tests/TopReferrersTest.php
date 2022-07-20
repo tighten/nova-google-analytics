@@ -13,11 +13,11 @@ class TopReferrersTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_ten_results()
+    public function it_returns_ten_results_max()
     {
-        $this
-            ->get('nova-vendor/tightenco/nova-google-analytics/referrer-list')
-            ->assertJsonCount(10);
+        $results = $this->get('nova-vendor/tightenco/nova-google-analytics/referrer-list')->getData();
+
+        $this->assertLessThanOrEqual(10, count($results));
     }
 
     /** @test */

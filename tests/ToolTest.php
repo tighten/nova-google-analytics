@@ -7,7 +7,7 @@ use Tightenco\NovaGoogleAnalytics\AnalyticsQuery;
 
 class ToolTest extends TestCase
 {
-    protected $failedJsonResponse = [
+    protected array $failedJsonResponse = [
         'pageData' => [],
         'totalPages' => 0,
         'hasMore' => false,
@@ -29,9 +29,9 @@ class ToolTest extends TestCase
     /** @test */
     public function it_will_accept_limit_param()
     {
-        $this
-            ->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=5')
-            ->assertJsonCount(5, 'pageData');
+        $results = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?limit=5')->getData();
+
+        $this->assertLessThanOrEqual(5, count($results->pageData));
     }
 
     /** @test */
