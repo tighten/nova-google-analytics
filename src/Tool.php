@@ -2,7 +2,6 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
@@ -16,7 +15,7 @@ class Tool extends BaseTool
         Nova::style('nova-google-analytics', __DIR__ . '/../dist/css/tool.css');
     }
 
-    public function menu(Request $request)
+    public function menu(Request $request): MenuSection
     {
         return MenuSection::make('Google Analytics')
             ->path('/nova-google-analytics')
