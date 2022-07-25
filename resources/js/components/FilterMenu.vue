@@ -1,119 +1,68 @@
 <!-- From vendor/laravel/nova/resources/js/components/FilterMenu.vue -->
 <template>
-    <div v-on:click.prevent='toggleDropDown'>
-        <div class='filter-menu-dropdown'>
-            <dropdown
-                :autoHide='false'
-                :show='showDropDown'
-                dusk='filter-selector'
-                trigger='manual'
+    <Dropdown
+        :class="{
+            'bg-primary-500 hover:bg-primary-600 border-primary-500':
+            filtersAreApplied,
+            'dark:bg-primary-500 dark:hover:bg-primary-600 dark:border-primary-500':
+            filtersAreApplied,
+        }"
+        :handle-internal-clicks='false'
+        class='flex h-9 hover:bg-gray-100 dark:hover:bg-gray-700 rounded'
+    >
+        <DropdownTrigger
+            :class="{'text-white hover:text-white dark:text-gray-800 dark:hover:text-gray-800': filtersAreApplied}"
+            class='toolbar-button px-2'
+        >
+            <Icon type='filter' />
+
+            <span
+                v-if='filtersAreApplied'
+                :class="{
+                    'text-white dark:text-gray-800': filtersAreApplied,
+                }"
+                class='ml-2 font-bold'
             >
-                <dropdown-trigger
-                    :active='filtersAreApplied'
-                    :class="{ 'bg-primary border-primary': filtersAreApplied }"
-                    class='bg-30 px-3 border-2 border-30 rounded'
-                >
-                    <icon
-                        :class="filtersAreApplied ? 'text-white' : 'text-80'"
-                        type='filter'
-                    />
+                {{ activeFilterCount }}
+            </span>
+        </DropdownTrigger>
 
-                    <span
-                        v-if='filtersAreApplied'
-                        class='ml-2 font-bold text-white text-80'
-                    >
-                        {{ activeFilterCount }}
-                    </span>
-                </dropdown-trigger>
-
-                <dropdown-menu
-                    slot='menu'
-                    :dark='true'
-                    direction='rtl'
-                    width='290'
-                >
-                    <scroll-wrap :height='350'>
+        <template #menu>
+            <DropdownMenu width='260'>
+                <ScrollWrap :height='350'>
+                    <div class='divide-y divide-gray-200 dark:divide-gray-800 divide-solid'>
                         <div
                             v-if='filtersAreApplied'
                             class='bg-30 border-b border-60'
                         >
                             <button
                                 class='py-2 w-full block text-xs uppercase tracking-wide text-center text-80 dim font-bold focus:outline-none'
-                                @click="$emit('clear-selected-filters')"
+                                @click="Nova.$emit('clear-filter-values')"
                             >
                                 {{ __('Reset Filters') }}
                             </button>
                         </div>
 
-                        <!-- Custom Filters -->
-                        <component
-                            :is='filter.component'
-                            v-for='filter in filters'
-                            :key='filter.name'
-                            :filter-key='filter.class'
-                            :lens='lens'
-                            @change="$emit('filter-changed')"
-                            @input="$emit('filter-changed')"
-                        />
-
-                        <!-- Soft Deletes -->
-                        <div
-                            v-if='softDeletes'
-                            dusk='filter-soft-deletes'
-                        >
-                            <h3
-                                slot='default'
-                                class='text-sm uppercase tracking-wide text-80 bg-30 p-3'
-                            >
-                                {{ __('Trashed') }}
-                            </h3>
-
-                            <div class='p-2'>
-                                <select
-                                    slot='select'
-                                    :value='trashed'
-                                    class='block w-full form-control-sm form-select'
-                                    dusk='trashed-select'
-                                    @change='trashedChanged'
-                                >
-                                    <option selected value=''>&mdash;</option>
-                                    <option value='with'>{{ __('With Trashed') }}</option>
-                                    <option value='only'>{{ __('Only Trashed') }}</option>
-                                </select>
-                            </div>
-                        </div>
-
                         <!-- Per Page -->
-                        <div dusk='filter-per-page'>
-                            <h3
-                                slot='default'
-                                class='text-sm uppercase tracking-wide text-80 bg-30 p-3'
-                            >
+                        <div class='pt-2 pb-3'>
+                            <h3 class='px-3 text-xs uppercase font-bold tracking-wide'>
                                 {{ __('Per Page') }}
                             </h3>
 
-                            <div class='p-2'>
-                                <select
-                                    slot='select'
-                                    :value='perPage'
-                                    class='block w-full form-control-sm form-select'
-                                    dusk='per-page-select'
+                            <div class='mt-1 px-3'>
+                                <SelectControl
+                                    v-model:selected='perPage'
+                                    :options='perPageOptions'
+                                    size='sm'
                                     @change='perPageChanged'
-                                >
-                                    <option
-                                        v-for='option in perPageOptions'
-                                        :key='option'
-                                    >
-                                        {{ option }}
-                                    </option>
-                                </select>
+                                />
                             </div>
                         </div>
-                    </scroll-wrap>
-                </dropdown-menu>
-            </dropdown>
-        </div>
-    </div>
+                    </div>
+                </ScrollWrap>
+            </DropdownMenu>
+        </template>
+    </Dropdown>
 </template>
 
 <script>
@@ -131,21 +80,13 @@ export default {
         perPageOptions: Array,
     },
 
-    data: () => ({
-        showDropDown: false,
-    }),
-
     methods: {
         trashedChanged(event) {
             this.$emit('trashed-changed', event.target.value);
         },
 
         perPageChanged(event) {
-            this.$emit('per-page-changed', event.target.value);
-        },
-
-        toggleDropDown() {
-            this.showDropDown = !this.showDropDown;
+            this.$emit('per-page-changed', event);
         },
     },
 

@@ -29,11 +29,11 @@
         }
     ],
     "require": {
-        "php": "^8.0",
+        "php": "^8.0|^8.1",
         "spatie/laravel-analytics": "^4.1"
     },
     "require-dev": {
-        "laravel/nova": "*",
+        "laravel/nova": "^4.0",
         "orchestra/testbench": "^7.0",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.5",

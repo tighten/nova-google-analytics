@@ -13,11 +13,13 @@ class MostVisitedPagesTest extends TestCase
     }
 
     /** @test */
-    public function it_returns_ten_results()
+    public function it_returns_ten_results_max()
     {
-        $this
+        $results = $this
             ->get('nova-vendor/tightenco/nova-google-analytics/most-visited-pages')
-            ->assertJsonCount(10);
+            ->getData();
+
+        $this->assertLessThanOrEqual(10, count($results));
     }
 
     /** @test */

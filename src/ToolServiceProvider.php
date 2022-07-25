@@ -12,8 +12,6 @@ class ToolServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'nova-google-analytics');
-
         $this->app->booted(function () {
             $this->routes();
         });
@@ -34,8 +32,11 @@ class ToolServiceProvider extends ServiceProvider
             return;
         }
 
+        Nova::router(['nova', Authorize::class], 'nova-google-analytics')
+            ->group(__DIR__ . '/../routes/inertia.php');
+
         Route::middleware(['nova', Authorize::class])
-                ->prefix('nova-vendor/tightenco/nova-google-analytics')
-                ->group(__DIR__ . '/../routes/api.php');
+            ->prefix('nova-vendor/tightenco/nova-google-analytics')
+            ->group(__DIR__ . '/../routes/api.php');
     }
 }
