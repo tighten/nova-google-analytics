@@ -30,7 +30,7 @@
     ],
     "require": {
         "php": "^8.0|^8.1",
-        "spatie/laravel-analytics": "^4.1"
+        "google/analytics-data": "^0.8.4"
     },
     "require-dev": {
         "laravel/nova": "^4.0",
@@ -52,6 +52,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "Tightenco\\NovaGoogleAnalytics\\GoogleAnalyticsServiceProvider",
                 "Tightenco\\NovaGoogleAnalytics\\ToolServiceProvider",
                 "Tightenco\\NovaGoogleAnalytics\\CardServiceProvider"
             ]

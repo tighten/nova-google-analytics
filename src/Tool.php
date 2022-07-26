@@ -17,8 +17,8 @@ class Tool extends BaseTool
 
     public function menu(Request $request): MenuSection
     {
-        return MenuSection::make('Google Analytics')
-            ->path('/nova-google-analytics')
+        return MenuSection::make('Google Analytics', app(GoogleAnalytics::class)->getPropertyMenu() ?? [])
+            ->collapsable()
             ->icon('chart-bar');
     }
 }
