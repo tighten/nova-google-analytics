@@ -103,6 +103,7 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
     'dayjs': (dayjs__WEBPACK_IMPORTED_MODULE_1___default()),
     'filter-menu': _components_FilterMenu__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
+  props: ['property'],
   data: function data() {
     return {
       title: 'Google Analytics',
@@ -136,7 +137,7 @@ dayjs__WEBPACK_IMPORTED_MODULE_1___default().extend((dayjs_plugin_utc__WEBPACK_I
     getData: function getData() {
       var _this = this;
 
-      Nova.request().get("/nova-vendor/nova-google-analytics/pages?limit=".concat(this.limit, "&duration=").concat(this.duration, "&page=").concat(this.page, "&s=").concat(this.search, "&sortBy=").concat(this.sortBy, "&sortDirection=").concat(this.sortDirection)).then(function (response) {
+      Nova.request().get("/nova-vendor/nova-google-analytics/pages?property=".concat(this.property, "&limit=").concat(this.limit, "&duration=").concat(this.duration, "&page=").concat(this.page, "&s=").concat(this.search, "&sortBy=").concat(this.sortBy, "&sortDirection=").concat(this.sortDirection)).then(function (response) {
         _this.data = response.data.pageData;
         _this.totalPages = response.data.totalPages;
         _this.hasMore = response.data.hasMore;

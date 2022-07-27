@@ -220,6 +220,9 @@ export default {
         'dayjs': dayjs,
         'filter-menu': FilterMenu,
     },
+    props: [
+        'property',
+    ],
     data: function() {
         return {
             title: 'Google Analytics',
@@ -254,7 +257,7 @@ export default {
 
         getData() {
             Nova.request()
-                .get(`/nova-vendor/nova-google-analytics/pages?limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
+                .get(`/nova-vendor/nova-google-analytics/pages?property=${this.property}&limit=${this.limit}&duration=${this.duration}&page=${this.page}&s=${this.search}&sortBy=${this.sortBy}&sortDirection=${this.sortDirection}`)
                 .then(response => {
                     this.data = response.data.pageData;
                     this.totalPages = response.data.totalPages;

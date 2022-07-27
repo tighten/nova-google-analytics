@@ -17,8 +17,9 @@ class AnalyticsQuery
     private string $sortBy;
     private string $duration;
     private mixed $queryResults;
+    private string $property;
 
-    public function __construct($headers, $limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration)
+    public function __construct($headers, $limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration, $property)
     {
         $this->headers = $headers;
         $this->limit = $limit;
@@ -27,6 +28,7 @@ class AnalyticsQuery
         $this->sortDirection = $sortDirection;
         $this->sortBy = $sortBy;
         $this->duration = $duration;
+        $this->property = $property;
         $this->setQueryResults($this->getAnalyticsData());
     }
 
@@ -82,18 +84,19 @@ class AnalyticsQuery
 
     private function getAnalyticsData(): object
     {
-        return Cache::remember($this->cacheKey(), now()->addMinutes(30), function() {
-            return app(Analytics::class)->performQuery(
-                $this->getDuration(),
-                'ga:users',
-                [
-                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage,ga:entrances,ga:bounceRate,ga:exitRate,ga:pageValue',
-                    'dimensions' => 'ga:pageTitle,ga:pagePath',
-                    'sort' => ($this->sortDirection . $this->sortBy),
-                    'filters' => $this->searchTerm ? sprintf('ga:pageTitle=@%s,ga:pagePath=@%s', strval($this->searchTerm), strval($this->searchTerm)) : null,
-                ]
-            );
-        });
+        app(GoogleAnalytics::class)->runReport($this->property);
+//        return Cache::remember($this->cacheKey(), now()->addMinutes(30), function() {
+//            return app(Analytics::class)->performQuery(
+//                $this->getDuration(),
+//                'ga:users',
+//                [
+//                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage,ga:entrances,ga:bounceRate,ga:exitRate,ga:pageValue',
+//                    'dimensions' => 'ga:pageTitle,ga:pagePath',
+//                    'sort' => ($this->sortDirection . $this->sortBy),
+//                    'filters' => $this->searchTerm ? sprintf('ga:pageTitle=@%s,ga:pagePath=@%s', strval($this->searchTerm), strval($this->searchTerm)) : null,
+//                ]
+//            );
+//        });
     }
 
     private function getPeriodForDuration($duration): Period

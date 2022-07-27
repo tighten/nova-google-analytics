@@ -14,6 +14,6 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 |
 */
 
-Route::get('/', function (NovaRequest $request) {
-    return inertia('Tool');
+Route::get('/{property?}', function (NovaRequest $request) {
+    return inertia('Tool', ['property' => $request->property]);
 });
