@@ -34,15 +34,18 @@ trait MetricDiffTrait
 
     private function getLastWeek(): array
     {
-        $current = Period::create(
-            Carbon::today()
-                ->clone()
-                ->startOfWeek(Carbon::SUNDAY)
-                ->subWeek(),
-            Carbon::today()
-                ->clone()
-                ->subWeek()
-                ->endOfWeek(Carbon::SATURDAY)
+        $current = collect(
+            [
+                'startDate' => Carbon::today()
+                    ->clone()
+                    ->startOfWeek(Carbon::SUNDAY)
+                    ->subWeek(),
+
+                'endDate' => Carbon::today()
+                    ->clone()
+                    ->subWeek()
+                    ->endOfWeek(Carbon::SATURDAY),
+            ],
         );
 
         $previous = Period::create(

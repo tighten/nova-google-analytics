@@ -27,31 +27,16 @@ class GoogleAnalytics
         });
     }
 
-    public function runReport(string $propertyID)
+    public function getClientForProperty(string $propertyID): ?BetaAnalyticsDataClient
     {
         $property = Arr::first(config('google-analytics.properties'), function ($property) use ($propertyID) {
             return $property['id'] == $propertyID;
         });
 
         if (is_null($property['gate']) || Gate::allows($property['gate'])) {
-            $client = new BetaAnalyticsDataClient(['credentials' => $property['credentials']]);
-
-            $response = $client->checkCompatibility([
-                'property' => 'properties/' . $propertyID,
-                'dateRanges' => [
-                    new DateRange([
-                        'start_date' => '2020-03-31',
-                        'end_date' => 'today',
-                    ]),
-                ],
-                'metrics' => [new Metric(
-                    [
-                        'name' => 'activeUsers',
-                    ]
-                )
-                ]
-            ]);
-            dd($response);
+            return new BetaAnalyticsDataClient(['credentials' => $property['credentials']]);
         }
+
+        return null;
     }
 }

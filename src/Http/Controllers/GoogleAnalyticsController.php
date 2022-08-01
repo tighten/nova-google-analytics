@@ -13,17 +13,18 @@ class GoogleAnalyticsController extends Controller
     public function index(Request $request): array
     {
 //        try {
-        $analyticsQuery = new AnalyticsQuery(
-            ['name', 'path', 'visits', 'unique_visits', 'avg_page_time', 'entrances', 'bounce_rate', 'exit_rate', 'page_value'],
-            $limit = $request->input('limit', 10),
-            ($request->input('page', 1) - 1) * $limit,
-            $request->input('s', null),
-            $request->input('sortDirection', 'desc') == 'desc' ? '-' : '',
-            $request->input('sortBy', 'ga:pageviews'),
-            $request->input('duration', 'week'),
-            $request->input('property'),
-        );
-        dd($analyticsQuery);
+        $analyticsQuery = new AnalyticsQuery([
+            'dimensions' => ['pageTitle', 'pagePath', 'percentScrolled'],
+            'metrics' => ['screenPageViews', 'totalUsers', 'newUsers', 'screenPageViewsPerSession', 'userEngagementDuration', 'eventCount', 'conversions'],
+            'limit' => $limit = $request->input('limit', 10),
+            'offset' => ($request->input('page', 1) - 1) * $limit,
+            'searchTerm' => $request->input('s', null),
+            'sortDirection' => $request->input('sortDirection', 'desc') == 'desc' ? '-' : '',
+            'sortBy' => $request->input('sortBy', 'ga:pageviews'),
+            'duration' => $request->input('duration', 'week'),
+            'property' => $request->input('property'),
+        ]);
+
         return [
             'pageData' => $analyticsQuery->getPageData(),
             'totalPages' => $analyticsQuery->totalPages(),

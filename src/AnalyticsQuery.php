@@ -2,6 +2,20 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use Carbon\Carbon;
+use Google\Analytics\Data\V1beta\DateRange;
+use Google\Analytics\Data\V1beta\Dimension;
+use Google\Analytics\Data\V1beta\Filter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
+use Google\Analytics\Data\V1beta\FilterExpression;
+use Google\Analytics\Data\V1beta\FilterExpressionList;
+use Google\Analytics\Data\V1beta\Metric;
+use Google\Analytics\Data\V1beta\OrderBy;
+use Google\Analytics\Data\V1beta\OrderBy\DimensionOrderBy;
+use Google\Analytics\Data\V1beta\OrderBy\DimensionOrderBy\OrderType;
+use Google\Analytics\Data\V1beta\OrderBy\MetricOrderBy;
+use Google\Analytics\Data\V1beta\RunReportResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Analytics\Analytics;
@@ -9,7 +23,8 @@ use Spatie\Analytics\Period;
 
 class AnalyticsQuery
 {
-    private mixed $headers;
+    private array $dimensions;
+    private array $metrics;
     private int $limit;
     private int $offset;
     private mixed $searchTerm;
@@ -19,22 +34,23 @@ class AnalyticsQuery
     private mixed $queryResults;
     private string $property;
 
-    public function __construct($headers, $limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration, $property)
+    public function __construct(array $searchOptions)
     {
-        $this->headers = $headers;
-        $this->limit = $limit;
-        $this->offset = $offset;
-        $this->searchTerm = $searchTerm;
-        $this->sortDirection = $sortDirection;
-        $this->sortBy = $sortBy;
-        $this->duration = $duration;
-        $this->property = $property;
+        $this->dimensions = $searchOptions['dimensions'];
+        $this->metrics = $searchOptions['metrics'];
+        $this->limit = $searchOptions['limit'];
+        $this->offset = $searchOptions['offset'];
+        $this->searchTerm = $searchOptions['searchTerm'];
+        $this->sortDirection = $searchOptions['sortDirection'];
+        $this->sortBy = $searchOptions['sortBy'];
+        $this->duration = $searchOptions['duration'];
+        $this->property = $searchOptions['property'];
         $this->setQueryResults($this->getAnalyticsData());
     }
 
-    public function getDuration(): Period
+    public function getDuration(): DateRange
     {
-        return $this->getPeriodForDuration($this->duration);
+        return $this->getDateRangeForDuration($this->duration);
     }
 
     public function setDuration(string $duration): void
@@ -55,26 +71,29 @@ class AnalyticsQuery
     public function getPageData(): array
     {
         $data = $this->getQueryResults();
-
+        dd($data->getDimensionHeaders());
+        foreach ($data->getRows() as $row) {
+            dd($row);
+        }
         return array_map(
             function ($row) {
                 return array_combine($this->headers, $row);
             },
-            array_slice($data->rows, $this->offset, $this->limit) ?? []);
+            array_slice($data->getRows(), $this->offset, $this->limit) ?? []);
     }
 
     public function totalPages(): int
     {
         $data = $this->getQueryResults();
 
-        return ceil(count($data->rows)/$this->limit);
+        return ceil(count($data->getRows()) / $this->limit);
     }
 
     public function hasMore(): bool
     {
         $data = $this->getQueryResults();
 
-        return ($this->offset+$this->limit) < count($data->rows);
+        return ($this->offset + $this->limit) < count($data->getRows());
     }
 
     private function cacheKey(): string
@@ -82,31 +101,183 @@ class AnalyticsQuery
         return sprintf('pages-%s-%s-%s', $this->searchTerm, $this->sortDirection, $this->sortBy);
     }
 
-    private function getAnalyticsData(): object
+    private function getAnalyticsData(): RunReportResponse
     {
-        app(GoogleAnalytics::class)->runReport($this->property);
-//        return Cache::remember($this->cacheKey(), now()->addMinutes(30), function() {
-//            return app(Analytics::class)->performQuery(
-//                $this->getDuration(),
-//                'ga:users',
-//                [
-//                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage,ga:entrances,ga:bounceRate,ga:exitRate,ga:pageValue',
-//                    'dimensions' => 'ga:pageTitle,ga:pagePath',
-//                    'sort' => ($this->sortDirection . $this->sortBy),
-//                    'filters' => $this->searchTerm ? sprintf('ga:pageTitle=@%s,ga:pagePath=@%s', strval($this->searchTerm), strval($this->searchTerm)) : null,
-//                ]
-//            );
-//        });
+        $client = app(GoogleAnalytics::class)->getClientForProperty($this->property);
+
+        return Cache::remember($this->cacheKey(), now()->addMinutes(30), function () use ($client) {
+            return $client->runReport([
+                'property' => 'properties/' . $this->property,
+                'dateRanges' => [
+                    $this->getDuration(),
+                ],
+                'dimensions' => $this->getDimensions(),
+                'metrics' => $this->getMetrics(),
+                'orderBy' => [
+                    $this->getOrderBy($this->sortDirection === 'desc', $this->sortBy),
+                ],
+                'dimensionFilter' => $this->searchTerm
+                    ? new FilterExpression([
+                        'or_group' => new FilterExpressionList([
+                            'expressions' => [
+                                new FilterExpression([
+                                    'filter' => new Filter([
+                                        'field_name' => 'pageTitle',
+                                        'string_filter' => new StringFilter([
+                                            'match_type' => MatchType::CONTAINS,
+                                            'value' => $this->searchTerm,
+                                            'case_sensitive' => false,
+                                        ]),
+                                    ]),
+                                ]),
+                                new FilterExpression([
+                                    'filter' => new Filter([
+                                        'field_name' => 'pagePath',
+                                        'string_filter' => new StringFilter([
+                                            'match_type' => MatchType::CONTAINS,
+                                            'value' => $this->searchTerm,
+                                            'case_sensitive' => false,
+                                        ]),
+                                    ]),
+                                ]),
+                            ],
+                        ]),
+                    ])
+                    : null,
+                'offset' => strval($this->offset),
+                'limit' => strval($this->limit),
+            ]);
+        });
     }
 
-    private function getPeriodForDuration($duration): Period
+    private function getDateRangeForDuration($duration): DateRange
     {
         $map = [
-            'week' => Period::days(7),
-            'month' => Period::months(1),
-            'year' => Period::years(1),
+            'week' => new DateRange([
+                'start_date' => Carbon::today()->subDays(7)->format('Y-m-d'),
+                'end_date' => Carbon::today()->format('Y-m-d'),
+            ]),
+            'month' => new DateRange([
+                'start_date' => Carbon::today()->subMonth()->format('Y-m-d'),
+                'end_date' => Carbon::today()->format('Y-m-d'),
+            ]),
+            'year' => new DateRange([
+                'start_date' => Carbon::today()->subYear()->format('Y-m-d'),
+                'end_date' => Carbon::today()->format('Y-m-d'),
+            ]),
         ];
 
-        return Arr::get($map, $duration, Period::days(7));
+        return Arr::get($map, $duration, new DateRange([
+            'start_date' => Carbon::today()->subDays(7)->format('Y-m-d'),
+            'end_date' => Carbon::today()->format('Y-m-d'),
+        ]));
+    }
+
+    private function getOrderBy(bool $direction, string $field): OrderBy
+    {
+        // @TODO - Make this more dynamic by providing field & order type.
+        $orderBy = match ($field) {
+            'pagePath' => [
+                'desc' => $direction,
+                'dimension' => new DimensionOrderBy([
+                    'dimensionName' => 'pagePath',
+                    'orderType' => OrderType::ORDER_TYPE_UNSPECIFIED,
+                ]),
+            ],
+            'percentScrolled' => [
+                'desc' => $direction,
+                'dimension' => new DimensionOrderBy([
+                    'dimensionName' => 'percentScrolled',
+                    'orderType' => OrderType::NUMERIC,
+                ]),
+            ],
+            'screenPageViews' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'screenPageViews',
+                ]),
+            ],
+            'totalUsers' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'totalUsers',
+                ]),
+            ],
+            'newUsers' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'newUsers',
+                ]),
+            ],
+            'screenPageViewsPerSession' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'screenPageViewsPerSession',
+                ]),
+            ],
+            'userEngagementDuration' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'userEngagementDuration',
+                ]),
+            ],
+            'eventCount' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'eventCount',
+                ]),
+            ],
+            'conversions' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'conversions',
+                ]),
+            ],
+            'itemRevenue' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metricName' => 'itemRevenue',
+                ]),
+            ],
+            default => [
+                'desc' => $direction,
+                'dimension' => new DimensionOrderBy([
+                    'dimension_name' => 'pageTitle',
+                    'order_type' => OrderType::CASE_INSENSITIVE_ALPHANUMERIC,
+                ]),
+            ],
+        };
+
+        return new OrderBy($orderBy);
+    }
+
+    private function getDimensions(): array
+    {
+        $dimensionsRequest = [];
+
+        foreach ($this->dimensions as $dimension) {
+            array_push($dimensionsRequest, [
+                new Dimension([
+                    'name' => $dimension,
+                ]),
+            ]);
+        }
+
+        return $dimensionsRequest;
+    }
+
+    private function getMetrics(): array
+    {
+        $metricsRequest = [];
+
+        foreach ($this->metrics as $metric) {
+            array_push($metricsRequest, [
+                new Metric([
+                    'name' => $metric,
+                ]),
+            ]);
+        }
+
+        return $metricsRequest;
     }
 }
