@@ -52,7 +52,7 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:pageTitle'
+                                uri-key='pageTitle'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
@@ -64,7 +64,7 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Paths'
-                                uri-key='ga:pagePath'
+                                uri-key='pagePath'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
@@ -76,11 +76,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:pageviews'
+                                uri-key='percentScrolled'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Visits') }}
+                                {{ __('Scrolled') }}
                             </SortableIcon>
                         </th>
 
@@ -88,11 +88,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:uniquePageviews'
+                                uri-key='totalUsers'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Unique Visits') }}
+                                {{ __('Total Users') }}
                             </SortableIcon>
                         </th>
 
@@ -100,11 +100,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:avgTimeOnPage'
+                                uri-key='newUsers'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Avg. Time on Page') }}
+                                {{ __('New Users') }}
                             </SortableIcon>
                         </th>
 
@@ -112,11 +112,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:entrances'
+                                uri-key='screenPageViews'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Entrances') }}
+                                {{ __('Total Views') }}
                             </SortableIcon>
                         </th>
 
@@ -124,11 +124,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:bounceRate'
+                                uri-key='screenPageViewsPerSession'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Bounce Rate') }}
+                                {{ __('Views per Session') }}
                             </SortableIcon>
                         </th>
 
@@ -136,11 +136,11 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:exitRate'
+                                uri-key='userEngagementDuration'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Exit Rate') }}
+                                {{ __('Engagement Duration') }}
                             </SortableIcon>
                         </th>
 
@@ -148,11 +148,23 @@
                             <SortableIcon
                                 :direction='direction'
                                 resource-name='Pages'
-                                uri-key='ga:pageValue'
+                                uri-key='eventCount'
                                 @reset='resetOrderBy'
                                 @sort='sortByChange'
                             >
-                                {{ __('Page Value') }}
+                                {{ __('Event Count') }}
+                            </SortableIcon>
+                        </th>
+
+                        <th class='text-center uppercase text-gray-500 text-xxs tracking-wide py-2 px-4'>
+                            <SortableIcon
+                                :direction='direction'
+                                resource-name='Pages'
+                                uri-key='conversions'
+                                @reset='resetOrderBy'
+                                @sort='sortByChange'
+                            >
+                                {{ __('Conversions') }}
                             </SortableIcon>
                         </th>
                     </tr>
@@ -160,31 +172,34 @@
                     <tbody>
                     <tr v-for='row in data'>
                         <td class='px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ row.name }}
+                            {{ row.pageTitle }}
                         </td>
                         <td class='px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ row.path }}
+                            {{ row.pagePath }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ row.visits }}
+                            {{ getFormattedPercent(row.percentScrolled) }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ row.unique_visits }}
+                            {{ row.totalUsers }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ getFormattedTime(row.avg_page_time) }}
+                            {{ row.newUsers }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ row.entrances }}
+                            {{ row.screenPageViews }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ getFormattedPercent(row.bounce_rate) }}
+                            {{ parseFloat(row.screenPageViewsPerSession).toFixed(2) }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ getFormattedPercent(row.exit_rate) }}
+                            {{ getFormattedTime(row.userEngagementDuration) }}
                         </td>
                         <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
-                            {{ getFormattedCurrency(row.page_value) }}
+                            {{ row.eventCount }}
+                        </td>
+                        <td class='text-center px-4 py-2 border-t border-gray-100 dark:border-gray-700 dark:bg-gray-800 group-hover:bg-gray-50 dark:group-hover:bg-gray-900'>
+                            {{ getFormattedCurrency(row.conversions) }}
                         </td>
                     </tr>
                     </tbody>
@@ -234,7 +249,7 @@ export default {
             page: 1,
             totalPages: 1,
             search: '',
-            sortBy: 'ga:pageviews',
+            sortBy: 'screenPageViews',
             sortDirection: 'desc',
             limit: 10,
         };
@@ -313,7 +328,13 @@ export default {
         },
 
         getFormattedPercent(percentString) {
-            return parseFloat(percentString).toFixed(2) + '%';
+            const parsed = parseFloat(percentString);
+
+            if (Number.isNaN(parsed)) {
+                return '0.00%';
+            }
+
+            return parseFloat(percentString ?? '0.00').toFixed(2) + '%';
         },
 
         getFormattedCurrency(percentString) {

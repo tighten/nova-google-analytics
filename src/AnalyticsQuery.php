@@ -17,14 +17,12 @@ use Google\Analytics\Data\V1beta\OrderBy\DimensionOrderBy\OrderType;
 use Google\Analytics\Data\V1beta\OrderBy\MetricOrderBy;
 use Google\Analytics\Data\V1beta\RunReportResponse;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Analytics\Analytics;
-use Spatie\Analytics\Period;
 
 class AnalyticsQuery
 {
-    private array $dimensions;
-    private array $metrics;
+    private mixed $headers;
     private int $limit;
     private int $offset;
     private mixed $searchTerm;
@@ -36,8 +34,7 @@ class AnalyticsQuery
 
     public function __construct(array $searchOptions)
     {
-        $this->dimensions = $searchOptions['dimensions'];
-        $this->metrics = $searchOptions['metrics'];
+        $this->headers = $searchOptions['headers'];
         $this->limit = $searchOptions['limit'];
         $this->offset = $searchOptions['offset'];
         $this->searchTerm = $searchOptions['searchTerm'];
@@ -68,37 +65,49 @@ class AnalyticsQuery
         $this->queryResults = $results;
     }
 
-    public function getPageData(): array
+    public function getPageData(): Collection
     {
         $data = $this->getQueryResults();
-        dd($data->getDimensionHeaders());
-        foreach ($data->getRows() as $row) {
-            dd($row);
+
+        $dimensionHeaders = $data->getDimensionHeaders();
+        $metricHeaders = $data->getMetricHeaders();
+
+        $rows = collect();
+
+        foreach ($data->getRows() as $rowData) {
+            $row = collect();
+
+            foreach ($rowData->getDimensionValues() as $key => $dimensionValue) {
+                $row->put($dimensionHeaders[$key]->getName(), $dimensionValue->getValue());
+            }
+
+            foreach ($rowData->getMetricValues() as $key => $metricValue) {
+                $row->put($metricHeaders[$key]->getName(), $metricValue->getValue());
+            }
+
+            $rows->push($row);
         }
-        return array_map(
-            function ($row) {
-                return array_combine($this->headers, $row);
-            },
-            array_slice($data->getRows(), $this->offset, $this->limit) ?? []);
+
+        return $rows;
     }
 
     public function totalPages(): int
     {
         $data = $this->getQueryResults();
 
-        return ceil(count($data->getRows()) / $this->limit);
+        return ceil($data->getRowCount() / $this->limit);
     }
 
     public function hasMore(): bool
     {
         $data = $this->getQueryResults();
 
-        return ($this->offset + $this->limit) < count($data->getRows());
+        return ($this->offset * $this->limit) < $data->getRowCount();
     }
 
     private function cacheKey(): string
     {
-        return sprintf('pages-%s-%s-%s', $this->searchTerm, $this->sortDirection, $this->sortBy);
+        return sprintf('pages-%s-%s-%s-%s-%s', $this->searchTerm, $this->sortDirection, $this->sortBy, $this->limit, $this->offset);
     }
 
     private function getAnalyticsData(): RunReportResponse
@@ -111,9 +120,41 @@ class AnalyticsQuery
                 'dateRanges' => [
                     $this->getDuration(),
                 ],
-                'dimensions' => $this->getDimensions(),
-                'metrics' => $this->getMetrics(),
-                'orderBy' => [
+                'dimensions' => [
+                    new Dimension([
+                        'name' => 'pageTitle',
+                    ]),
+                    new Dimension([
+                        'name' => 'pagePath',
+                    ]),
+                    new Dimension([
+                        'name' => 'percentScrolled',
+                    ]),
+                ],
+                'metrics' => [
+                    new Metric([
+                        'name' => 'totalUsers',
+                    ]),
+                    new Metric([
+                        'name' => 'newUsers',
+                    ]),
+                    new Metric([
+                        'name' => 'screenPageViews',
+                    ]),
+                    new Metric([
+                        'name' => 'screenPageViewsPerSession',
+                    ]),
+                    new Metric([
+                        'name' => 'userEngagementDuration',
+                    ]),
+                    new Metric([
+                        'name' => 'eventCount',
+                    ]),
+                    new Metric([
+                        'name' => 'conversions',
+                    ]),
+                ],
+                'orderBys' => [
                     $this->getOrderBy($this->sortDirection === 'desc', $this->sortBy),
                 ],
                 'dimensionFilter' => $this->searchTerm
@@ -175,109 +216,78 @@ class AnalyticsQuery
 
     private function getOrderBy(bool $direction, string $field): OrderBy
     {
-        // @TODO - Make this more dynamic by providing field & order type.
         $orderBy = match ($field) {
-            'pagePath' => [
-                'desc' => $direction,
-                'dimension' => new DimensionOrderBy([
-                    'dimensionName' => 'pagePath',
-                    'orderType' => OrderType::ORDER_TYPE_UNSPECIFIED,
-                ]),
-            ],
-            'percentScrolled' => [
-                'desc' => $direction,
-                'dimension' => new DimensionOrderBy([
-                    'dimensionName' => 'percentScrolled',
-                    'orderType' => OrderType::NUMERIC,
-                ]),
-            ],
-            'screenPageViews' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'screenPageViews',
-                ]),
-            ],
-            'totalUsers' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'totalUsers',
-                ]),
-            ],
-            'newUsers' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'newUsers',
-                ]),
-            ],
-            'screenPageViewsPerSession' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'screenPageViewsPerSession',
-                ]),
-            ],
-            'userEngagementDuration' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'userEngagementDuration',
-                ]),
-            ],
-            'eventCount' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'eventCount',
-                ]),
-            ],
-            'conversions' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'conversions',
-                ]),
-            ],
-            'itemRevenue' => [
-                'desc' => $direction,
-                'metric' => new MetricOrderBy([
-                    'metricName' => 'itemRevenue',
-                ]),
-            ],
-            default => [
+            'pageTitle' => [
                 'desc' => $direction,
                 'dimension' => new DimensionOrderBy([
                     'dimension_name' => 'pageTitle',
                     'order_type' => OrderType::CASE_INSENSITIVE_ALPHANUMERIC,
                 ]),
             ],
+            'pagePath' => [
+                'desc' => $direction,
+                'dimension' => new DimensionOrderBy([
+                    'dimension_name' => 'pagePath',
+                    'order_type' => OrderType::ORDER_TYPE_UNSPECIFIED,
+                ]),
+            ],
+            'percentScrolled' => [
+                'desc' => $direction,
+                'dimension' => new DimensionOrderBy([
+                    'dimension_name' => 'percentScrolled',
+                    'order_type' => OrderType::NUMERIC,
+                ]),
+            ],
+            'totalUsers' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'totalUsers',
+                ]),
+            ],
+            'newUsers' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'newUsers',
+                ]),
+            ],
+            'screenPageViewsPerSession' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'screenPageViewsPerSession',
+                ]),
+            ],
+            'userEngagementDuration' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'userEngagementDuration',
+                ]),
+            ],
+            'eventCount' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'eventCount',
+                ]),
+            ],
+            'conversions' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'conversions',
+                ]),
+            ],
+            'itemRevenue' => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'itemRevenue',
+                ]),
+            ],
+            default => [
+                'desc' => $direction,
+                'metric' => new MetricOrderBy([
+                    'metric_name' => 'screenPageViews',
+                ]),
+            ],
         };
 
         return new OrderBy($orderBy);
-    }
-
-    private function getDimensions(): array
-    {
-        $dimensionsRequest = [];
-
-        foreach ($this->dimensions as $dimension) {
-            array_push($dimensionsRequest, [
-                new Dimension([
-                    'name' => $dimension,
-                ]),
-            ]);
-        }
-
-        return $dimensionsRequest;
-    }
-
-    private function getMetrics(): array
-    {
-        $metricsRequest = [];
-
-        foreach ($this->metrics as $metric) {
-            array_push($metricsRequest, [
-                new Metric([
-                    'name' => $metric,
-                ]),
-            ]);
-        }
-
-        return $metricsRequest;
     }
 }

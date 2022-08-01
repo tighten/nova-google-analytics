@@ -5,5 +5,5 @@ mix.setPublicPath('dist')
     .js('resources/js/tool.js', 'js')
     .js('resources/js/card.js', 'js')
     .vue({ version: 3 })
-    .sass('resources/sass/tool.scss', '/css/tool.css')
+    .css('resources/css/tool.css', 'css')
     .nova('nova-google-analytics');
