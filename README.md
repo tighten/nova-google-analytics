@@ -6,6 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/nova-google-analytics.svg?style=flat-square)](https://packagist.org/packages/tightenco/nova-google-analytics)
 ![Build Status](https://github.com/tighten/nova-google-analytics/actions/workflows/run-tests.yml/badge.svg)
 
+
 ## Installation
 
 You can install the package in to a Laravel app that uses [Nova](https://nova.laravel.com) via composer:
@@ -14,7 +15,9 @@ You can install the package in to a Laravel app that uses [Nova](https://nova.la
 composer require tightenco/nova-google-analytics
 ```
 
-For now, follow the directions on [Spatie's Laravel Google Analytics package](https://github.com/spatie/laravel-analytics) for getting your credentials, then put them here:
+For now, follow the directions
+on [Spatie's Laravel Google Analytics package](https://github.com/spatie/laravel-analytics) for getting your
+credentials, then put them here:
 
 ```
 yourapp/storage/app/analytics/service-account-credentials.json
@@ -23,10 +26,29 @@ yourapp/storage/app/analytics/service-account-credentials.json
 Also add this to the `.env` for your Nova app:
 
 ```ini
-ANALYTICS_VIEW_ID=
+ANALYTICS_VIEW_ID =
+```
+
+## Publish Stubs
+
+This package contains a Model and Nova resource to manage credentials for multiple projects.
+
+```
+php artisan vendor:publish
+```
+
+After publishing the package stubs, update your `NovaServiceProvider` to find register all the resources in the `Nova`
+directory:
+
+```php
+protected function resources()
+{
+    Nova::resourcesIn(app_path('Nova'));
+}
 ```
 
 ## Usage
+
 You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `Main`
 dashboard.
 

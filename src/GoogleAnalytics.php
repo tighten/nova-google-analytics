@@ -2,39 +2,35 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use App\Models\AnalyticsProject;
 use Google\Analytics\Data\V1beta\BetaAnalyticsDataClient;
-use Google\Analytics\Data\V1beta\DateRange;
-use Google\Analytics\Data\V1beta\Dimension;
-use Google\Analytics\Data\V1beta\Metric;
-use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Menu\MenuItem;
 
 class GoogleAnalytics
 {
-    public function getProperties(): array
+    public function getProperties(): Collection
     {
-        return Arr::where(config('google-analytics.properties'), function ($property) {
-            return is_null($property['gate']) || Gate::allows($property['gate']);
+        return AnalyticsProject::all()->filter(function ($property) {
+            return is_null($property->gate) || Gate::allows($property->gate);
         });
     }
 
-    public function getPropertyMenu(): array
+    public function getPropertyMenu(): Collection
     {
-        return Arr::map($this->getProperties(), function ($property) {
-            return MenuItem::make($property['name'])
-                ->path('/nova-google-analytics/' . $property['id']);
+        return $this->getProperties()->map(function ($property) {
+            return MenuItem::make($property->project_name)
+                ->path('/nova-google-analytics/' . $property->project_id);
         });
     }
 
     public function getClientForProperty(string $propertyID): ?BetaAnalyticsDataClient
     {
-        $property = Arr::first(config('google-analytics.properties'), function ($property) use ($propertyID) {
-            return $property['id'] == $propertyID;
-        });
+        $property = AnalyticsProject::where('project_id', $propertyID)->first();
 
-        if (is_null($property['gate']) || Gate::allows($property['gate'])) {
-            return new BetaAnalyticsDataClient(['credentials' => $property['credentials']]);
+        if (is_null($property->gate) || Gate::allows($property->gate)) {
+            return new BetaAnalyticsDataClient(['credentials' => storage_path('app/' . $property->credentials)]);
         }
 
         return null;
