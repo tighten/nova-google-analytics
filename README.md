@@ -1,4 +1,4 @@
-![image](https://repository-images.githubusercontent.com/145988439/fe2db000-7296-11eb-85c9-0c4d22f99125)
+![image](https://user-images.githubusercontent.com/4378273/214305768-9177e8ad-e6e2-4ee7-8b49-f9672361d598.png)
 
 # Google Analytics Integration with Nova
 
