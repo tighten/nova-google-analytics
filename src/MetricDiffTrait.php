@@ -4,32 +4,23 @@ namespace Tightenco\NovaGoogleAnalytics;
 
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 trait MetricDiffTrait
 {
     private function performQuery(string $metric, string $dimensions, Period $period): Collection
     {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                $period,
-                $metric,
-                [
-                    'metrics' => $metric,
-                    'dimensions' => $dimensions,
-                    'samplingLevel' => 'HIGHER_PRECISION',
-                ]
-            );
+        $analyticsData = Analytics::get(
+            $period,
+            [$metric],
+            [$dimensions]
+        );
 
-        $results = collect($analyticsData->getRows());
-
-        return collect($results ?? [])->map(function (array $dateRow) {
-            return [
-                'date' => $dateRow[0],
-                'value' => $dateRow[1],
-            ];
-        });
+        return $analyticsData->map(fn ($data) => [
+            'date' => $data[$dimensions],
+            'value' => $data[$metric],
+        ]);
     }
 
     private function getLastWeek(): array

@@ -19,9 +19,9 @@ class OneDayActiveUsersMetric extends Trend
     public function calculate(Request $request): TrendResult
     {
         $lookups = [
-            5 => $this->performQuery('ga:1dayUsers', 5),
-            10 => $this->performQuery('ga:1dayUsers', 10),
-            15 => $this->performQuery('ga:1dayUsers', 15),
+            5 => $this->performQuery('active1dayUsers', 5),
+            10 => $this->performQuery('active1dayUsers', 10),
+            15 => $this->performQuery('active1dayUsers', 15),
         ];
 
         $data = Arr::get($lookups, $request->get('range'), ['results' => [0]]);

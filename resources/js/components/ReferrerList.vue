@@ -4,10 +4,10 @@
             <h3 class='mr-3 leading-tight text-sm font-bold'>
                 {{ __('Top Referrers') }}
             </h3>
-            <div class='flex relative ml-auto flex-shrink-0'>
+            <div class='flex relative ml-auto w-[6rem] shrink-0'>
                 <select
                     v-model='duration'
-                    class='w-full block form-control form-select form-control-xxs form-select-bordered'
+                    class='w-full block form-control form-control-bordered form-input h-6 text-xs'
                     @change='updateDuration'
                 >
                     <option value='week'>
@@ -20,7 +20,7 @@
                         {{ __('This Year') }}
                     </option>
                 </select>
-                <IconArrow class='pointer-events-none form-select-arrow' />
+                <IconArrow class='shrink-0 text-gray-700 pointer-events-none absolute right-[11px] top-[9px]' />
             </div>
         </div>
 

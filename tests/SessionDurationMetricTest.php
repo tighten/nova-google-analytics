@@ -17,14 +17,14 @@ class SessionDurationMetricTest extends TestCase
     public function one_day_results_contain_previous()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => '1']));
-        $this->assertObjectHasAttribute('previous', $response);
+        $this->assertObjectHasProperty('previous', $response);
     }
 
     /** @test */
     public function one_day_results_contain_value()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => '1']));
-        $this->assertObjectHasAttribute('value', $response);
+        $this->assertObjectHasProperty('value', $response);
     }
 
     /** @test */
@@ -38,14 +38,14 @@ class SessionDurationMetricTest extends TestCase
     public function mtd_results_contain_previous()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => 'MTD']));
-        $this->assertObjectHasAttribute('previous', $response);
+        $this->assertObjectHasProperty('previous', $response);
     }
 
     /** @test */
     public function mtd_results_contain_value()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => 'MTD']));
-        $this->assertObjectHasAttribute('value', $response);
+        $this->assertObjectHasProperty('value', $response);
     }
 
     /** @test */
@@ -59,13 +59,13 @@ class SessionDurationMetricTest extends TestCase
     public function ytd_results_contain_previous()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => 'YTD']));
-        $this->assertObjectHasAttribute('previous', $response);
+        $this->assertObjectHasProperty('previous', $response);
     }
 
     /** @test */
     public function ytd_results_contain_value()
     {
         $response = (new SessionDurationMetric)->calculate($this->requestWithQueryParams(['range' => 'YTD']));
-        $this->assertObjectHasAttribute('value', $response);
+        $this->assertObjectHasProperty('value', $response);
     }
 }

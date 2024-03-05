@@ -23,7 +23,7 @@ yourapp/storage/app/analytics/service-account-credentials.json
 Also add this to the `.env` for your Nova app:
 
 ```ini
-ANALYTICS_VIEW_ID=
+ANALYTICS_PROPERTY_ID=
 ```
 
 ## Usage
@@ -45,12 +45,26 @@ public function cards()
         new \Tightenco\NovaGoogleAnalytics\ReferrersList,
         new \Tightenco\NovaGoogleAnalytics\OneDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\SevenDayActiveUsersMetric,
-        new \Tightenco\NovaGoogleAnalytics\FourteenDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\TwentyEightDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionDurationMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
+    ];
+}
+```
+
+Register the tool with Nova in the `tools` method of your `NovaServiceProvider`:
+
+```php
+// in app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        new Tightenco\NovaGoogleAnalytics\Tool(),
     ];
 }
 ```
@@ -88,7 +102,7 @@ cp .env.example .env.testing
 Make sure, in that file, to define the following variables to run all tests:
 
 ```
-ANALYTICS_VIEW_ID
+ANALYTICS_PROPERTY_ID
 ANALYTICS_PROJECT_ID
 ANALYTICS_PRIVATE_KEY_ID
 ANALYTICS_PRIVATE_KEY

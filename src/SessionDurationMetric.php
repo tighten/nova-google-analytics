@@ -36,7 +36,7 @@ class SessionDurationMetric extends Value
 
     private function sessionDurationToday(): array
     {
-        $results = $this->performQuery('ga:avgSessionDuration', 'ga:date', Period::days(1));
+        $results = $this->performQuery('averageSessionDuration', 'date', Period::days(1));
 
         return [
             'previous' => $results->first()['value'] ?? 0,
@@ -46,7 +46,7 @@ class SessionDurationMetric extends Value
 
     private function sessionDurationYesterday(): array
     {
-        $results = $this->performQuery('ga:avgSessionDuration', 'ga:date', Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
+        $results = $this->performQuery('averageSessionDuration', 'date', Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
             'previous' => $results->first()['value'] ?? 0,
@@ -57,8 +57,8 @@ class SessionDurationMetric extends Value
     private function sessionDurationLastWeek(): array
     {
         $lastWeek = $this->getLastWeek();
-        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastWeek['current']);
-        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastWeek['previous']);
+        $currentResults = $this->performQuery('averageSessionDuration', 'year', $lastWeek['current']);
+        $previousResults = $this->performQuery('averageSessionDuration', 'year', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -69,8 +69,8 @@ class SessionDurationMetric extends Value
     private function sessionDurationLastMonth(): array
     {
         $lastMonth = $this->getLastMonth();
-        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastMonth['current']);
-        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastMonth['previous']);
+        $currentResults = $this->performQuery('averageSessionDuration', 'year', $lastMonth['current']);
+        $previousResults = $this->performQuery('averageSessionDuration', 'year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -81,8 +81,8 @@ class SessionDurationMetric extends Value
     private function sessionDurationLastSevenDays(): array
     {
         $lastSevenDays = $this->getLastSevenDays();
-        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastSevenDays['current']);
-        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastSevenDays['previous']);
+        $currentResults = $this->performQuery('averageSessionDuration', 'year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('averageSessionDuration', 'year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -93,8 +93,8 @@ class SessionDurationMetric extends Value
     private function sessionDurationLastThirtyDays(): array
     {
         $lastThirtyDays = $this->getLastThirtyDays();
-        $currentResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastThirtyDays['current']);
-        $previousResults = $this->performQuery('ga:avgSessionDuration', 'ga:year', $lastThirtyDays['previous']);
+        $currentResults = $this->performQuery('averageSessionDuration', 'year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('averageSessionDuration', 'year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,

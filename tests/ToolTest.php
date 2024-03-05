@@ -73,12 +73,11 @@ class ToolTest extends TestCase
     public function invalid_duration_will_default_to_week()
     {
         $analyticsQuery = new AnalyticsQuery(
-            [],
             1,
             0,
             '',
             '-',
-            'ga:pageviews',
+            'screenPageViews',
             'asdf'
         );
 

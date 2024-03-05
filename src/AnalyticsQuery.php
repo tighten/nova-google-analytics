@@ -2,14 +2,19 @@
 
 namespace Tightenco\NovaGoogleAnalytics;
 
+use Google\Analytics\Data\V1beta\Filter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter;
+use Google\Analytics\Data\V1beta\Filter\StringFilter\MatchType;
+use Google\Analytics\Data\V1beta\FilterExpression;
+use Google\Analytics\Data\V1beta\FilterExpressionList;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class AnalyticsQuery
 {
-    private mixed $headers;
     private int $limit;
     private int $offset;
     private mixed $searchTerm;
@@ -17,10 +22,20 @@ class AnalyticsQuery
     private string $sortBy;
     private string $duration;
     private mixed $queryResults;
+    private array $queryMetrics = [
+        'activeUsers', 'screenPageViews', 'bounceRate'
+    ];
 
-    public function __construct($headers, $limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration)
+    private array $queryDimensions = [
+        'pageTitle', 'pagePath'
+    ];
+
+    private array $headers = [
+        'name', 'path', 'unique_visits', 'visits', 'bounce_rate'
+    ];
+
+    public function __construct($limit, $offset, $searchTerm, $sortDirection, $sortBy, $duration)
     {
-        $this->headers = $headers;
         $this->limit = $limit;
         $this->offset = $offset;
         $this->searchTerm = $searchTerm;
@@ -52,27 +67,25 @@ class AnalyticsQuery
 
     public function getPageData(): array
     {
-        $data = $this->getQueryResults();
+        $headers = collect($this->headers);
 
-        return array_map(
-            function ($row) {
-                return array_combine($this->headers, $row);
-            },
-            array_slice($data->rows, $this->offset, $this->limit) ?? []);
+        return $this->getQueryResults()->slice($this->offset, $this->limit)
+            ->map(fn ($data) => $headers->combine($data))
+            ->toArray();
     }
 
     public function totalPages(): int
     {
         $data = $this->getQueryResults();
 
-        return ceil(count($data->rows)/$this->limit);
+        return ceil($data->count()/$this->limit);
     }
 
     public function hasMore(): bool
     {
         $data = $this->getQueryResults();
 
-        return ($this->offset+$this->limit) < count($data->rows);
+        return ($this->offset+$this->limit) < $data->count();
     }
 
     private function cacheKey(): string
@@ -83,15 +96,39 @@ class AnalyticsQuery
     private function getAnalyticsData(): object
     {
         return Cache::remember($this->cacheKey(), now()->addMinutes(30), function() {
-            return app(Analytics::class)->performQuery(
+            $dimensionFilter = new FilterExpression([
+                'or_group' => new FilterExpressionList([
+                    'expressions' => [
+                        new FilterExpression([
+                            'filter' => new Filter([
+                                'field_name' => 'pageTitle',
+                                'string_filter' => new StringFilter([
+                                    'match_type' => MatchType::CONTAINS,
+                                    'value' => $this->searchTerm,
+                                ]),
+                            ]),
+                        ]),
+                        new FilterExpression([
+                            'filter' => new Filter([
+                                'field_name' => 'pagePath',
+                                'string_filter' => new StringFilter([
+                                    'match_type' => MatchType::CONTAINS,
+                                    'value' => $this->searchTerm,
+                                ]),
+                            ]),
+                        ]),
+                    ],
+                ]),
+            ]);
+
+            return Analytics::get(
                 $this->getDuration(),
-                'ga:users',
-                [
-                    'metrics' => 'ga:pageviews,ga:uniquePageviews,ga:avgTimeOnPage,ga:entrances,ga:bounceRate,ga:exitRate,ga:pageValue',
-                    'dimensions' => 'ga:pageTitle,ga:pagePath',
-                    'sort' => ($this->sortDirection . $this->sortBy),
-                    'filters' => $this->searchTerm ? sprintf('ga:pageTitle=@%s,ga:pagePath=@%s', strval($this->searchTerm), strval($this->searchTerm)) : null,
-                ]
+                $this->queryMetrics,
+                $this->queryDimensions,
+                100,
+                [OrderBy::metric($this->sortBy, $this->sortDirection)],
+                0,
+                $dimensionFilter
             );
         });
     }

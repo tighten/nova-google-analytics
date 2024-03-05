@@ -6,7 +6,6 @@ use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Analytics\AnalyticsFacade;
 use Spatie\Analytics\AnalyticsServiceProvider;
 use Tightenco\NovaGoogleAnalytics\CardServiceProvider;
 use Tightenco\NovaGoogleAnalytics\ToolServiceProvider;
@@ -22,10 +21,10 @@ abstract class TestCase extends Orchestra
 
     protected function getEnvironmentSetUp($app)
     {
-        $app->useEnvironmentPath(__DIR__ . '/../../..');
+        $app->useEnvironmentPath(__DIR__ . '/..');
         $app->useStoragePath(realpath(__DIR__ . '/../../../storage'));
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
-        $app->config->set('analytics.view_id', getenv('ANALYTICS_VIEW_ID'));
+        $app->config->set('analytics.property_id', getenv('ANALYTICS_PROPERTY_ID'));
         $app->config->set('analytics.service_account_credentials_json', $this->get_credentials());
 
         parent::getEnvironmentSetUp($app);
@@ -37,13 +36,6 @@ abstract class TestCase extends Orchestra
             ToolServiceProvider::class,
             CardServiceProvider::class,
             AnalyticsServiceProvider::class,
-        ];
-    }
-
-    protected function getPackageAliases($app)
-    {
-        return [
-            'Analytics' => AnalyticsFacade::class,
         ];
     }
 

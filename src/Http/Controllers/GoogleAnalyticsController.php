@@ -14,12 +14,11 @@ class GoogleAnalyticsController extends Controller
     {
         try {
             $analyticsQuery = new AnalyticsQuery(
-                ['name', 'path', 'visits', 'unique_visits', 'avg_page_time', 'entrances', 'bounce_rate', 'exit_rate', 'page_value'],
                 $limit = $request->input('limit', 10),
                 ($request->input('page', 1) - 1) * $limit,
                 $request->input('s', null),
                 $request->input('sortDirection', 'desc') == 'desc' ? '-' : '',
-                $request->input('sortBy', 'ga:pageviews'),
+                $request->input('sortBy', 'screenPageViews'),
                 $request->input('duration', 'week')
             );
 

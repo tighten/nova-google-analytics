@@ -5,7 +5,8 @@ namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Collection;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class ReferrerListController extends Controller
@@ -36,22 +37,17 @@ class ReferrerListController extends Controller
                 break;
         }
 
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                $period,
-                'ga:users',
-                [
-                    'dimensions' => 'ga:fullReferrer',
-                    'sort' => '-ga:users',
-                    'max-results' => 10,
-                ]
-            );
+        $analyticsData = Analytics::get(
+            $period,
+            ['activeUsers'],
+            ['pageReferrer'],
+            10,
+            [OrderBy::dimension('activeUsers',true)],
+        );
 
-        return collect($analyticsData['rows'] ?? [])->map(function (array $pageRow) {
-            return [
-                'url' => $pageRow[0],
-                'pageViews' => (int) $pageRow[1],
-            ];
-        });
+        return $analyticsData->map(fn ($data) => [
+            'url' => $data['pageReferrer'],
+            'pageViews' => (int) $data['activeUsers'],
+        ]);
     }
 }
