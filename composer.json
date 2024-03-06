@@ -29,7 +29,7 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1",
+        "php": "^8.1",
         "spatie/laravel-analytics": "^5.2"
     },
     "require-dev": {
