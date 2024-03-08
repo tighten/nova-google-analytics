@@ -39,7 +39,7 @@ jobs:
       - name: Run PHP tests
         run: vendor/bin/phpunit
         env:
-          ANALYTICS_PROPERTY_ID: "${{ secrets.ANALYTICS_VIEW_ID }}"
+          ANALYTICS_PROPERTY_ID: "${{ secrets.ANALYTICS_PROPERTY_ID }}"
           ANALYTICS_PROJECT_ID: "${{ secrets.ANALYTICS_PROJECT_ID }}"
           ANALYTICS_PRIVATE_KEY_ID: "${{ secrets.ANALYTICS_PRIVATE_KEY_ID }}"
           ANALYTICS_PRIVATE_KEY: "${{ secrets.ANALYTICS_PRIVATE_KEY }}"
