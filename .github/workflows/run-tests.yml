@@ -10,17 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.3, 8.2, 8.1]
-        laravel: ["^11.0", "^10.0"]
+        php: [8.2, 8.1]
+        laravel: ["^10.0"]
         dependency-version: [prefer-lowest, prefer-stable]
-        include:
-          - laravel: "^10.0"
-            testbench: "^8.0"
-          - laravel: "^11.0"
-            testbench: "^9.0"
-        exclude:
-          - laravel: "^11.0"
-            php: 8.1
 
     name: PHP ${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
