@@ -67,8 +67,8 @@ class VisitorsMetric extends Value
     private function visitorsLastWeek(): array
     {
         $lastWeek = $this->getLastWeek();
-        $currentResults = $this->performQuery('activeUsers', 'date', $lastWeek['current']);
-        $previousResults = $this->performQuery('activeUsers', 'date', $lastWeek['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'date', $lastWeek['current']);
+        $previousResults = $this->performQuery('totalUsers', 'date', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -79,8 +79,8 @@ class VisitorsMetric extends Value
     private function visitorsLastMonth(): array
     {
         $lastMonth = $this->getLastMonth();
-        $currentResults = $this->performQuery('activeUsers', 'year', $lastMonth['current']);
-        $previousResults = $this->performQuery('activeUsers', 'year', $lastMonth['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastMonth['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -91,8 +91,8 @@ class VisitorsMetric extends Value
     private function visitorsLastSevenDays(): array
     {
         $lastSevenDays = $this->getLastSevenDays();
-        $currentResults = $this->performQuery('activeUsers', 'year', $lastSevenDays['current']);
-        $previousResults = $this->performQuery('activeUsers', 'year', $lastSevenDays['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -103,8 +103,8 @@ class VisitorsMetric extends Value
     private function visitorsLastThirtyDays(): array
     {
         $lastThirtyDays = $this->getLastThirtyDays();
-        $currentResults = $this->performQuery('activeUsers', 'year', $lastThirtyDays['current']);
-        $previousResults = $this->performQuery('activeUsers', 'year', $lastThirtyDays['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,

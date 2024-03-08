@@ -23,7 +23,7 @@ class AnalyticsQuery
     private string $duration;
     private mixed $queryResults;
     private array $queryMetrics = [
-        'activeUsers', 'screenPageViews', 'bounceRate'
+        'totalUsers', 'screenPageViews', 'bounceRate'
     ];
 
     private array $queryDimensions = [

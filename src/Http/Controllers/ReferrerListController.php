@@ -39,15 +39,15 @@ class ReferrerListController extends Controller
 
         $analyticsData = Analytics::get(
             $period,
-            ['activeUsers'],
+            ['totalUsers'],
             ['pageReferrer'],
             10,
-            [OrderBy::dimension('activeUsers',true)],
+            [OrderBy::dimension('totalUsers',true)],
         );
 
         return $analyticsData->map(fn ($data) => [
             'url' => $data['pageReferrer'],
-            'pageViews' => (int) $data['activeUsers'],
+            'pageViews' => (int) $data['totalUsers'],
         ]);
     }
 }
