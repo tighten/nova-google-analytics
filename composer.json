@@ -29,12 +29,12 @@
         }
     ],
     "require": {
-        "php": "^8.0|^8.1",
-        "spatie/laravel-analytics": "^4.1"
+        "php": "^8.0",
+        "spatie/laravel-analytics": "^4.1 | ^5.0"
     },
     "require-dev": {
         "laravel/nova": "^4.0",
-        "orchestra/testbench": "^7.0",
+        "orchestra/testbench": "^7.0 | ^8.0 | ^9.0",
         "phpunit/phpunit": "^9.5",
         "squizlabs/php_codesniffer": "^3.5",
         "tightenco/tlint": "^6.2"
