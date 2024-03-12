@@ -17,12 +17,11 @@ jobs:
         include:
           - laravel: 10.*
             testbench: 8.*
-            # uncomment when laravel/nova adds support for Laravel 11
-        #   - laravel: 11.*
-        #     testbench: 9.*
+          - laravel: 11.*
+            testbench: 9.*
         exclude:
           - laravel: 11.*
-            # php: 8.1 # uncomment when laravel/nova adds support for Laravel 11
+            php: 8.1
 
     name: PHP ${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
