@@ -26,6 +26,17 @@ Also add this to the `.env` for your Nova app:
 ANALYTICS_PROPERTY_ID=
 ```
 
+## Upgrading to 4.0
+
+Version 4.0 uses the new Google Analytics 4 Data API.
+
+- Upgrades `spatie/laravel-analytics` to `v5.2`
+  - Drops support for PHP 8.0
+  - Drops support for Laravel 9
+- Removes `FourteenDayActiveUsersMetric` metric which is not available in GA4
+
+The required environment variable `ANALYTICS_VIEW_ID` has been renamed to `ANALYTICS_PROPERTY_ID` to match Google's usage.
+
 ## Usage
 You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `Main`
 dashboard.
@@ -129,7 +140,7 @@ If you discover any security related issues, please email matt@tighten.co instea
 
 ## Support us
 
-Tighten is a web development firm that works in Laravel, Vue, and React. You can learn more about us on our [web site](https://tighten.co/)
+Tighten is a web development firm that works in Laravel, Vue, and React. You can learn more about us on our [web site](https://tighten.com/)
 
 ## License
 

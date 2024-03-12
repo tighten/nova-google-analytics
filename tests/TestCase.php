@@ -21,7 +21,12 @@ abstract class TestCase extends Orchestra
 
     protected function getEnvironmentSetUp($app)
     {
-        $app->useEnvironmentPath(__DIR__ . '/../../..');
+        $envPath = file_exists(__DIR__ . '/../.env.testing')
+            || file_exists(__DIR__ . '/../.env')
+                ? __DIR__ . '/..'
+                : __DIR__ . '/../../..';
+
+        $app->useEnvironmentPath($envPath);
         $app->useStoragePath(realpath(__DIR__ . '/../../../storage'));
         $app->bootstrapWith([LoadEnvironmentVariables::class]);
         $app->config->set('analytics.property_id', getenv('ANALYTICS_PROPERTY_ID'));
