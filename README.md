@@ -23,8 +23,19 @@ yourapp/storage/app/analytics/service-account-credentials.json
 Also add this to the `.env` for your Nova app:
 
 ```ini
-ANALYTICS_VIEW_ID=
+ANALYTICS_PROPERTY_ID=
 ```
+
+## Upgrading to 4.0
+
+Version 4.0 uses the new Google Analytics 4 Data API.
+
+- Upgrades `spatie/laravel-analytics` to `v5.2`
+  - Drops support for PHP 8.0
+  - Drops support for Laravel 9
+- Removes `FourteenDayActiveUsersMetric` metric which is not available in GA4
+
+The required environment variable `ANALYTICS_VIEW_ID` has been renamed to `ANALYTICS_PROPERTY_ID` to match Google's usage.
 
 ## Usage
 You must register the cards you want to display with Nova. This is typically done in the `cards` method of the `Main`
@@ -45,12 +56,26 @@ public function cards()
         new \Tightenco\NovaGoogleAnalytics\ReferrersList,
         new \Tightenco\NovaGoogleAnalytics\OneDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\SevenDayActiveUsersMetric,
-        new \Tightenco\NovaGoogleAnalytics\FourteenDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\TwentyEightDayActiveUsersMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionDurationMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsByDeviceMetric,
         new \Tightenco\NovaGoogleAnalytics\SessionsByCountryMetric,
+    ];
+}
+```
+
+Register the tool with Nova in the `tools` method of your `NovaServiceProvider`:
+
+```php
+// in app/Providers/NovaServiceProvider.php
+
+// ...
+
+public function tools()
+{
+    return [
+        new Tightenco\NovaGoogleAnalytics\Tool(),
     ];
 }
 ```
@@ -88,7 +113,7 @@ cp .env.example .env.testing
 Make sure, in that file, to define the following variables to run all tests:
 
 ```
-ANALYTICS_VIEW_ID
+ANALYTICS_PROPERTY_ID
 ANALYTICS_PROJECT_ID
 ANALYTICS_PRIVATE_KEY_ID
 ANALYTICS_PRIVATE_KEY
@@ -115,7 +140,7 @@ If you discover any security related issues, please email matt@tighten.co instea
 
 ## Support us
 
-Tighten is a web development firm that works in Laravel, Vue, and React. You can learn more about us on our [web site](https://tighten.co/)
+Tighten is a web development firm that works in Laravel, Vue, and React. You can learn more about us on our [web site](https://tighten.com/)
 
 ## License
 

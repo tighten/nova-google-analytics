@@ -8,6 +8,7 @@
             filtersAreApplied,
         }"
         :handle-internal-clicks='false'
+        :should-close-on-blur="false"
         class='flex h-9 hover:bg-gray-100 dark:hover:bg-gray-700 rounded'
     >
         <DropdownTrigger
@@ -51,10 +52,10 @@
 
                             <div class='mt-1 px-3'>
                                 <SelectControl
-                                    v-model:selected='perPage'
+                                    v-bind:selected='perPage'
+                                    v-on:change='perPageChanged'
                                     :options='perPageOptions'
                                     size='sm'
-                                    @change='perPageChanged'
                                 />
                             </div>
                         </div>
@@ -86,7 +87,9 @@ export default {
         },
 
         perPageChanged(event) {
-            this.$emit('per-page-changed', event);
+            let value = event?.target?.value || event
+
+            this.$emit('per-page-changed', value);
         },
     },
 

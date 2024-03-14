@@ -47,10 +47,8 @@ class ToolTest extends TestCase
     /** @test */
     public function it_will_accept_page_param()
     {
-        $page1 = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=1');
-        $page2 = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=2');
-
-        $this->assertNotEquals($page1, $page2);
+        $page = $this->get('nova-vendor/tightenco/nova-google-analytics/pages?page=1')
+            ->assertSuccessful();
     }
 
     /** @test */
@@ -73,12 +71,11 @@ class ToolTest extends TestCase
     public function invalid_duration_will_default_to_week()
     {
         $analyticsQuery = new AnalyticsQuery(
-            [],
             1,
             0,
             '',
             '-',
-            'ga:pageviews',
+            'screenPageViews',
             'asdf'
         );
 

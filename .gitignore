@@ -7,3 +7,6 @@ composer.lock
 phpunit.xml
 mix-manifest.json
 .phpunit.result.cache
+.phpunit.cache
+.env
+.env.testing

@@ -7,33 +7,27 @@ on:
 
 jobs:
   tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     strategy:
       matrix:
-        php: [8.0, 8.1]
+        os: [ubuntu-latest]
+        php: [8.1, 8.2]
+        laravel: [10.*, 11.*]
+        dependency-version: [prefer-lowest, prefer-stable]
         include:
-          - php: 8.0
-            laravel: 8.*
-            testbench: 7.*
-            phpunit: 9.*
-          - php: 8.1
-            laravel: 8.*
-            testbench: 7.*
-            phpunit: 9.*
-          - php: 8.0
-            laravel: 9.*
-            testbench: 7.*
-            phpunit: 9.*
-          - php: 8.1
-            laravel: 9.*
-            testbench: 7.*
-            phpunit: 9.*
+          - laravel: 10.*
+            testbench: 8.*
+          - laravel: 11.*
+            testbench: 9.*
+        exclude:
+          - laravel: 11.*
+            php: 8.1
 
-    name: ${{ matrix.os }} - PHP ${{ matrix.php }}
+    name: PHP ${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -45,13 +39,13 @@ jobs:
       - name: Install dependencies
         run: |
           composer config "http-basic.nova.laravel.com" "${{ secrets.NOVA_USERNAME }}" "${{ secrets.NOVA_LICENSE_KEY }}"
-          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "phpunit/phpunit:${{ matrix.phpunit }}" --no-interaction --no-update
+          composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --prefer-dist --no-interaction --no-progress --no-suggest
 
       - name: Run PHP tests
         run: vendor/bin/phpunit
         env:
-          ANALYTICS_VIEW_ID: "${{ secrets.ANALYTICS_VIEW_ID }}"
+          ANALYTICS_PROPERTY_ID: "${{ secrets.ANALYTICS_PROPERTY_ID }}"
           ANALYTICS_PROJECT_ID: "${{ secrets.ANALYTICS_PROJECT_ID }}"
           ANALYTICS_PRIVATE_KEY_ID: "${{ secrets.ANALYTICS_PRIVATE_KEY_ID }}"
           ANALYTICS_PRIVATE_KEY: "${{ secrets.ANALYTICS_PRIVATE_KEY }}"

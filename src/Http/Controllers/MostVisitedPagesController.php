@@ -4,7 +4,8 @@ namespace Tightenco\NovaGoogleAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class MostVisitedPagesController extends Controller
@@ -35,29 +36,23 @@ class MostVisitedPagesController extends Controller
                 break;
         }
 
-        $analyticsData = app(Analytics::class)->performQuery(
+        $analyticsData = Analytics::get(
             $period,
-            'ga:users',
-            [
-                'metrics' => 'ga:pageviews',
-                'dimensions' => 'ga:pageTitle,ga:hostname,ga:pagePath',
-                'sort' => '-ga:pageviews',
-                'max-results' => 10,
-            ]
+            ['screenPageViews'],
+            ['pageTitle','hostName','pagePath'],
+            10,
+            [OrderBy::metric('screenPageViews', true)],
         );
 
-        $headers = [
+        $headers = collect([
             'name',
             'hostname',
             'path',
             'visits',
-        ];
+        ]);
 
-        return array_map(
-            function ($row) use ($headers) {
-                return array_combine($headers, $row);
-            },
-            $analyticsData->rows ?? []
-        );
+        return $analyticsData
+            ->map(fn ($data) => $headers->combine($data))
+            ->toArray();
     }
 }

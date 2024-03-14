@@ -5,7 +5,8 @@ namespace Tightenco\NovaGoogleAnalytics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\OrderBy;
 use Spatie\Analytics\Period;
 
 class SessionsByCountryMetric extends Partition
@@ -17,24 +18,17 @@ class SessionsByCountryMetric extends Partition
 
     public function calculate(Request $request): PartitionResult
     {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::months(1),
-                'ga:sessions',
-                [
-                    'metrics' => 'ga:sessions',
-                    'dimensions' => 'ga:country',
-                    'sort' => '-ga:sessions',
-                    'max-results' => 5,
-                ],
-            );
+        $analyticsData = Analytics::get(
+            Period::months(1),
+            ['sessions'],
+            ['country'],
+            5,
+            [OrderBy::metric('sessions', true)],
+        );
 
-        $rows = collect($analyticsData->getRows());
-
-        $results = [];
-        foreach ($rows as $row) {
-            $results[$row[0]] = $row[1];
-        }
+        $results = collect($analyticsData)->flatMap(fn ($data) => [
+            $data['country'] ?? 'None' => $data['sessions'] ?? 0,
+        ])->toArray();
 
         return $this->result($results);
     }

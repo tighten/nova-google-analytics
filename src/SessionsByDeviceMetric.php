@@ -5,7 +5,7 @@ namespace Tightenco\NovaGoogleAnalytics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 class SessionsByDeviceMetric extends Partition
@@ -17,33 +17,17 @@ class SessionsByDeviceMetric extends Partition
 
     public function calculate(Request $request): PartitionResult
     {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::months(1),
-                'ga:sessions',
-                [
-                    'metrics' => 'ga:sessions',
-                    'dimensions' => 'ga:deviceCategory',
-                ]
-            );
+        $analyticsData = Analytics::get(
+            Period::months(1),
+            ['sessions'],
+            ['deviceCategory']
+        );
 
-        $rows = collect($analyticsData->getRows());
+        $results = collect($analyticsData)->flatMap(fn ($data) => [
+            $data['deviceCategory'] ?? 'none' => $data['sessions'] ?? 0,
+        ])->toArray();
 
-        $results = [];
-        foreach ($rows as $row) {
-            $results[$row[0]] = $row[1];
-        }
-
-        return $this
-            ->result($results)
-            ->label(function ($value) {
-                switch ($value) {
-                    case null:
-                        return 'None';
-                    default:
-                        return ucfirst($value);
-                }
-            });
+        return $this->result($results)->label(fn ($label) => ucfirst($label));
     }
 
     public function cacheFor(): \DateTime

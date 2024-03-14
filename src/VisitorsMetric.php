@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 class VisitorsMetric extends Value
@@ -46,8 +46,7 @@ class VisitorsMetric extends Value
 
     private function visitorsToday(): array
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::days(1));
+        $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(1));
 
         return [
             'result' => $analyticsData->last()['visitors'] ?? 0,
@@ -57,8 +56,7 @@ class VisitorsMetric extends Value
 
     private function visitorsYesterday(): array
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
+        $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
             'result' => $analyticsData->last()['visitors'] ?? 0,
@@ -69,8 +67,8 @@ class VisitorsMetric extends Value
     private function visitorsLastWeek(): array
     {
         $lastWeek = $this->getLastWeek();
-        $currentResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:date', $lastWeek['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'date', $lastWeek['current']);
+        $previousResults = $this->performQuery('totalUsers', 'date', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -81,8 +79,8 @@ class VisitorsMetric extends Value
     private function visitorsLastMonth(): array
     {
         $lastMonth = $this->getLastMonth();
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastMonth['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastMonth['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -93,8 +91,8 @@ class VisitorsMetric extends Value
     private function visitorsLastSevenDays(): array
     {
         $lastSevenDays = $this->getLastSevenDays();
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastSevenDays['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -105,8 +103,8 @@ class VisitorsMetric extends Value
     private function visitorsLastThirtyDays(): array
     {
         $lastThirtyDays = $this->getLastThirtyDays();
-        $currentResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['current']);
-        $previousResults = $this->performQuery('ga:users', 'ga:year', $lastThirtyDays['previous']);
+        $currentResults = $this->performQuery('totalUsers', 'year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('totalUsers', 'year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,

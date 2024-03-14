@@ -38,7 +38,7 @@ class SessionsMetric extends Value
 
     private function sessionsToday(): array
     {
-        $results = $this->performQuery('ga:sessions', 'ga:date', Period::days(1));
+        $results = $this->performQuery('sessions', 'date', Period::days(1));
 
         return [
             'previous' => $results->first()['value'] ?? 0,
@@ -48,7 +48,7 @@ class SessionsMetric extends Value
 
     private function sessionsYesterday(): array
     {
-        $results = $this->performQuery('ga:sessions', 'ga:date', Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
+        $results = $this->performQuery('sessions', 'date', Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
             'previous' => $results->first()['value'] ?? 0,
@@ -59,8 +59,8 @@ class SessionsMetric extends Value
     private function sessionsLastWeek(): array
     {
         $lastWeek = $this->getLastWeek();
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastWeek['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastWeek['previous']);
+        $currentResults = $this->performQuery('sessions', 'year', $lastWeek['current']);
+        $previousResults = $this->performQuery('sessions', 'year', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -71,8 +71,8 @@ class SessionsMetric extends Value
     private function sessionsLastMonth(): array
     {
         $lastMonth = $this->getLastMonth();
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastMonth['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastMonth['previous']);
+        $currentResults = $this->performQuery('sessions', 'year', $lastMonth['current']);
+        $previousResults = $this->performQuery('sessions', 'year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -83,8 +83,8 @@ class SessionsMetric extends Value
     private function sessionsLastSevenDays(): array
     {
         $lastSevenDays = $this->getLastSevenDays();
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastSevenDays['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastSevenDays['previous']);
+        $currentResults = $this->performQuery('sessions', 'year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('sessions', 'year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,
@@ -95,8 +95,8 @@ class SessionsMetric extends Value
     private function sessionsLastThirtyDays(): array
     {
         $lastThirtyDays = $this->getLastThirtyDays();
-        $currentResults = $this->performQuery('ga:sessions', 'ga:year', $lastThirtyDays['current']);
-        $previousResults = $this->performQuery('ga:sessions', 'ga:year', $lastThirtyDays['previous']);
+        $currentResults = $this->performQuery('sessions', 'year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('sessions', 'year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')[0] ?? 0,

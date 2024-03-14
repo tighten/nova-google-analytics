@@ -3,28 +3,22 @@
 namespace Tightenco\NovaGoogleAnalytics;
 
 use Carbon\Carbon;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 trait ActiveUsersTrait
 {
     private function performQuery(string $metric, int $days): array
     {
-        $analyticsData = app(Analytics::class)
-            ->performQuery(
-                Period::days($days),
-                $metric,
-                [
-                    'metrics' => $metric,
-                    'dimensions' => 'ga:date',
-                ]
-            );
+        $analyticsData = Analytics::get(
+            Period::days($days),
+            [$metric],
+            ['date']
+        );
 
-        $results = collect($analyticsData->getRows())->mapWithKeys(function ($row) {
-            return [
-                (new Carbon($row[0]))->format('M j') => intval($row[1]),
-            ];
-        });
+        $results = $analyticsData->mapWithKeys(fn ($data) => [
+            (new Carbon($data['date']))->format('M j') => intval($data[$metric]),
+        ]);
 
         return ['results' => $results->toArray()];
     }

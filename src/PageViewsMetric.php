@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
-use Spatie\Analytics\Analytics;
+use Spatie\Analytics\Facades\Analytics;
 use Spatie\Analytics\Period;
 
 class PageViewsMetric extends Value
@@ -47,31 +47,29 @@ class PageViewsMetric extends Value
 
     private function pageViewsToday(): array
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::days(1));
+        $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::days(7));
 
         return [
-            'result' => $analyticsData->last()['pageViews'] ?? 0,
-            'previous' => $analyticsData->first()['pageViews'] ?? 0,
+            'result' => $analyticsData->last()['screenPageViews'] ?? 0,
+            'previous' => $analyticsData->first()['screenPageViews'] ?? 0,
         ];
     }
 
     private function pageViewsYesterday(): array
     {
-        $analyticsData = app(Analytics::class)
-            ->fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
+        $analyticsData = Analytics::fetchTotalVisitorsAndPageViews(Period::create(Carbon::yesterday()->clone()->subDay(), Carbon::yesterday()));
 
         return [
-            'result' => $analyticsData->last()['pageViews'] ?? 0,
-            'previous' => $analyticsData->first()['pageViews'] ?? 0,
+            'result' => $analyticsData->last()['screenPageViews'] ?? 0,
+            'previous' => $analyticsData->first()['screenPageViews'] ?? 0,
         ];
     }
 
     private function pageViewsLastWeek(): array
     {
         $lastWeek = $this->getLastWeek();
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $lastWeek['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $lastWeek['previous']);
+        $currentResults = $this->performQuery('screenPageViews', 'year', $lastWeek['current']);
+        $previousResults = $this->performQuery('screenPageViews', 'year', $lastWeek['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -82,8 +80,8 @@ class PageViewsMetric extends Value
     private function pageViewsLastMonth(): array
     {
         $lastMonth = $this->getLastMonth();
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $lastMonth['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $lastMonth['previous']);
+        $currentResults = $this->performQuery('screenPageViews', 'year', $lastMonth['current']);
+        $previousResults = $this->performQuery('screenPageViews', 'year', $lastMonth['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -94,8 +92,8 @@ class PageViewsMetric extends Value
     private function pageViewsLastSevenDays(): array
     {
         $lastSevenDays = $this->getLastSevenDays();
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $lastSevenDays['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $lastSevenDays['previous']);
+        $currentResults = $this->performQuery('screenPageViews', 'year', $lastSevenDays['current']);
+        $previousResults = $this->performQuery('screenPageViews', 'year', $lastSevenDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
@@ -106,8 +104,8 @@ class PageViewsMetric extends Value
     private function pageViewsLastThirtyDays(): array
     {
         $lastThirtyDays = $this->getLastThirtyDays();
-        $currentResults = $this->performQuery('ga:pageviews', 'ga:year', $lastThirtyDays['current']);
-        $previousResults = $this->performQuery('ga:pageviews', 'ga:year', $lastThirtyDays['previous']);
+        $currentResults = $this->performQuery('screenPageViews', 'year', $lastThirtyDays['current']);
+        $previousResults = $this->performQuery('screenPageViews', 'year', $lastThirtyDays['previous']);
 
         return [
             'previous' => $previousResults->pluck('value')->sum() ?? 0,
